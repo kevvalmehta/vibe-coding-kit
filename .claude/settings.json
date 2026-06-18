@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/tdd_guard.py",
+            "timeout": 60,
+            "statusMessage": "TDD-Guard checking..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/capture-lessons.ps1",
+            "timeout": 10,
+            "statusMessage": "Capturing lessons..."
+          }
+        ]
+      }
+    ]
+  }
+}

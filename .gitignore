@@ -1,0 +1,38 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+dist/
+build/
+.next/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Claude Code agent folder may hold credentials/auth — ignore local settings only.
+# (Keep .claude/skills/ tracked — those are the Spec Kit workflow skills.)
+.claude/settings.local.json
+.claude/*.local.json
+
+# Learning hook per-session scan state (machine-local, not shared)
+.specify/memory/.lessons-state.json
+
+# TDD-Guard marker — local on/off switch, never commit in the "on" state
+.tdd-guard

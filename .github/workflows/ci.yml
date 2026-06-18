@@ -1,0 +1,111 @@
+name: CI
+
+# Runs automatically on every push and pull request.
+# - Security: Semgrep scans the code for vulnerabilities.
+# - Lint: ruff catches real Python bugs (skipped if the project has no Python).
+# - Lint: Biome + tsc catch real JS/TS bugs (skipped if the project has no JS/TS).
+# - Tests: runs Node and/or Python tests if the project has them.
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  security:
+    name: Security scan (Semgrep)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Semgrep
+        run: pip install semgrep
+      - name: Run Semgrep
+        # NON-BLOCKING by default: it reports findings but won't stop your push,
+        # so early false positives don't get in your way.
+        # To BLOCK pushes when issues are found (recommended once stable),
+        # change the next line to:  continue-on-error: false
+        continue-on-error: true
+        run: semgrep scan --config auto --error
+
+  lint:
+    name: Python lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Both steps only run when the project actually has Python files.
+      - name: Setup Python
+        if: ${{ hashFiles('**/*.py') != '' }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run ruff
+        # BLOCKING: ruff's default rules flag real bugs (undefined names,
+        # unused imports, syntax errors) and almost never false-positive.
+        if: ${{ hashFiles('**/*.py') != '' }}
+        run: |
+          pip install ruff
+          ruff check .
+
+  lint-js:
+    name: JS/TS lint (Biome + tsc)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # All steps only run when the project actually has JS/TS code.
+      - name: Setup Node
+        if: ${{ hashFiles('package.json') != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run Biome
+        # BLOCKING: Biome's recommended rules flag real bugs (const reassign,
+        # unreachable code, debugger statements) and rarely false-positive.
+        if: ${{ hashFiles('package.json') != '' }}
+        # Version pinned to match the $schema in biome.json — bump both together.
+        run: npx --yes @biomejs/biome@2.4.16 lint .
+      - name: TypeScript type check
+        # tsc proves the pieces fit together (wrong types, missing fields)
+        # before the app ever runs. Only fires on TypeScript projects.
+        if: ${{ hashFiles('tsconfig.json') != '' }}
+        run: |
+          npm ci || npm install
+          npx tsc --noEmit
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---- Node / JavaScript projects ----
+      - name: Setup Node
+        if: ${{ hashFiles('package.json') != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Node install & test
+        if: ${{ hashFiles('package.json') != '' }}
+        run: |
+          npm ci || npm install
+          npm test --if-present
+
+      # ---- Python projects ----
+      - name: Setup Python
+        if: ${{ hashFiles('**/*.py') != '' }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python install & test
+        if: ${{ hashFiles('**/*.py') != '' }}
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest
+          # Run the suite. Block on real failures; tolerate "no tests collected" (pytest exit 5).
+          rc=0; pytest || rc=$?
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 5 ]; then exit "$rc"; fi
+        shell: bash

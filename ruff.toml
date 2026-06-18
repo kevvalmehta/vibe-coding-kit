@@ -1,0 +1,14 @@
+# Ruff — Python linter (free, local, no API key, runs in under a second).
+# Catches real Python bugs automatically: undefined names, unused imports,
+# syntax errors. Complements Semgrep (security) and tests (behavior).
+#
+# Run by CI on every push (see .github/workflows/ci.yml).
+# Run manually:  uvx ruff check .
+#
+# new-project.ps1 copies this file into every project built from this kit.
+
+line-length = 100
+
+[lint]
+# Ruff's default rules (E4, E7, E9, F) flag real bugs without style nagging.
+# Add stricter rules per project if wanted: https://docs.astral.sh/ruff/rules/

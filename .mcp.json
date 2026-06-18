@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "gitmcp": {
+      "type": "http",
+      "url": "https://gitmcp.io/docs"
+    },
+    "cookbook": {
+      "type": "http",
+      "url": "https://gitmcp.io/anthropics/claude-cookbooks"
+    }
+  }
+}
