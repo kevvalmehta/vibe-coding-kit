@@ -21,7 +21,7 @@ clean and deployable. Make every change reversible. Default to SAFE, non-destruc
 2. **Commit in small steps with clear messages.** Each commit is a save point you can return to.
    Use Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`).
 3. **Push after meaningful progress.** Pushing backs work up to GitHub — safe if the laptop dies.
-   Helper: `scripts/save.ps1 -Message "what changed"` does add + commit + push in one go.
+   Helper: `"${CLAUDE_PLUGIN_ROOT}/scripts/save.ps1" -Message "what changed"` does add + commit + push in one go.
 4. **Merge to `main` via a Pull Request**, not direct commits — so main stays reviewed + working.
 5. **Before anything risky** (big refactor, deleting files, upgrading dependencies): make a clean
    commit + push first (a save point), and offer to tag it (`git tag good-YYYYMMDD`).

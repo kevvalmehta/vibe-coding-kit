@@ -1,0 +1,12 @@
+{
+  "name": "vibe-coding-kit",
+  "owner": { "name": "kevvalmehta" },
+  "description": "Plain English -> spec -> plan -> tested build. Spec Kit + Superpowers coding skills, as an installable plugin.",
+  "plugins": [
+    {
+      "name": "vibe-coding-skills",
+      "source": "./plugins/vibe-coding-skills",
+      "description": "All workflow skills + /speckit-* commands + the self-gating learning hook. Install once, use in every project."
+    }
+  ]
+}

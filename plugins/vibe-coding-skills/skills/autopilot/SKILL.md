@@ -50,7 +50,7 @@ Autopilot ENDS after the pre-PR report (or after the no-build-yet hand-off). Bui
 
 ## How to run a turn
 
-1. **Find the current step.** Run `python scripts/autopilot_state.py` and read the JSON
+1. **Find the current step.** Run `python "${CLAUDE_PLUGIN_ROOT}/scripts/autopilot_state.py"` and read the JSON
    (`current`, `next`, `warnings`). Honor `warnings` — if there is a prerequisite gap, fix the
    earlier step first; never skip. This is how you RESUME cold (a fresh session or another tool).
 2. **Pick the starting point.** New idea + no active feature → start at `specify`. New idea while the

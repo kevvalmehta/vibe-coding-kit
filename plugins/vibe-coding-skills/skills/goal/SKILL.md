@@ -131,7 +131,7 @@ Next: this is substantial → run /speckit-specify to turn this contract into a 
 ## Check it (optional)
 Run the linter to catch weak verification, placeholders, and unbounded permissions:
 ```
-python3 scripts/lint-goal.py goal.txt
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/lint-goal.py" goal.txt
 ```
 It flags (it does not fix): vague verification like "make sure it works", leftover placeholders
 like `[outcome]`/`TODO`/`TBD`, unbounded boundaries like "edit anything", and infinite-retry
