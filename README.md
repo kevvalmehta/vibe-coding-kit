@@ -13,6 +13,27 @@ steps that prevent expensive mistakes.
 
 ---
 
+## Install as a plugin (use it in every project)
+
+This repo doubles as a **Claude Code plugin marketplace**. Install once and the skills,
+`/speckit-*` commands, and the learning hook are available in **every** project — in the
+Claude Code CLI or the desktop app's **Code** tab (not the Chat tab).
+
+```
+/plugin marketplace add kevvalmehta/vibe-coding-kit
+/plugin install vibe-coding-skills@vibe-coding-kit
+```
+
+Update later with `/plugin update vibe-coding-skills@vibe-coding-kit`. Plugin skills are
+namespaced — e.g. `/vibe-coding-skills:guide`, `/vibe-coding-skills:speckit-specify`.
+
+**Heads-up:** the `/speckit-*` commands need a project-local `.specify/` folder (templates +
+scripts). In a new project run `specify init --here` first, or copy a `.specify/` from this
+repo. (An auto-scaffolder that stamps it in for you is the larger "full" install — not part of
+this minimal plugin.)
+
+---
+
 ## Table of contents
 1. [The big idea](#the-big-idea)
 2. [Quick start — build your first app](#quick-start--build-your-first-app)
