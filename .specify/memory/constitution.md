@@ -33,6 +33,20 @@ Minimum code that solves the problem. No speculative features (YAGNI).
 Touch only what the task requires. Don't refactor or "improve" unrelated code.
 Match existing conventions.
 
+Before writing code, walk the ladder — stop at the first step that works:
+1. Does it need to exist at all? (skip it — YAGNI)
+2. Does the standard library already do it? (use it)
+3. Does a native platform/framework feature do it? (use it)
+4. Does a dependency already installed do it? (use it)
+5. Can it be one line? (make it one line)
+6. Otherwise: the smallest correct change.
+
+Full rigor still applies to security, input validation, error handling, and accessibility —
+laziness is about scope, never about safety. When you take a deliberate shortcut, leave a
+`shortcut:` comment naming the **ceiling** (when it stops being OK) and the **upgrade** trigger
+(what makes you revisit) — `/lean-debt` harvests these so deferrals don't rot. Check what you just
+built for over-engineering with `/lean-review` before it merges.
+
 ### VI. LLM Portability (NON-NEGOTIABLE)
 Nothing in this kit -- or in any project built with it -- may depend on a single AI tool to work.
 `AGENTS.md` is the agent-neutral entry point and must always say what `CLAUDE.md` says; a guardrail,
@@ -97,4 +111,4 @@ and run each entry's self-check; mistakes worth never repeating get logged there
 is promoted into a Principle here when it earns it.
 Amendments: edit this file (or run `/speckit-constitution`), bump the version, note the date.
 
-**Version**: 1.5.0 | **Ratified**: 2026-06-06 | **Last Amended**: 2026-06-11
+**Version**: 1.6.0 | **Ratified**: 2026-06-06 | **Last Amended**: 2026-06-19
