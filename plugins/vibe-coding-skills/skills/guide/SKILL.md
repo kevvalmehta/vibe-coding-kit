@@ -57,6 +57,8 @@ Always answer in this shape:
 | Checking security before shipping | `/security-review` | Inputs, secrets, RLS |
 | Asking "what shape is this in?" / "safe to ship?" | `/health` | One 0–100 score across 12 checks + a plain-English ledger of what to fix first |
 | Asking "what's actually worth fixing?" (existing code, deep) | `/audit` | Finds + verifies the top issues across 9 categories, writes ready-to-run briefs → `safe-change`/`/speckit-specify`/`autopilot`. The deep follow-on to `/health`; read-only, stops before push/merge/deploy |
+| Just finished a build/change, before merge — "did I over-build this?" | `/lean-review` | Over-engineering check on JUST your current changes; lists what to cut + the simpler swap → hands to `safe-change`. Narrow, fast counterpart to `/audit`; read-only |
+| Wondering "what shortcuts did we take on purpose?" | `/lean-debt` | Lists every `shortcut:` comment (what was simplified, when it stops being OK, when to revisit); flags ones with no revisit plan. Read-only |
 | Lost / "what now?" | this skill (`/guide`) | You are here |
 
 ## The normal order (so they always know the path)
@@ -64,7 +66,8 @@ Always answer in this shape:
 ```
 idea → /guide → idea-to-app → research → brainstorm (grill-me) → /speckit-specify
    → /speckit-clarify → /speckit-plan → /speckit-tasks → build (TDD, isolated)
-   → /verify → /security-review → git-safety (PR) → preview → live
+   → /lean-review (trim over-engineering) → /verify → /security-review
+   → git-safety (PR) → preview → live
 ```
 Editing something that already exists is a different path: `safe-change` (not `idea-to-app`).
 
@@ -82,24 +85,9 @@ If the user wants to jump ahead, STOP them gently and redirect — explain in ON
 They are the boss: if after the one-line warning they still insist, say clearly which gate is being
 skipped, then let them proceed. Never silently comply, never nag more than once.
 
-## STEP 4 — If asked "what's in the kit?" / to summarize or list everything
-
-When the user asks what the kit contains, what features/skills exist, or to "tell me everything" —
-do NOT answer from memory. Memory misses files; that is a known failure mode. Instead:
-1. Read the **complete File index in `README.md`** (the table marked with the "Completeness rule"),
-   or list the live file tree if README is stale.
-2. Enumerate **every group**: root docs, skills (`.claude/skills/`), scripts, `.specify/` engine +
-   extensions + integrations, `specs/`, `tests/`, `docs/` (incl. `ai-feature-checklist`,
-   `awesome-claude-code-shortlist`, `token-quick-wins`), `audit/`, and config/CI/connectors
-   (`.mcp.json` = the `gitmcp` + `cookbook` MCP servers, CI, ruff, biome).
-3. Before sending, self-check: "Did I cover every group in the README index?" If any group is
-   missing, add it. Coverage beats brevity for this question.
-
 ## Rules
 - Plain English always. No jargon unless they ask.
 - One recommendation, not a menu. You're a mentor, not a search engine.
 - Diagnose from real files/git before advising — never guess the stage.
 - Only invoke skills that exist in this project (`.claude/skills/`) or the `/speckit-*` and Superpowers sets.
-- Full skill list also lives in `SKILL-MAP.md` at the repo root (for non-Claude tools too); the
-  complete file-by-file index is the "File index" table in `README.md`.
-- Never summarize the kit's contents from memory — read the README index or the live tree first (STEP 4).
+- Full skill list also lives in `SKILL-MAP.md` at the repo root (for non-Claude tools too).
