@@ -108,6 +108,24 @@ agents: read its `SKILL.md` + the three files in `references/`; where parallel s
 unavailable, audit categories sequentially and say so. Reference files:
 `.claude/skills/audit/references/{audit-playbook,brief-template,routing-and-modes}.md`.
 
+### Build smaller — `/lean-review` + `/lean-debt` (Principle V, native)
+Two read-only skills that enforce the lazy-coding ladder in Principle V (`minimum code, no
+speculative features`). `lean-review` (`.claude/skills/lean-review`) looks ONLY at the current
+changes (the diff) and lists what to cut — dead/speculative code, a reinvented standard-library
+feature, a dependency doing what the platform already does, a single-use abstraction, or the same
+logic in fewer lines — one line per finding (`delete`/`stdlib`/`native`/`yagni`/`shrink`) with the
+simpler replacement, then hands off to `/safe-change`. It is the fast, narrow follow-on to `/audit`
+(which scans the whole repo across nine categories): over-engineering only, diff only, never bugs or
+security. `lean-debt` (`.claude/skills/lean-debt`) harvests every `shortcut:` comment — the
+breadcrumb left when a deliberate minimal choice is made — into a ledger (what was simplified, the
+ceiling where it stops being OK, the upgrade trigger), flagging any shortcut with no revisit plan.
+**Both are read-only — they report and hand off, never edit.** The lazy ladder + the `shortcut:`
+convention live in `constitution.md` Principle V, so the behavior is portable to every AI tool, not
+just Claude. Concept adapted natively from the MIT `ponytail` ruleset (we deliberately did NOT
+install its plugin — the value is the rules, which are now ours as plain text + two skills; this
+also avoids the duplicate hook/statusline machinery clashing with caveman mode). Non-Claude agents:
+read each `SKILL.md` and follow it; `SKILL-MAP.md` maps the situation to the skill.
+
 ### Token quick-wins (cheaper sessions, same quality)
 Six low-effort habits + defaults that lower token cost without changing what gets built:
 `docs/token-quick-wins.md`. Covers model routing to the cheap tier for mechanical work, `/compact`,

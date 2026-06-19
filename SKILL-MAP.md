@@ -49,6 +49,8 @@ the build. (Covers the spec→tasks→checks middle of the order above; you stil
 | Deciding the architecture | **`/speckit-plan`** | The "how" |
 | Breaking work into steps | **`/speckit-tasks`** | Small testable tasks |
 | Changing / fixing / editing existing code | **`safe-change`** | Impact map → tests → isolate → review |
+| "Did I over-build what I just changed?" | **`/lean-review`** | Looks only at your current changes, lists what to cut (dead code, reinvented built-ins, single-use abstractions) + the simpler replacement. The fast, narrow follow-on to `/audit`. Read-only |
+| "What shortcuts did we take on purpose?" | **`/lean-debt`** | Harvests every `shortcut:` comment into a ledger (what was simplified, when it stops being OK, when to revisit); flags shortcuts with no revisit plan. Read-only |
 | Enforce "tests first" mechanically during a build | **TDD-Guard** | A safety hook that, during a build, won't let new code be written until a failing test exists for it. Off by default; switched on with a `.tdd-guard` file. Enforces the "tests first" rule mechanically. (Not a skill you run — it runs itself.) |
 | Stuck on a bug | **`systematic-debugging`** | Find the root cause before fixing |
 | Anything git (save, undo, branch, PR, "it broke") | **`git-safety`** | Keeps `main` working; every change reversible |
