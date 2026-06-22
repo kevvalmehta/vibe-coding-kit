@@ -265,9 +265,12 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `git-safety` | Guardrail — keeps `main` working, every change reversible |
 | `health` | `/health` — one 0–100 score across 12 checks + fix-this-first ledger |
 | `audit` | `/audit` — deep "what's worth fixing" pass (+`references/`: playbook, brief-template, routing-and-modes) |
+| `lean-review` | `/lean-review` — over-engineering check on JUST your current changes; lists what to cut + the simpler swap |
+| `lean-debt` | `/lean-debt` — harvests every `shortcut:` comment into a ledger (what was simplified, when to revisit) |
 | `autopilot` | Runs specify→clarify→plan→tasks→checks as one guided flow (+`references/`: gates, parallel-plan, prepr-checks) |
 | `agent-architect` | Proposes the agent design for apps that contain AI (+`references/decision-routine.md`) |
 | `goal` | Turns a vague ask into a task contract (outcome + verification + stop rules) |
+| `discover` | `/discover` — the pre-spec reality check: pain-mines real users, scores which need is most underserved, cuts V1, names your first 10 users → hands a grounded problem statement to `/speckit-specify`. Read-only |
 | `grill-me` | Interrogates a fuzzy plan one question at a time |
 | `grill-with-docs` | Same, against your real code + decisions (+`ADR-FORMAT.md`, `CONTEXT-FORMAT.md`) |
 | `zoom-out` | `/zoom-out` — plain-English map of how a piece of code fits |
@@ -309,6 +312,8 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `002-token-quick-wins/` | Spec/plan/tasks for the token-wins doc |
 | `003-agent-architect/` | Spec/plan/tasks for the agent-architect skill |
 | `004-audit-advisor/` | Spec/plan/tasks for the audit skill |
+| `005-inventory-coverage-gate/` | Spec for the README completeness CI gate |
+| `006-discover/` | Spec for the `/discover` pre-spec validation skill |
 
 ### Tests — `tests/`
 | File | Covers |

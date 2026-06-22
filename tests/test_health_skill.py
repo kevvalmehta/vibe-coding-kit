@@ -7,8 +7,10 @@ A skill's output QUALITY is eye-checked at the verify step, not here.
 
 from pathlib import Path
 
+from _kitpaths import skills_dir
+
 ROOT = Path(__file__).resolve().parent.parent
-SKILL = ROOT / ".claude" / "skills" / "health" / "SKILL.md"
+SKILL = skills_dir(ROOT) / "health" / "SKILL.md"
 
 
 def _skill_text() -> str:
@@ -73,5 +75,5 @@ def test_T6_registered_in_skill_map():
 
 def test_T7_routed_from_guide_skill():
     """The guide router knows to send users to /health."""
-    guide = (ROOT / ".claude" / "skills" / "guide" / "SKILL.md").read_text(encoding="utf-8").lower()
+    guide = (skills_dir(ROOT) / "guide" / "SKILL.md").read_text(encoding="utf-8").lower()
     assert "/health" in guide, "guide/SKILL.md does not route to /health"

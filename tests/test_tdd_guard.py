@@ -4,8 +4,12 @@ import io
 import json
 from pathlib import Path
 
+import pytest
+
+from _kitpaths import scripts_dir
+
 ROOT = Path(__file__).resolve().parent.parent
-_spec = importlib.util.spec_from_file_location("tdd_guard", ROOT / "scripts" / "tdd_guard.py")
+_spec = importlib.util.spec_from_file_location("tdd_guard", scripts_dir(ROOT) / "tdd_guard.py")
 tdd_guard = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(tdd_guard)
 
@@ -178,7 +182,10 @@ def test_main_multiedit_impl_green_blocks(monkeypatch, capsys, tmp_path):
 
 # Task 6 — hook + gitignore
 def test_hook_registered_in_settings():
-    settings = json.loads((ROOT / ".claude" / "settings.json").read_text(encoding="utf-8"))
+    settings_path = ROOT / ".claude" / "settings.json"
+    if not settings_path.is_file():
+        pytest.skip("no .claude/settings.json in this layout (published plugin repo)")
+    settings = json.loads(settings_path.read_text(encoding="utf-8"))
     pre = settings.get("hooks", {}).get("PreToolUse", [])
     cmds = [h.get("command", "") for entry in pre for h in entry.get("hooks", [])]
     assert any("tdd_guard.py" in c for c in cmds), "PreToolUse tdd_guard hook not registered"

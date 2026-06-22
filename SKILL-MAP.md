@@ -11,7 +11,7 @@ idea
  → /guide                  "where am I, what next?" (ask this anytime)
  → /goal                   vague ask → a task contract (outcome + verification + stop/pause); routes you on
  → idea-to-app             walks every gate below, refuses to skip
- → research                does it exist? competitors? which tools?
+ → /discover               is it worth building? pain-mine real users, score the gap, cut V1, name first 10 users
  → brainstorm + grill-me   pressure-test the idea until decisions are resolved
  → /speckit-specify        write WHAT + WHY (the spec)
  → /speckit-clarify        answer up to 5 questions to remove fuzziness
@@ -40,6 +40,7 @@ the build. (Covers the spec→tasks→checks middle of the order above; you stil
 | Want the whole planning flow run for you | **`autopilot`** | Runs specify→clarify→plan→tasks→checks, stops for "go" each step; never pushes/merges |
 | Your ask is vague / you want guardrails up front | **`/goal`** | Turns it into a task contract: outcome + concrete verification + what-not-to-touch + when-to-stop-and-ask; then routes you to `/speckit-specify` (or runs as-is if tiny) |
 | Starting any new idea (even vague) | **`idea-to-app`** | Walks intake → … → ship, won't let you skip a step |
+| Have an idea — is it worth building? | **`/discover`** | Pain-mines real users (Reddit + paid-tool reviews), scores which need is most underserved (ODI), cuts V1, names your first 10 users → grounded problem statement for `/speckit-specify`. Runs before the spec; read-only. Never fabricates evidence |
 | Pinning down a fuzzy plan | **`grill-me`** | Interviews you one question at a time until it's solid |
 | Same, but extending existing code | **`grill-with-docs`** | Grills against your real code + decisions |
 | Unsure how a piece of code fits | **`/zoom-out`** | Plain-English map before you touch it |

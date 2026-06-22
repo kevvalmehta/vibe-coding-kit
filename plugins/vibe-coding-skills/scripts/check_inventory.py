@@ -30,14 +30,26 @@ def _required_items(root: Path) -> list[tuple[str, str]]:
     """
     items: list[tuple[str, str]] = []
 
-    skills_dir = root / ".claude" / "skills"
-    if skills_dir.is_dir():
+    # Layout-aware: the dev repo keeps skills/scripts at the root (`.claude/skills`, `scripts`);
+    # the published plugin repo keeps them under `plugins/<plugin>/`. Prefer the root layout,
+    # else fall back to the plugin layout, so one gate serves both repos.
+    def _resolve(root_rel: str, leaf: str) -> Path | None:
+        primary = root / root_rel
+        if primary.is_dir():
+            return primary
+        for candidate in sorted(root.glob(f"plugins/*/{leaf}")):
+            if candidate.is_dir():
+                return candidate
+        return None
+
+    skills_dir = _resolve(".claude/skills", "skills")
+    if skills_dir:
         for d in sorted(skills_dir.iterdir()):
             if d.is_dir() and not d.name.startswith("."):
                 items.append(("skill", d.name))
 
-    scripts_dir = root / "scripts"
-    if scripts_dir.is_dir():
+    scripts_dir = _resolve("scripts", "scripts")
+    if scripts_dir:
         for f in sorted(scripts_dir.iterdir()):
             if f.is_file() and not f.name.startswith("."):
                 items.append(("script", f.name))
@@ -77,8 +89,20 @@ def find_missing(root: Path | str) -> list[str]:
     return missing
 
 
+def _repo_root(start: Path) -> Path:
+    """Walk up from the script to the repo root (the dir holding `.git`).
+
+    The dev repo keeps this script in `scripts/`; the published plugin keeps it deeper in
+    `plugins/<plugin>/scripts/`, so a fixed `.parent.parent` is wrong there. Anchor on `.git`.
+    """
+    for parent in (start, *start.parents):
+        if (parent / ".git").exists():
+            return parent
+    return start.parent.parent
+
+
 def main() -> int:
-    root = Path(__file__).resolve().parent.parent
+    root = _repo_root(Path(__file__).resolve())
     missing = find_missing(root)
     if missing:
         print("Inventory coverage FAILED — add these to the README File index:")

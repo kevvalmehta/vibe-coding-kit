@@ -41,6 +41,7 @@ Always answer in this shape:
 | When the user is… | Route them to | Why |
 |---|---|---|
 | Starting ANY new idea (even vague) | `idea-to-app` | Walks every gate, refuses to skip |
+| Has an idea — is it worth building, before any plan? | `discover` | Pain-mines real users, scores the gap, cuts V1, names first 10 users → grounded problem statement for `/speckit-specify` |
 | Wanting to pressure-test a fuzzy plan | `grill-me` (or `grill-with-docs` if extending existing code) | Resolves every open decision before building |
 | Unsure how a piece of code fits the whole | `/zoom-out` | Plain-English map before touching it |
 | Wanting to feel out a design before committing | `prototype` | Throwaway demo, then deleted |
@@ -64,7 +65,7 @@ Always answer in this shape:
 ## The normal order (so they always know the path)
 
 ```
-idea → /guide → idea-to-app → research → brainstorm (grill-me) → /speckit-specify
+idea → /guide → idea-to-app → /discover → brainstorm (grill-me) → /speckit-specify
    → /speckit-clarify → /speckit-plan → /speckit-tasks → build (TDD, isolated)
    → /lean-review (trim over-engineering) → /verify → /security-review
    → git-safety (PR) → preview → live
@@ -85,9 +86,24 @@ If the user wants to jump ahead, STOP them gently and redirect — explain in ON
 They are the boss: if after the one-line warning they still insist, say clearly which gate is being
 skipped, then let them proceed. Never silently comply, never nag more than once.
 
+## STEP 4 — If asked "what's in the kit?" / to summarize or list everything
+
+When the user asks what the kit contains, what features/skills exist, or to "tell me everything" —
+do NOT answer from memory. Memory misses files; that is a known failure mode. Instead:
+1. Read the **complete File index in `README.md`** (the table marked with the "Completeness rule"),
+   or list the live file tree if README is stale.
+2. Enumerate **every group**: root docs, skills (`.claude/skills/`), scripts, `.specify/` engine +
+   extensions + integrations, `specs/`, `tests/`, `docs/` (incl. `ai-feature-checklist`,
+   `awesome-claude-code-shortlist`, `token-quick-wins`), `audit/`, and config/CI/connectors
+   (`.mcp.json` = the `gitmcp` + `cookbook` MCP servers, CI, ruff, biome).
+3. Before sending, self-check: "Did I cover every group in the README index?" If any group is
+   missing, add it. Coverage beats brevity for this question.
+
 ## Rules
 - Plain English always. No jargon unless they ask.
 - One recommendation, not a menu. You're a mentor, not a search engine.
 - Diagnose from real files/git before advising — never guess the stage.
 - Only invoke skills that exist in this project (`.claude/skills/`) or the `/speckit-*` and Superpowers sets.
-- Full skill list also lives in `SKILL-MAP.md` at the repo root (for non-Claude tools too).
+- Full skill list also lives in `SKILL-MAP.md` at the repo root (for non-Claude tools too); the
+  complete file-by-file index is the "File index" table in `README.md`.
+- Never summarize the kit's contents from memory — read the README index or the live tree first (STEP 4).

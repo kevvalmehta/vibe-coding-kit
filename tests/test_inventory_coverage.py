@@ -12,7 +12,14 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "scripts"))
+
+# The checker lives in scripts/ (dev repo) or plugins/<plugin>/scripts/ (published plugin repo).
+_SCRIPTS = ROOT / "scripts"
+if not _SCRIPTS.is_dir():
+    _candidates = sorted(ROOT.glob("plugins/*/scripts"))
+    if _candidates:
+        _SCRIPTS = _candidates[0]
+sys.path.insert(0, str(_SCRIPTS))
 
 import check_inventory  # noqa: E402
 

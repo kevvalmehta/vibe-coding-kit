@@ -239,6 +239,19 @@ Optional check: `python3 scripts/lint-goal.py goal.txt` flags weak verification 
 works"), placeholders, unbounded boundaries ("edit anything"), and infinite-retry language —
 the script decides, not the agent's word (Gate 1 spirit).
 
+### Validate the idea before speccing — `/discover`
+Original to this kit (`.claude/skills/discover/`). The reality-check that runs BEFORE
+`/speckit-specify`: it grills the real problem out of the owner, mines what real people say
+(Reddit venting + reviews of tools they already pay for, via a graceful fetch ladder that NEVER
+fabricates quotes/sources), scores which need is most underserved (ODI: `Opportunity = Pain +
+max(0, Pain − Served)`), builds a competitor matrix, cuts a V1 (the differentiator + the table
+stakes), and forces a specific first-10-users answer. Ends with a verdict (real & worth building /
+real but aim elsewhere / not enough evidence — go look first) written to a `discovery/` note plus a
+paste-ready problem statement for `/speckit-specify`. Read-only on code; hands off, never builds.
+The counterpart to `grill-me` (which tests a PLAN, not the PROBLEM). Harvested from the *method* of
+the `vibe-check` skill (TexasBedouin, MIT) — rebuilt native, that repo was NOT installed. Phase B
+(growth-loop finder, two-sided marketplace / cold-start) is planned; see `specs/006-discover/spec.md`.
+
 ### Planning & design skills (adopted from Matt Pocock, MIT)
 Four optional skills (`.claude/skills/`) that sharpen the PLAN stage — they never start the build.
 Source: github.com/mattpocock/skills. For non-Claude agents, read the matching `SKILL.md` and apply it.
