@@ -41,6 +41,7 @@ Always answer in this shape:
 | When the user is… | Route them to | Why |
 |---|---|---|
 | Starting ANY new idea (even vague) | `idea-to-app` | Walks every gate, refuses to skip |
+| Has an idea — is it worth building, before any plan? | `discover` | Pain-mines real users, scores the gap, cuts V1, names first 10 users → grounded problem statement for `/speckit-specify` |
 | Wanting to pressure-test a fuzzy plan | `grill-me` (or `grill-with-docs` if extending existing code) | Resolves every open decision before building |
 | Unsure how a piece of code fits the whole | `/zoom-out` | Plain-English map before touching it |
 | Wanting to feel out a design before committing | `prototype` | Throwaway demo, then deleted |
@@ -64,7 +65,7 @@ Always answer in this shape:
 ## The normal order (so they always know the path)
 
 ```
-idea → /guide → idea-to-app → research → brainstorm (grill-me) → /speckit-specify
+idea → /guide → idea-to-app → /discover → brainstorm (grill-me) → /speckit-specify
    → /speckit-clarify → /speckit-plan → /speckit-tasks → build (TDD, isolated)
    → /lean-review (trim over-engineering) → /verify → /security-review
    → git-safety (PR) → preview → live
