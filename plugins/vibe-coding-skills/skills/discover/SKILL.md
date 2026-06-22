@@ -126,7 +126,8 @@ user's activity (a "how did you hear about us?" at signup, or a `?ref=` link on 
 
 **Honest escape hatch:** some apps (a private personal tool, a niche utility) have no natural loop, and a
 fake one ("invite 5 friends to unlock") makes the product worse. If there's no honest loop, say so plainly
-and lean on the Phase A channel: showing up in their community every week *is* the growth engine.
+and lean on the STEP 4 channel (your first-10-users community): showing up there every week *is* the
+growth engine.
 
 ## STEP 4.6 — If it's a marketplace (two sides + cold-start)
 

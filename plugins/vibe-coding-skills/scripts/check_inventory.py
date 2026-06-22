@@ -63,8 +63,12 @@ def _required_items(root: Path) -> list[tuple[str, str]]:
 
 
 def _wildcard_prefixes(readme: str) -> list[str]:
-    """Prefixes from `prefix*` tokens in the README (e.g. `speckit-*` -> 'speckit-')."""
-    return [m.group(1) for m in re.finditer(r"([A-Za-z0-9_./-]+)\*", readme)]
+    """Prefixes from inline-code `prefix*` tokens in the README (e.g. `speckit-*` -> 'speckit-').
+
+    Only backtick-delimited tokens count. Matching bare `word*` in prose would treat markdown
+    emphasis (**bold**, *italic*) as wildcards and silently mark unlisted names as documented.
+    """
+    return [m.group(1) for m in re.finditer(r"`([A-Za-z0-9_./-]+)\*`", readme)]
 
 
 def _is_documented(name: str, readme: str, prefixes: list[str]) -> bool:
@@ -92,11 +96,16 @@ def find_missing(root: Path | str) -> list[str]:
 def _repo_root(start: Path) -> Path:
     """Walk up from the script to the repo root (the dir holding `.git`).
 
-    The dev repo keeps this script in `scripts/`; the published plugin keeps it deeper in
-    `plugins/<plugin>/scripts/`, so a fixed `.parent.parent` is wrong there. Anchor on `.git`.
+    Prefer the dir holding `.git`. The dev repo keeps this script in `scripts/`; the published
+    plugin keeps it deeper in `plugins/<plugin>/scripts/`, so a fixed `.parent.parent` is wrong
+    there. If there is no `.git` ancestor (e.g. a source export with git stripped), fall back to
+    the nearest ancestor that actually holds a skills dir, so the gate roots correctly either way.
     """
     for parent in (start, *start.parents):
         if (parent / ".git").exists():
+            return parent
+    for parent in start.parents:
+        if (parent / ".claude" / "skills").is_dir() or any(parent.glob("plugins/*/skills")):
             return parent
     return start.parent.parent
 
