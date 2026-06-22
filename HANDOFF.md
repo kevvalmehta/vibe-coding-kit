@@ -47,12 +47,13 @@ both inside Claude Code. Deploy via Vercel + Supabase.
 - **Guardrail skill** `git-safety` (`.claude/skills/git-safety`) — GitHub best practices: branch per
   change, commit+push save points, PR to main, safe revert/recovery, tag good versions, resume-session
   steps. Plain-English human guide in `GITHUB-GUIDE.md`; `scripts/save.ps1` = one-command backup.
-- **Validation skill** `discover` (`.claude/skills/discover`) — the pre-spec reality check (Phase A
+- **Validation skill** `discover` (`.claude/skills/discover`) — the pre-spec reality check (Phase A + B
   shipped): grills the problem, pain-mines real users (Reddit + paid-tool reviews via an honest fetch
-  ladder, never fabricates), scores the underserved gap (ODI), cuts V1, names first 10 users → verdict
-  in a `discovery/` note + a problem statement handed to `/speckit-specify`. Read-only; never builds.
-  Method harvested from `vibe-check` (TexasBedouin, MIT), rebuilt native — repo NOT installed. Phase B
-  (growth-loop finder + two-sided marketplace / cold-start) pending. Spec: `specs/006-discover/spec.md`.
+  ladder, never fabricates), scores the underserved gap (ODI), cuts V1, names first 10 users, finds a
+  growth loop, and handles two-sided marketplaces (cold-start + minimum liquidity) → verdict in a
+  `discovery/` note + a problem statement handed to `/speckit-specify`. Read-only; never builds.
+  Method harvested from `vibe-check` (TexasBedouin, MIT), rebuilt native — repo NOT installed.
+  Spec: `specs/006-discover/spec.md`.
 - **Planning skills (adopted from Matt Pocock, MIT — github.com/mattpocock/skills)** in `.claude/skills/`:
   `grill-me` (interrogate a plan one Q at a time), `grill-with-docs` (grill against existing code +
   a `CONTEXT.md` glossary / `docs/adr/` records), `zoom-out` (`/zoom-out`: plain map before editing),

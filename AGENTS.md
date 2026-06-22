@@ -250,7 +250,8 @@ real but aim elsewhere / not enough evidence — go look first) written to a `di
 paste-ready problem statement for `/speckit-specify`. Read-only on code; hands off, never builds.
 The counterpart to `grill-me` (which tests a PLAN, not the PROBLEM). Harvested from the *method* of
 the `vibe-check` skill (TexasBedouin, MIT) — rebuilt native, that repo was NOT installed. Phase B
-(growth-loop finder, two-sided marketplace / cold-start) is planned; see `specs/006-discover/spec.md`.
+(growth-loop finder + two-sided marketplace / cold-start) is now shipped too; it adds STEP 4.5 (the
+growth loop) and STEP 4.6 (both sides + cold-start). See `specs/006-discover/spec.md`.
 
 ### Planning & design skills (adopted from Matt Pocock, MIT)
 Four optional skills (`.claude/skills/`) that sharpen the PLAN stage — they never start the build.
