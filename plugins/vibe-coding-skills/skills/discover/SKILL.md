@@ -4,9 +4,11 @@ description: >-
   The reality-check BEFORE you spec. Use WHENEVER the owner has an idea (even vague) and you want to
   know if it's worth building before any plan exists — or when they say "discover", "validate my idea",
   "is this worth building", "does anyone want this", "who would use this", "pain mining", "check the
-  market", "find the real problem", or run /discover. Grills the problem out of them, mines what real
-  people say (Reddit + reviews of tools they already pay for), scores which need is most underserved,
-  cuts a V1, and names the first 10 users — then hands a grounded problem statement to /speckit-specify.
+  market", "find the real problem", "growth loop", "how will it spread", "marketplace", "two-sided",
+  "cold start", or run /discover. Grills the problem out of them, mines what real people say (Reddit +
+  reviews of tools they already pay for), scores which need is most underserved, cuts a V1, names the
+  first 10 users, finds a growth loop, and handles two-sided marketplaces — then hands a grounded
+  problem statement to /speckit-specify.
   Sits before /speckit-specify; the counterpart to grill-me (which tests a PLAN, not the PROBLEM).
   Read-only on code; its only writes go to a `discovery/` note. NEVER fabricates evidence. The user is
   a NON-TECHNICAL business owner — answer in plain English, never jargon.
@@ -45,7 +47,7 @@ Two routing questions, asked early:
    gets the full net below; real research already in hand lightens it (you mine their data instead).
 2. **How many sides does it have?** If it only works when two different groups both show up (buyers +
    sellers, hosts + guests), it's a **marketplace** — note it loudly; the second side is just as
-   load-bearing. (Deep two-sided handling is a Phase B addition; for now, just flag it.)
+   load-bearing. If two-sided, you'll run **STEP 4.6** below to discover both sides and the cold-start plan.
 
 ## STEP 2 — Cast a wide net (what real people actually say)
 
@@ -101,6 +103,53 @@ something genuinely helpful there, DM the people who voiced the pain, stand up a
 **If they can't name where the first 10 come from, say it plainly: that's the riskiest part of the whole
 idea — more important than another feature.**
 
+## STEP 4.5 — Find the growth loop (does using it recruit the next user?)
+
+Beginners picture growth as a one-way street: do marketing, get users, repeat forever — stop pushing and
+growth stops. Better question: **can using the app create the next user?** When yes, growth feeds itself
+(a wheel that keeps spinning, not a boulder you shove uphill forever). You want it **viral** (users bring
+users) and **organic** (a free side effect of normal use, not a bought ad). Not every app has one — but
+always look. Walk these one at a time, offering your read each time:
+
+1. **Content loop** — *"Does anything your users make end up where a stranger could find it?"* Their
+   output becomes public, gets found on Google or shared, pulls in the next user. (Reddit, recipe blogs.)
+2. **Invite loop** — *"Can someone use it alone, or does using it naturally pull in another person?"* The
+   sharing is the core action, not a bolted-on "invite friends" button. (Figma, Google Docs.)
+3. **Signal loop** — *"Would anyone see someone using it, or see what it made, out in the wild?"* Every
+   user becomes a tiny free billboard. ("Sent from my iPhone", a Calendly link, a "Made with X" badge.)
+
+Any yes → name the shape, walk it in *their* app in one concrete sentence, and **draw the loop** (user
+does the thing → it becomes visible to someone new → they sign up → back to the top). Put whatever the
+loop needs (the public page, the share step, the badge) on the **V1 list** — a loop deferred to V2 never
+spins. Then name the **one cheap metric** that proves it: the share of new users who came from an existing
+user's activity (a "how did you hear about us?" at signup, or a `?ref=` link on anything shared).
+
+**Honest escape hatch:** some apps (a private personal tool, a niche utility) have no natural loop, and a
+fake one ("invite 5 friends to unlock") makes the product worse. If there's no honest loop, say so plainly
+and lean on the Phase A channel: showing up in their community every week *is* the growth engine.
+
+## STEP 4.6 — If it's a marketplace (two sides + cold-start)
+
+Only if STEP 1 flagged it two-sided. A marketplace lives or dies on whether you understood **both** sides,
+not just the one the founder happens to be.
+
+- **Discover both sides.** Run the STEP 1 grill for *each* side as a real person you can picture (buyer
+  AND seller, host AND guest), with their own worst moment and needs. The second side's basics are *your*
+  table stakes — a seller tool buyers don't trust gets no buyers, so no sellers.
+- **Name the harder side to get** (usually supply — the sellers, the creators). That's the side your
+  launch has to crack first.
+- **The cold-start problem.** An empty network is worthless to the first person who shows up — they land
+  in an empty room and never come back. Pick one bootstrap with the owner (offer your pick):
+  - **Single-player first** — genuinely useful to one person before any network exists.
+  - **Start absurdly narrow** — one city, one campus, one community, dense enough to feel alive.
+  - **Hold the network behind a threshold** — don't open the feed/directory until a minimum exists.
+  - **Seed the hard side by hand** — recruit the supply one at a time, doing things that don't scale.
+  - **Seed supply honestly, never fake demand** — your own real listings are fine; fake "3 people
+    watching" or fake reviews is a dark pattern.
+- Name the **minimum-liquidity threshold** to cross before opening the doors (their version of "50
+  listings per city"). The riskiest assumption is now *"both sides actually show up"* — test both cheaply
+  (ten DMs to each side, or a one-page "buyer or seller?" waitlist), not just the side you know.
+
 ## STEP 5 — Verdict, write the note, hand off
 
 Give one honest **verdict**:
@@ -111,7 +160,8 @@ Give one honest **verdict**:
   riskiest belief (ten DMs, a waitlist, a fake-door) before building.
 
 Write it to **`discovery/<NNN>-<slug>.md`** (next free number, like `audit/` does): the verdict, the
-ranked needs with evidence tags, the competitor matrix, the V1 cut, the first-10-users + channel, and a
+ranked needs with evidence tags, the competitor matrix, the V1 cut, the first-10-users + channel, the
+growth loop (if any), the cold-start plan + minimum-liquidity threshold (if a marketplace), and a
 paste-ready **problem statement** for the spec.
 
 End with the next step, plainly:
