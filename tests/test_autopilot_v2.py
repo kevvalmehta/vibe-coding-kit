@@ -8,8 +8,10 @@ intentionally NOT changed by v2 — STEP_ORDER stays fixed.
 
 from pathlib import Path
 
+from _kitpaths import skills_dir
+
 ROOT = Path(__file__).resolve().parent.parent
-SKILL_DIR = ROOT / ".claude" / "skills" / "autopilot"
+SKILL_DIR = skills_dir(ROOT) / "autopilot"
 SKILL = SKILL_DIR / "SKILL.md"
 GATES = SKILL_DIR / "references" / "gates.md"
 PREPR = SKILL_DIR / "references" / "prepr-checks.md"

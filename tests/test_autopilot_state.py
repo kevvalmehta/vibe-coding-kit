@@ -9,8 +9,10 @@ from pathlib import Path
 
 import pytest
 
-# Make scripts/ importable.
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+from _kitpaths import scripts_dir
+
+# Make the scripts dir importable (root `scripts/` or plugin `plugins/<plugin>/scripts/`).
+sys.path.insert(0, str(scripts_dir(Path(__file__).resolve().parent.parent)))
 
 import autopilot_state as st  # noqa: E402
 

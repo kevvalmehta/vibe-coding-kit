@@ -9,15 +9,17 @@ skill's output QUALITY is eye-checked at the verify step (documented plan limita
 
 from pathlib import Path
 
+from _kitpaths import skills_dir
+
 ROOT = Path(__file__).resolve().parent.parent
-SKILL = ROOT / ".claude" / "skills" / "audit" / "SKILL.md"
-REFS = ROOT / ".claude" / "skills" / "audit" / "references"
+SKILL = skills_dir(ROOT) / "audit" / "SKILL.md"
+REFS = skills_dir(ROOT) / "audit" / "references"
 PLAYBOOK = REFS / "audit-playbook.md"
 BRIEF = REFS / "brief-template.md"
 ROUTING = REFS / "routing-and-modes.md"
 AGENTS = ROOT / "AGENTS.md"
 SKILL_MAP = ROOT / "SKILL-MAP.md"
-HEALTH = ROOT / ".claude" / "skills" / "health" / "SKILL.md"
+HEALTH = skills_dir(ROOT) / "health" / "SKILL.md"
 
 
 def _text(p: Path) -> str:

@@ -9,9 +9,11 @@ the verify step (documented plan limitation), not here.
 
 from pathlib import Path
 
+from _kitpaths import skills_dir
+
 ROOT = Path(__file__).resolve().parent.parent
-SKILL = ROOT / ".claude" / "skills" / "agent-architect" / "SKILL.md"
-ROUTINE = ROOT / ".claude" / "skills" / "agent-architect" / "references" / "decision-routine.md"
+SKILL = skills_dir(ROOT) / "agent-architect" / "SKILL.md"
+ROUTINE = skills_dir(ROOT) / "agent-architect" / "references" / "decision-routine.md"
 
 
 def _skill_text() -> str:
@@ -64,5 +66,5 @@ def test_T6_registered_in_skill_map():
 
 def test_T7_wired_into_idea_to_app_gate():
     """FR-009: invoked from idea-to-app's AI-inside gate."""
-    gate = (ROOT / ".claude" / "skills" / "idea-to-app" / "SKILL.md").read_text(encoding="utf-8")
+    gate = (skills_dir(ROOT) / "idea-to-app" / "SKILL.md").read_text(encoding="utf-8")
     assert "agent-architect" in gate, "idea-to-app/SKILL.md does not reference agent-architect"
