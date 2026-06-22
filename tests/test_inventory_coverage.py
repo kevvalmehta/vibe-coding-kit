@@ -11,15 +11,13 @@ README.md, so the index can never silently rot.
 import sys
 from pathlib import Path
 
+from _kitpaths import scripts_dir
+
 ROOT = Path(__file__).resolve().parent.parent
 
 # The checker lives in scripts/ (dev repo) or plugins/<plugin>/scripts/ (published plugin repo).
-_SCRIPTS = ROOT / "scripts"
-if not _SCRIPTS.is_dir():
-    _candidates = sorted(ROOT.glob("plugins/*/scripts"))
-    if _candidates:
-        _SCRIPTS = _candidates[0]
-sys.path.insert(0, str(_SCRIPTS))
+# scripts_dir() resolves whichever layout this repo uses — never hardcode the path here.
+sys.path.insert(0, str(scripts_dir(ROOT)))
 
 import check_inventory  # noqa: E402
 
