@@ -61,3 +61,25 @@ def test_SC001_wildcard_token_covers_a_family(tmp_path):
     (tmp_path / "README.md").write_text("Documents the `speckit-*` family.\n", encoding="utf-8")
 
     assert check_inventory.find_missing(tmp_path) == []
+
+
+def test_markdown_emphasis_is_not_a_wildcard(tmp_path):
+    """Bold/italic like **plan** must NOT become a wildcard that marks unlisted names documented."""
+    (tmp_path / ".claude" / "skills" / "planner").mkdir(parents=True)
+    (tmp_path / "scripts").mkdir()
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "README.md").write_text("We **plan** before we build.\n", encoding="utf-8")
+
+    missing = check_inventory.find_missing(tmp_path)
+    assert any("planner" in m for m in missing), missing
+
+
+def test_repo_root_without_git_resolves_plugin_layout(tmp_path):
+    """Without a .git anchor, _repo_root must still find the real root in the plugin layout."""
+    (tmp_path / "plugins" / "p" / "skills" / "demo").mkdir(parents=True)
+    scripts = tmp_path / "plugins" / "p" / "scripts"
+    scripts.mkdir(parents=True)
+    script = scripts / "check_inventory.py"
+    script.write_text("# stub\n", encoding="utf-8")
+
+    assert check_inventory._repo_root(script.resolve()) == tmp_path.resolve()

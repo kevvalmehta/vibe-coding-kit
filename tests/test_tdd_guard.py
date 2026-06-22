@@ -182,13 +182,45 @@ def test_main_multiedit_impl_green_blocks(monkeypatch, capsys, tmp_path):
 
 # Task 6 — hook + gitignore
 def test_hook_registered_in_settings():
+    """Dev repo: TDD-Guard is wired in .claude/settings.json. Published-plugin repo: the PreToolUse
+    wiring is intentionally NOT shipped (it would run python on every edit), so instead assert the
+    plugin's own hooks.json parses — a broken hook config turns this RED, it never silently skips."""
     settings_path = ROOT / ".claude" / "settings.json"
-    if not settings_path.is_file():
-        pytest.skip("no .claude/settings.json in this layout (published plugin repo)")
-    settings = json.loads(settings_path.read_text(encoding="utf-8"))
-    pre = settings.get("hooks", {}).get("PreToolUse", [])
-    cmds = [h.get("command", "") for entry in pre for h in entry.get("hooks", [])]
-    assert any("tdd_guard.py" in c for c in cmds), "PreToolUse tdd_guard hook not registered"
+    if settings_path.is_file():
+        settings = json.loads(settings_path.read_text(encoding="utf-8"))
+        pre = settings.get("hooks", {}).get("PreToolUse", [])
+        cmds = [h.get("command", "") for entry in pre for h in entry.get("hooks", [])]
+        assert any("tdd_guard.py" in c for c in cmds), "PreToolUse tdd_guard hook not registered"
+        return
+    hook_files = sorted(ROOT.glob("plugins/*/hooks/hooks.json"))
+    assert hook_files, "no .claude/settings.json and no plugins/*/hooks/hooks.json found"
+    for hf in hook_files:
+        json.loads(hf.read_text(encoding="utf-8"))  # must be valid JSON, not silently broken
+
+
+def test_tests_are_red_raises_on_empty_command():
+    with pytest.raises(tdd_guard.TestCommandError):
+        tdd_guard.tests_are_red("   ", ROOT)
+
+
+def test_tests_are_red_raises_on_missing_binary(tmp_path):
+    with pytest.raises(tdd_guard.TestCommandError):
+        tdd_guard.tests_are_red("definitely-not-a-real-binary-xyz --q", tmp_path)
+
+
+def test_main_unrunnable_test_command_denies_not_crashes(tmp_path, monkeypatch, capsys):
+    """A broken test command must fail LOUD (clear deny), never crash or silently allow the edit."""
+    (tmp_path / ".tdd-guard").write_text(
+        "mode: strict\ntest: definitely-not-a-real-binary-xyz\n", encoding="utf-8"
+    )
+    payload = {"tool_name": "Edit", "tool_input": {"file_path": "app/x.py"}, "cwd": str(tmp_path)}
+    monkeypatch.setattr("sys.stdin", io.StringIO(json.dumps(payload)))
+    code = tdd_guard.main()
+    out = capsys.readouterr().out
+    assert code == 0
+    data = json.loads(out)
+    assert data["hookSpecificOutput"]["permissionDecision"] == "deny"
+    assert "test command" in data["hookSpecificOutput"]["permissionDecisionReason"].lower()
 
 
 def test_marker_is_gitignored():

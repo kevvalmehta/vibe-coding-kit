@@ -64,14 +64,28 @@ def read_marker(root):
     return cfg
 
 
+class TestCommandError(Exception):
+    """The configured test command could not be executed (missing binary, empty, etc.)."""
+
+
 def tests_are_red(test_cmd: str, cwd) -> bool:
-    """Run the test command; True if a test fails (non-zero exit)."""
-    result = subprocess.run(
-        shlex.split(test_cmd),
-        cwd=str(cwd),
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
+    """Run the test command; True if a test fails (non-zero exit).
+
+    Raises TestCommandError if the command cannot be executed at all, so the caller fails loud
+    (a clear deny) instead of crashing with a traceback and silently letting the edit through.
+    """
+    argv = shlex.split(test_cmd)
+    if not argv:
+        raise TestCommandError(f"empty test command: {test_cmd!r}")
+    try:
+        result = subprocess.run(
+            argv,
+            cwd=str(cwd),
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except OSError as err:
+        raise TestCommandError(f"could not run {test_cmd!r}: {err}") from err
     return result.returncode != 0
 
 
@@ -101,7 +115,25 @@ def main() -> int:
     classification = classify(file_path)
     tests_red = False
     if classification == "impl" and marker.get("mode") != "refactor":
-        tests_red = tests_are_red(marker.get("test", DEFAULT_TEST_CMD), root)
+        try:
+            tests_red = tests_are_red(marker.get("test", DEFAULT_TEST_CMD), root)
+        except TestCommandError as err:
+            print(
+                json.dumps(
+                    {
+                        "hookSpecificOutput": {
+                            "hookEventName": "PreToolUse",
+                            "permissionDecision": "deny",
+                            "permissionDecisionReason": (
+                                f"TDD-Guard: couldn't run your test command — {err}. "
+                                "Fix the 'test:' line in .tdd-guard, or delete the .tdd-guard "
+                                "file to turn the guard off."
+                            ),
+                        }
+                    }
+                )
+            )
+            return 0
 
     if decide(marker.get("mode"), classification, tests_red) == "block":
         print(
