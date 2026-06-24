@@ -60,6 +60,7 @@ Always answer in this shape:
 | Asking "what's actually worth fixing?" (existing code, deep) | `/audit` | Finds + verifies the top issues across 9 categories, writes ready-to-run briefs → `safe-change`/`/speckit-specify`/`autopilot`. The deep follow-on to `/health`; read-only, stops before push/merge/deploy |
 | Just finished a build/change, before merge — "did I over-build this?" | `/lean-review` | Over-engineering check on JUST your current changes; lists what to cut + the simpler swap → hands to `safe-change`. Narrow, fast counterpart to `/audit`; read-only |
 | Wondering "what shortcuts did we take on purpose?" | `/lean-debt` | Lists every `shortcut:` comment (what was simplified, when it stops being OK, when to revisit); flags ones with no revisit plan. Read-only |
+| Wanting a second opinion on which Claude Code automations (hooks, MCP, sub-agents) to set up | `claude-code-setup` (Anthropic plugin) | They ASK for it ("recommend automations for this project" / "what hooks should I use?"); it scans the repo once and suggests top hooks/MCP/skills/sub-agents/commands. They trigger it — it never auto-runs or edits. Run-once setup advisor; overlaps `/guide`+`/health`+`/audit` except for harness wiring. Bundled with the repo, Claude-Code-only |
 | Lost / "what now?" | this skill (`/guide`) | You are here |
 
 ## The normal order (so they always know the path)
