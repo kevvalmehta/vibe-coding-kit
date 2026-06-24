@@ -12,6 +12,18 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/recommender_nudge.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking recommender..."
+          }
+        ]
+      }
     ]
   }
 }

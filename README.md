@@ -288,6 +288,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `new-project.ps1` | Spin up a new project from this scaffold (`-Update` re-syncs skills/scripts) |
 | `autopilot_state.py` | Deterministic resume helper for `autopilot` (TDD-covered) |
 | `tdd_guard.py` | The TDD-Guard enforcement hook (blocks code before a failing test exists) |
+| `recommender_nudge.py` | SessionStart hook — offers the Claude automation recommender once per project (or when dependencies change), then stays quiet (can never block a session) |
 | `lint-goal.py` | Lints `/goal` task-contract files |
 | `check-plan.ps1` | Plan↔build seam check — is the plan measurable / did the build match it |
 | `capture-lessons.ps1` | Stop-hook that logs candidate lessons from your corrections |
@@ -323,6 +324,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `test_audit_advisor.py` | Audit skill guard |
 | `test_health_skill.py` | Health-score skill guard |
 | `test_tdd_guard.py` | TDD-Guard hook |
+| `test_recommender_nudge.py` | Recommender-nudge SessionStart hook |
 | `test_token_quick_wins.py` | Token-quick-wins doc guard |
 
 ### Docs — `docs/`

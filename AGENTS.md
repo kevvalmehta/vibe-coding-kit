@@ -161,10 +161,13 @@ endpoint, so this does NOT bind the kit to one tool (Principle VI). Source: gith
 ### Setup second-opinion — `claude-code-setup` recommender (optional, Anthropic plugin)
 A read-only Claude Code plugin (Anthropic-official, marketplace `claude-plugins-official`) that scans a
 repo once and recommends the top 1–2 **harness automations** in each of five buckets: MCP servers,
-skills, hooks, sub-agents, slash commands. It is **invoked on demand, never automatic** — trigger it by
-asking *"recommend automations for this project"*, *"help me set up Claude Code"*, or *"what hooks should
-I use?"*. It only suggests; it never edits files or runs in the background. The plugin (skill name
-`claude-automation-recommender`) loads only on a fresh Claude Code start, not mid-session.
+skills, hooks, sub-agents, slash commands. It **never auto-runs** — it only suggests, never edits files,
+never runs in the background — but a SessionStart hook (`recommender_nudge.py`, shipped in the plugin's
+`hooks/hooks.json`) now proactively **offers** it once per project (and again if a dependency manifest
+changes), then drops a marker file (`.claude/.recommender-nudged`, git-ignored) and stays quiet. You can
+also trigger it any time by asking *"run the recommender"*, *"recommend automations for this project"*, or
+*"what hooks should I use?"*. The plugin (skill name `claude-automation-recommender`) loads only on a fresh
+Claude Code start, not mid-session.
 It is bundled with this repo: the project `.claude/settings.json` declares the `claude-plugins-official`
 marketplace and enables `claude-code-setup@claude-plugins-official`, so anyone who clones and TRUSTS the
 folder is **offered** it (a prompt, never a forced install). **Portability (Principle VI):** this is
@@ -217,6 +220,16 @@ It is OFF unless a gitignored `.tdd-guard` marker file exists at the repo root.
 - Deterministic, no LLM, stdlib only. Native rebuild of the community "TDD Guard" idea — no
   third-party code installed (supply-chain rule).
 - Design: `docs/superpowers/specs/2026-06-13-tdd-guard-design.md`.
+
+### Recommender-nudge (proactive setup offer)
+A `SessionStart` hook (`recommender_nudge.py`, registered in the plugin's `hooks/hooks.json`) that
+proactively OFFERS the `claude-code-setup` recommender — but only when it would help, and never more
+than once per project.
+- Fires the one-line offer when a real project (has git or a known manifest) is opened and hasn't been
+  offered yet, OR when a dependency manifest changes after a prior offer (new framework → fresh advice).
+- After firing it writes `.claude/.recommender-nudged` (git-ignored) and stays quiet on later sessions.
+- It only injects a one-line OFFER; it never runs the recommender unprompted and can never block a session.
+- Deterministic detection in stdlib Python; the nudge text is injected via SessionStart `additionalContext`.
 
 ### Git safety (version control)
 Never work on `main` directly — branch/worktree per change, merge via PR. Commit small + push often
