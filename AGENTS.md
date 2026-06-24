@@ -158,6 +158,21 @@ Caveats: public repos only (self-host the open-source server for private); exter
 bloat. **Portability:** MCP is a standard URL — Claude Code, Codex, Cursor, Copilot all add the same
 endpoint, so this does NOT bind the kit to one tool (Principle VI). Source: github.com/idosal/git-mcp.
 
+### Setup second-opinion — `claude-code-setup` recommender (optional, Anthropic plugin)
+A read-only Claude Code plugin (Anthropic-official, marketplace `claude-plugins-official`) that scans a
+repo once and recommends the top 1–2 **harness automations** in each of five buckets: MCP servers,
+skills, hooks, sub-agents, slash commands. It is **invoked on demand, never automatic** — trigger it by
+asking *"recommend automations for this project"*, *"help me set up Claude Code"*, or *"what hooks should
+I use?"*. It only suggests; it never edits files or runs in the background. The plugin (skill name
+`claude-automation-recommender`) loads only on a fresh Claude Code start, not mid-session.
+It is bundled with this repo: the project `.claude/settings.json` declares the `claude-plugins-official`
+marketplace and enables `claude-code-setup@claude-plugins-official`, so anyone who clones and TRUSTS the
+folder is **offered** it (a prompt, never a forced install). **Portability (Principle VI):** this is
+Claude-Code-only, but it is purely additive — Codex/Cursor/Copilot never see the prompt and lose nothing,
+so it does not bind the kit to one tool. **When to use:** once, when you want a second opinion on which
+hooks/MCP wiring to add. It overlaps `/guide` + `/health` + `/audit` for everything else, so treat it as
+a run-once advisor, not a permanent fixture. Source: github.com/anthropics/claude-plugins-official.
+
 ### Want the whole planning flow run for you? Use `autopilot`
 The `autopilot` skill (`.claude/skills/autopilot`) runs the planning sequence end-to-end as ONE guided
 flow so a non-technical owner presses "go" instead of hand-running each skill. Fixed order:
