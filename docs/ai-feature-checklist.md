@@ -83,12 +83,56 @@ Tick each one off in the plan, or write down why it doesn't apply.
 
 ---
 
+## Verification & operations (from Google's *New SDLC* whitepaper)
+
+The 12 factors above get the AI feature *built right*. These two prove it *works and keeps
+working* — and they come from a newer, separate source: Google's **"The New SDLC With Vibe
+Coding"** (Addy Osmani, Shubham Saboo, Sokratis Kartakis, 2026). That paper's headline claim:
+the thing that separates real engineering from guesswork is **how you verify the output** —
+and for AI, ordinary tests are not enough.
+
+### 14. Verify AI output with EVALS, not just tests
+- [ ] You have **evals** for the AI parts, not only tests for the code parts.
+- Plain English: a *test* checks something with one correct answer ("2 + 2 must return 4" —
+  pass/fail). An **eval** (short for *evaluation*) checks fuzzy AI output that has *no single
+  right answer* ("is this AI-written reply polite and on-brand?") by **scoring it against a
+  *rubric*** — a written scoring guide (e.g. rate politeness 1–5, must score ≥4).
+- [ ] Cover BOTH kinds of eval:
+  - **Output eval** — was the final answer good?
+  - **Trajectory eval** — *trajectory* = the path the AI took to get there. Did it use the right
+    tools in the right order for sound reasons, or stumble into a lucky right answer? Check the
+    journey, not just the destination.
+- [ ] **Set the bar at the eval, not the demo.** A *demo* shows the AI working once (could be
+  luck). An *eval suite* (a whole collection of these scored checks, run automatically) shows it
+  works reliably. Decide the passing bar in the spec, before building.
+- Build help: run **`/agent-eval`** — it scaffolds an eval set (example cases + rubric + passing
+  bar), runs it for a plain-English pass/fail report, and wires it into CI as an automatic gate.
+  Grounded on the Claude Cookbooks recipe `misc/building_evals.ipynb` (via the pinned `cookbook`
+  GitMCP source).
+
+### 15. Watch it after launch (AgentOps)
+- [ ] You can SEE what the live AI is doing, and you'd KNOW if it quietly got worse.
+- Plain English: **AgentOps** = looking after an AI agent once it's live (named after "DevOps",
+  the practice of running live software). Build these in *before* launch, not after:
+  - **Observability** — your ability to see inside a running system. In practice: **logs** (a
+    record of what happened), **traces** (a *trace* = a step-by-step replay of one single run —
+    every decision and tool call — so when something breaks you can see exactly where), and
+    **metrics** (numbers over time, e.g. average response quality).
+  - **Drift monitoring** — *drift* = slow, silent decline. An AI feature can get worse over time
+    (inputs change, the world changes) with no error message. Watch a quality number so you catch
+    the slide before customers do.
+  - **LLM-as-judge** — use a cheap, fast AI to automatically *grade* a sample of your main AI's
+    live output against the same rubric from #14, so a human isn't checking every single reply.
+  - [ ] Decide WHO reviews the flagged cases (the human-in-the-loop), and how often.
+
+---
+
 ## How this plugs into our workflow
 
 | Stage | What to do with this checklist |
 |---|---|
-| `/speckit-specify` | Note which features involve an LLM; mark human-approval points (#7) and entry points (#11). |
-| `/speckit-plan` | Walk all 13 boxes; record decisions (especially #2, #3, #5, #8) in the plan. |
+| `/speckit-specify` | Note which features involve an LLM; mark human-approval points (#7) and entry points (#11); set the eval passing bar (#14) — "done" means hitting it, not a working demo. |
+| `/speckit-plan` | Walk all 13 boxes; record decisions (especially #2, #3, #5, #8) in the plan. Then decide evals (#14) and after-launch watching (#15), and do context engineering — what the AI sees each turn — using `docs/context-engineering.md`. |
 | `grill-me` | Ask it to grill the plan against this file. |
 | Build (Superpowers) | #4 and #12 are what make TDD possible on AI features — tests target the deterministic code around the LLM. |
 | Plan + Build | Before writing code against the Claude SDK or any library, ground against its REAL current docs via **GitMCP** (`https://gitmcp.io/{owner}/{repo}`) so APIs aren't hallucinated — see `AGENTS.md` → "Grounding against real library docs". |

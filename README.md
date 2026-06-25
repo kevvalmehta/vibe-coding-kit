@@ -269,6 +269,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `lean-debt` | `/lean-debt` — harvests every `shortcut:` comment into a ledger (what was simplified, when to revisit) |
 | `autopilot` | Runs specify→clarify→plan→tasks→checks as one guided flow (+`references/`: gates, parallel-plan, prepr-checks) |
 | `agent-architect` | Proposes the agent design for apps that contain AI (+`references/decision-routine.md`) |
+| `agent-eval` | `/agent-eval` — makes AI evals runnable: scaffolds an eval set (cases + rubric + passing bar), runs it for a plain-English pass/fail report, wires an automatic CI gate (+`assets/eval_runner.py` tested runner, `assets/eval_set_template/`, `references/judge-prompt.md`). Implements checklist #14 + constitution Principle VIII |
 | `goal` | Turns a vague ask into a task contract (outcome + verification + stop rules) |
 | `discover` | `/discover` — the pre-spec reality check: pain-mines real users, scores which need is most underserved, cuts V1, names your first 10 users → hands a grounded problem statement to `/speckit-specify`. Read-only |
 | `grill-me` | Interrogates a fuzzy plan one question at a time |
@@ -316,6 +317,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `004-audit-advisor/` | Spec/plan/tasks for the audit skill |
 | `005-inventory-coverage-gate/` | Spec for the README completeness CI gate |
 | `006-discover/` | Spec for the `/discover` pre-spec validation skill |
+| `007-agent-eval/` | Full spec/plan/tasks/research/data-model/quickstart/contracts for the `/agent-eval` skill |
 
 ### Tests — `tests/`
 | File | Covers |
@@ -328,11 +330,14 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `test_ruff_on_edit.py` | Ruff-on-edit PostToolUse hook |
 | `test_recommender_nudge.py` | Recommender-nudge SessionStart hook |
 | `test_token_quick_wins.py` | Token-quick-wins doc guard |
+| `test_eval_runner.py` | agent-eval runner core (judge mocked): scoring, critical tier, borderline re-run, cost cap, exit codes, injection framing |
 
 ### Docs — `docs/`
 | Path | What it's for |
 |---|---|
-| `ai-feature-checklist.md` | 13 decisions to make when your app contains AI (12-Factor Agents) |
+| `ai-feature-checklist.md` | 13 decisions to make when your app contains AI (12-Factor Agents) + #14 evals + #15 watch-after-launch |
+| `context-engineering.md` | What the AI sees each turn: 6 context types, static vs dynamic, progressive disclosure |
+| `agentic-engineering-primer.md` | Plain-English tour of the *New SDLC* ideas: verification spectrum, 80% problem, conductor/orchestrator, cost curve, MCP/A2A |
 | `awesome-claude-code-shortlist.md` | Vetted shortlist of external tools to consider (not all installed) |
 | `token-quick-wins.md` | Six habits to cut token cost per session |
 | `memory-snapshot/MEMORY.md` | Portable memory mirror for other AI tools |

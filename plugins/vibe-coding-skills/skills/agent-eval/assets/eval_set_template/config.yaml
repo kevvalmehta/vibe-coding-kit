@@ -1,0 +1,24 @@
+# Eval set settings. Plain English — edit these freely; the runner reads them.
+# An "eval" scores your AI feature's output. This file sets the rules for passing.
+
+feature_name: My AI feature          # human label, shown in the report
+
+# How strict is "passing"?
+pass_bar: 80                         # % of cases that must pass for the whole set to pass
+headroom_target: 85                  # quality to AIM for, so normal AI wobble stays above pass_bar
+case_score_threshold: 4              # a case "passes" if the judge scores it this (1-5) or higher
+
+# Keeping the automatic gate from crying wolf (AI output varies run to run):
+borderline_margin: 5                 # if the result lands within this % of pass_bar, re-run once
+
+# Cost control (you pay per run in tokens):
+sample_size: 10                      # how many non-critical cases the quick "--sample" run uses
+cost_cap_usd: 1.00                   # the runner aborts if a run would cost more than this
+
+# The judge = a cheap AI that grades fuzzy output against the rubric below.
+judge_model: claude-haiku-4-5-20251001
+
+# The rubric = your scoring guide for "model"-graded cases. Be specific about what "good" means.
+rubric: >
+  The output is correct, on-brand, and directly answers the input.
+  It is polite and contains no made-up facts.

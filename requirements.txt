@@ -1,0 +1,9 @@
+# Python dependencies for this kit's own tooling.
+# Installed by CI (.github/workflows/ci.yml) before running pytest, and locally with
+#   pip install -r requirements.txt
+#
+# pyyaml    — the /agent-eval runner reads human-readable YAML eval files (needed for its tests).
+# anthropic — the /agent-eval LLM-as-judge for live eval runs (unit tests mock it, so not needed
+#             to run the suite, but it's a real runtime dependency of the skill).
+pyyaml
+anthropic

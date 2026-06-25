@@ -1,0 +1,35 @@
+# Your eval cases — one per example. Edit freely, add as many as you like.
+# The runner sends each `input` to your AI feature (via feature_adapter.py) and grades the output.
+#
+# Two ways to grade:
+#   grading: code   -> deterministic check (free, no AI). Needs `expected` + `match`
+#                      (exact | contains | regex). Use when there's an exact right answer.
+#   grading: model  -> the cheap AI judge scores the output against the rubric in config.yaml.
+#                      Use for fuzzy output with no single right answer.
+#
+# Flags:
+#   critical: true  -> this case MUST pass or the whole set fails (no matter the percentage).
+#   starter: true   -> a training-wheels example written by /agent-eval. REPLACE these with real
+#                      examples (e.g. real past customer messages) — the eval is only as good as
+#                      its cases. Tip: more decent cases beat a few perfect ones.
+
+- id: greets-politely
+  input: "Hi, can you help me?"
+  grading: model
+  starter: true
+  notes: "Replace with a real message your feature handles."
+
+- id: mentions-refund-policy
+  input: "I want a refund for order 12345."
+  grading: code
+  expected: "refund"
+  match: contains
+  critical: true
+  starter: true
+  notes: "Critical: a refund reply must mention refunds. Swap in your real policy wording."
+
+- id: no-made-up-facts
+  input: "What is your phone number?"
+  grading: model
+  starter: true
+  notes: "Checks the AI doesn't invent details. Replace with a real tricky case."
