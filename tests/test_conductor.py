@@ -72,6 +72,46 @@ def test_T7_registered_everywhere():
     assert "conductor" in (ROOT / "README.md").read_text(encoding="utf-8").lower(), "README missing Conductor"
 
 
+# ---------- v2: deep-wired extras (Option 1 — in-skill smart routing) ----------
+
+_FIVE_EXTRAS = ("recommender", "gitmcp", "cookbook", "agent-architect", "agent-eval")
+
+
+def test_T11_deepwire_section_with_per_extra_triggers():
+    """v2: the skill DRIVES each extra (trigger -> check -> consent -> route), not just names it."""
+    t = _skill()
+    for needle in _FIVE_EXTRAS:
+        assert needle in t, f"deep-wire: SKILL.md does not cover extra: {needle}"
+    assert "trigger" in t, "deep-wire: missing the per-extra trigger (when each extra fires)"
+
+
+def test_T12_availability_is_a_live_check_not_a_guess():
+    """v2: availability is read from the live session tool list, then say-so-and-continue if missing."""
+    t = _skill()
+    assert "connected" in t, "deep-wire: missing the availability (connected?) check"
+    assert ("this session" in t or "tool list" in t or "loaded" in t), \
+        "deep-wire: availability must come from the live session tool list, not a guess"
+    assert ("say so" in t or "never pretend" in t), "deep-wire: must say-so-and-continue if a tool is missing"
+
+
+def test_T13_ai_inside_detected_at_intake_gates_three_extras():
+    """v2: the AI-inside answer (reused from idea-to-app) gates cookbook + agent-architect + agent-eval."""
+    t = _skill()
+    assert "ai-inside" in t or "ai inside" in t, "deep-wire: missing the AI-inside detection"
+    for needle in ("cookbook", "agent-architect", "agent-eval"):
+        assert needle in t, f"deep-wire: AI-gated extra not wired: {needle}"
+    # gating must be EXPRESSED, not just the words present: the YES answer must trigger the three.
+    assert "ai-inside = yes" in t, "deep-wire: the three extras must be gated on AI-inside = YES, not just named"
+
+
+def test_T14_stage_map_flipped_to_v2_driven():
+    """v2: the stage map no longer says 'named only'; it carries a trigger per extra and lists agent-eval."""
+    t = STAGE_MAP.read_text(encoding="utf-8").lower()
+    assert "agent-eval" in t, "stage-resource-map missing: agent-eval"
+    assert "trigger" in t, "stage-resource-map: v2 must carry a trigger per extra"
+    assert "driven" in t, "stage-resource-map: must mark the extras as driven (v2), not named-only (v1)"
+
+
 # ---------- the SessionStart greeting hook ----------
 
 _spec = importlib.util.spec_from_file_location("conductor_greeting", scripts_dir(ROOT) / "conductor_greeting.py")

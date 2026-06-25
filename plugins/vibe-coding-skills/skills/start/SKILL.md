@@ -32,6 +32,13 @@ matters: **"What do you want to build or change?"**
 
 If the idea is vague, that's fine — say so and route into the grilling step rather than guessing.
 
+**Ask the AI-inside question now (it shapes the rest of the journey).** As soon as you know roughly
+what they're building, settle one thing early: **does the product CONTAIN AI** — an LLM feature,
+chatbot, agent, or skill (an *LLM* = the kind of AI that reads and writes language, like the one
+running this kit)? Use the same check `idea-to-app` does at its GATE 0 (`docs/ai-feature-checklist.md`).
+The answer is the **trigger** that decides three of the optional extras below — `cookbook`,
+`agent-architect`, `agent-eval` only matter if the answer is YES. Record it and move on.
+
 ## 3. Drive the journey (the stage → resource map)
 
 Walk these stages **in order**, driving the existing skills. At each stage: say what's next, **why**,
@@ -52,11 +59,35 @@ in `references/stage-resource-map.md`.
 7. **Confirm it works** → `/verify`. 8. **Check it's safe** → `/security-review`.
 9. **Save + ship** → `git-safety` (branch → PR → preview). You stop before anything goes live.
 
-**Name the optional extras at their moment** (don't force them): the **recommender** (on a fresh
-project, for setup automations), **GitMCP** (read a library's real docs before coding), **cookbook**
-(real Claude recipes if the app has AI in it), **agent-architect** (design the AI agents if it has
-AI), **agent-eval** (prove the AI's output is good). If one isn't available/connected, say so plainly
-and continue — never pretend.
+### 3a. Deep-wire the optional extras (v2)
+
+These five power-tools aren't part of the main spine — each fires only when its moment arrives. For
+**each one**, run the same steps: **trigger → availability check → consent → route in → back to the
+spine.** Don't force them; don't skip the consent. (One carve-out: `agent-architect` is already driven
+*inside* `idea-to-app` — see the note under the table — so for it, "route in" means **confirm it
+happened**, not run it again by hand.)
+
+**Availability is a LIVE check, not a guess.** Some extras are **MCP servers** (a *Model Context
+Protocol server* = a live data feed the AI plugs into — e.g. GitMCP streaming a library's real current
+docs). When connected, an MCP server's tools show up in your own tool list **this session**. So before
+offering GitMCP or cookbook, **look at whether those tools are actually loaded right now.** If they're
+not connected, **say so** plainly and continue — **never pretend** a tool ran (Principle VII).
+
+| Extra | Trigger (when it fires) | Availability check | What it does (plain English) |
+|---|---|---|---|
+| **recommender** (`claude-code-setup`) | Fresh project, at the greeting | Plugin — is it installed? | Suggests helpful setup automations for this project. |
+| **GitMCP** | About to write code against a named library (Streamlit, Supabase, the Anthropic SDK, anything) | MCP — are the `gitmcp` tools loaded this session? | Lets the AI read the library's REAL current docs, so it can't invent functions. |
+| **cookbook** | **AI-inside = YES** and building the AI part (evals, tool use, caching, sub-agents) | MCP — are the `cookbook` tools loaded this session? | Real, tested Claude recipes instead of guessed code. |
+| **agent-architect** | **AI-inside = YES**, at the plan stage | Skill — always available | Designs the AI agents (how many, which model, approval gates). |
+| **agent-eval** | **AI-inside = YES**, after the build | Skill — always available | Proves the AI's output is good + wires a CI gate. |
+
+For each: name it, say in one plain line what it is and why **now**, **check it's available**, **ask
+consent** (yes/no — anything that costs or reaches out always asks first), and only then **route in**.
+If the answer is no, or the tool isn't connected, say so and carry on with the spine. Then checkpoint.
+
+> `agent-architect` is already driven inside `idea-to-app`'s gated pipeline (its GATE 5) when
+> AI-inside = YES — so when you reach the spec/plan stage you don't re-run it by hand; you confirm it
+> happened. Naming the trigger here is so you *expect* it and explain it before it arrives.
 
 ## 4. Keep the owner in control (checkpoints)
 
@@ -76,8 +107,11 @@ the owner's manual action. Even in "just run it" mode, stop and hand those to th
 - **Say so + continue** if a resource is missing — never pretend (Principle VII).
 
 ## Later versions (see memory `conductor-roadmap`)
-v2 = deep-wire every extra (recommender/GitMCP/cookbook/agent-architect/agent-eval); v3 = full
-stack-decider; v4 = end-to-end build → bug-fix → security auto-chaining. v1 (this) = the guided spine.
+v1 = the guided spine. **v2 (this) = deep-wired extras** — each of the five is now detected by its
+trigger, availability-checked against the live session tool list, consent-asked, and routed in (see
+section 3a). v3 = full stack-decider; v4 = end-to-end build → bug-fix → security auto-chaining;
+v6 = a portable on-disk availability-prober script (deferred from v2; the live tool-list check covers
+the common case).
 
 ## For non-Claude agents
 Plain procedure — read this file and follow it; route to the matching `SKILL.md` at each stage. The
