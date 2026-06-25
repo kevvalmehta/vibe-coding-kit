@@ -1,6 +1,6 @@
 # HANDOFF — Current State
 
-_Last updated: 2026-06-22_
+_Last updated: 2026-06-25_
 
 <!-- AUTOPILOT-STATE -->
 **Autopilot — idle.** No feature in progress. Last completed: `002-token-quick-wins` (merged). Start a
@@ -54,6 +54,19 @@ both inside Claude Code. Deploy via Vercel + Supabase.
   `discovery/` note + a problem statement handed to `/speckit-specify`. Read-only; never builds.
   Method harvested from `vibe-check` (TexasBedouin, MIT), rebuilt native — repo NOT installed.
   Spec: `specs/006-discover/spec.md`.
+- **AI-quality skill** `agent-eval` (`plugins/vibe-coding-skills/skills/agent-eval`) — makes evals
+  runnable for apps that contain AI (checklist #14 + constitution **Principle VIII**). Scaffolds an
+  eval set (`evals/<feature>/` with human-readable `config.yaml` + `cases.yaml` + `feature_adapter.py`)
+  and **vendors** the runner (`eval_runner.py` + `judge-prompt.md`) into the project's `evals/` so the
+  CI gate works without the plugin installed. Runs it for a plain-English pass/fail report; grading =
+  code-based where exact (free) + cheap LLM-as-judge (Haiku, temp 0, prompt caching) for fuzzy output;
+  passing = percentage bar + critical-cases tier + borderline re-run; fails loud (exit 2 = eval broke,
+  never a false pass); cost estimate + hard cap. ONE tested runner (25 unit tests, judge mocked). **v1
+  = Standard scope** (create + run + CI gate, build-time only). Later phases: #15 after-launch live
+  monitoring and fuller trajectory evals. Spec/plan/tasks: `specs/007-agent-eval/`. Mirrored from
+  Perfecting-Coding-Spec-Kit; came from the Google *New SDLC* whitepaper gap analysis.
+- **Whitepaper gap docs** (Google's *New SDLC With Vibe Coding*, 2026): `docs/context-engineering.md`
+  + `docs/agentic-engineering-primer.md` + checklist #14/#15 + constitution Principle VIII.
 - **Planning skills (adopted from Matt Pocock, MIT — github.com/mattpocock/skills)** in `.claude/skills/`:
   `grill-me` (interrogate a plan one Q at a time), `grill-with-docs` (grill against existing code +
   a `CONTEXT.md` glossary / `docs/adr/` records), `zoom-out` (`/zoom-out`: plain map before editing),
