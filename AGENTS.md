@@ -332,6 +332,21 @@ the `vibe-check` skill (TexasBedouin, MIT) — rebuilt native, that repo was NOT
 (growth-loop finder + two-sided marketplace / cold-start) is now shipped too; it adds STEP 4.5 (the
 growth loop) and STEP 4.6 (both sides + cold-start). See `specs/006-discover/spec.md`.
 
+### Pick the stack — `/stack` (the stack-decider, Conductor v3)
+Original to this kit (`.claude/skills/stack/`). Given what the owner is building, it RECOMMENDS the
+matching "boring, proven, low-ops" stack — language / framework / database / hosting — replacing the
+kit's old one-size-fits-all default with a per-project choice. It reuses `idea-to-app`'s GATE 0
+AI-inside check to pick the AI-app row, asks the owner's **priority once** (budget / scale / simplicity
+/ speed), leads with the best-fit pick, and **still shows the other tiers** (free + pay-for-better, each
+with rough cost + benefit) plus the **one trigger** that makes each default wrong. It **honors the
+owner's own tool choice** (one honest fit note, then defers — never silent-swaps) and uses an **escape
+hatch** (clarify → `research-scout` → `/discover` → `agent-architect`) for anything outside the 7 common
+types instead of faking a default. Core knowledge: `references/stack-decision-table.md`, grounded in the
+cited `research/stack-by-project-type.md`. **Bakes in the key research correction: never host a Streamlit
+app on Vercel** (Streamlit → Streamlit Community Cloud; Vercel only for Next.js/React frontends).
+`/start` stage 4 routes into it. Recommendation-only: never scaffolds/sets up (scaffolding = v7), never
+pushes/merges/deploys. Sibling of `agent-architect` / `loop-design`.
+
 ### Ground decisions in real sources — `/research-scout`
 Original to this kit (`.claude/skills/research-scout/`). The **third research lane**: `/discover`
 researches the problem/market, GitMCP/cookbook research library APIs, and `research-scout` researches

@@ -275,6 +275,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `discover` | `/discover` — the pre-spec reality check: pain-mines real users, scores which need is most underserved, cuts V1, names your first 10 users → hands a grounded problem statement to `/speckit-specify`. Read-only |
 | `grill-me` | Interrogates a fuzzy plan one question at a time (offers `research-scout` with consent) |
 | `research-scout` | `/research-scout` — third research lane: gathers REAL, CITED prior-art (papers, repos, docs, blogs, Reddit) → a `research/<topic>.md` note + summary. Quick default + hard ceiling; consent-gated; never fabricates a source. Distinct from `/discover` (problem) + GitMCP (APIs) |
+| `stack` | `/stack` — the stack-decider (Conductor v3): recommends the matching "boring, proven" stack (language/framework/database/hosting) per project type, asks your priority once (budget/scale/simplicity/speed), shows tiered cost-labelled options (free + pay-for-better) + the wrong-choice trigger, honors your own tool choice, escape hatch for exotic builds. Encodes the Streamlit→Streamlit-Cloud (not Vercel) fix. `/start` stage 4 routes in. Recommendation-only — never scaffolds/deploys (scaffolding = v7) |
 | `grill-with-docs` | Same, against your real code + decisions (+`ADR-FORMAT.md`, `CONTEXT-FORMAT.md`) |
 | `zoom-out` | `/zoom-out` — plain-English map of how a piece of code fits |
 | `prototype` | Throwaway demo to feel out a design (+`LOGIC.md`, `UI.md`), then deleted |
