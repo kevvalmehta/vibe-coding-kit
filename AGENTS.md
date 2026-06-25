@@ -107,11 +107,15 @@ asks what they want to build in plain English, and then **drives the whole journ
 right existing skill at each stage and explaining what/why — with a **checkpoint at every stage** and an
 opt-in **"just run it" bypass**. It **NEVER** pushes/merges/deploys (both modes). It adds NO new
 pipeline: it **drives `idea-to-app` + `guide`** and weaves in `/discover`, `grill-me`, `research-scout`
-(with consent), `loop-design`, and a light stack suggestion — naming the optional extras (recommender,
-GitMCP, cookbook, agent-architect, agent-eval) at their moment. Full stage → resource map in
-`references/stage-resource-map.md`. Difference from `/guide`: guide is a "what's my next step?" router
-you call when lost; the Conductor proactively GREETS and DRIVES. v1 = the guided spine; v2 deep-wires
-the extras, v3 a full stack-decider, v4 end-to-end build→bugfix→security (spec `specs/009-conductor/`).
+(with consent), `loop-design`, and a light stack suggestion. **v2 now DEEP-WIRES the five optional
+extras** (recommender, GitMCP, cookbook, agent-architect, agent-eval): each fires on a trigger, is
+availability-checked against the live session tool list (MCP tools show up when connected;
+say-so-and-continue if not — Principle VII), consent-asked, then routed in. The **AI-inside** answer
+(reused from `idea-to-app` GATE 0) is the trigger gating cookbook + agent-architect + agent-eval. Full
+stage → resource map in `references/stage-resource-map.md` (skill §3a). Difference from `/guide`: guide
+is a "what's my next step?" router you call when lost; the Conductor proactively GREETS and DRIVES.
+v1 = the guided spine; **v2 (current) = deep-wired extras**; v3 a full stack-decider, v4 end-to-end
+build→bugfix→security, v6 a portable on-disk availability-prober (spec `specs/009-conductor/`).
 Non-Claude agents: read its `SKILL.md` and follow it.
 
 ### One honest score for the whole project — `/health`
