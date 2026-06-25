@@ -296,6 +296,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `ruff_on_edit.py` | PostToolUse hook — auto-runs `ruff check --fix` on a Python file right after it's edited (can never block an edit) |
 | `recommender_nudge.py` | SessionStart hook — offers the Claude automation recommender once per project (or when dependencies change), then stays quiet (can never block a session) |
 | `conductor_greeting.py` | SessionStart hook — offers the Conductor (`/start`) once per project, then stays quiet (can never block a session) |
+| `availability_probe.py` | Conductor v6 — portable on-disk availability check: reads `.mcp.json` + `.claude/settings.json` and reports which MCP servers + plugins (gitmcp, cookbook, the recommender) are CONFIGURED. Complements v2's in-session tool-list check; states "configured ≠ live". Stdlib, defensive (never raises) |
 | `lint-goal.py` | Lints `/goal` task-contract files |
 | `check-plan.ps1` | Plan↔build seam check — is the plan measurable / did the build match it |
 | `capture-lessons.ps1` | Stop-hook that logs candidate lessons from your corrections |

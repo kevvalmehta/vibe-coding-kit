@@ -76,6 +76,11 @@ docs). When connected, an MCP server's tools show up in your own tool list **thi
 offering GitMCP or cookbook, **look at whether those tools are actually loaded right now.** If they're
 not connected, **say so** plainly and continue — **never pretend** a tool ran (Principle VII).
 
+**Portable fallback (v6):** if you can't see the in-session tool list (e.g. another AI tool), run
+`python scripts/availability_probe.py` for an on-disk check of which MCP servers + plugins are
+**configured** in `.mcp.json` / `.claude/settings.json`. Caveat: "configured" ≠ "responding live" — the
+in-session tool list is the truth about live state; the prober is the portable complement.
+
 | Extra | Trigger (when it fires) | Availability check | What it does (plain English) |
 |---|---|---|---|
 | **recommender** (`claude-code-setup`) | Fresh project, at the greeting | Plugin — is it installed? | Suggests helpful setup automations for this project. |

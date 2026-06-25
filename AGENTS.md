@@ -114,9 +114,13 @@ say-so-and-continue if not — Principle VII), consent-asked, then routed in. Th
 (reused from `idea-to-app` GATE 0) is the trigger gating cookbook + agent-architect + agent-eval. Full
 stage → resource map in `references/stage-resource-map.md` (skill §3a). Difference from `/guide`: guide
 is a "what's my next step?" router you call when lost; the Conductor proactively GREETS and DRIVES.
-v1 = the guided spine; **v2 (current) = deep-wired extras**; v3 a full stack-decider, v4 end-to-end
-build→bugfix→security, v6 a portable on-disk availability-prober (spec `specs/009-conductor/`).
-Non-Claude agents: read its `SKILL.md` and follow it.
+v1 = the guided spine; v2 = deep-wired extras; v3 = `/stack`; v4 = `/ship` (build auto-chaining);
+**v6 (shipped) = the availability-prober** `scripts/availability_probe.py` — a portable on-disk check
+that reads `.mcp.json` + `.claude/settings.json` and reports which MCP servers + plugins (gitmcp,
+cookbook, the recommender) are CONFIGURED; the cross-tool complement to v2's in-session tool-list check
+(states "configured ≠ live"), referenced from `/start` §3a + `/stack`. v5 (live monitoring + LLM-judge)
+and v7 (stack scaffolding) remain (spec `specs/009-conductor/`). Non-Claude agents: read its `SKILL.md`
+and follow it; run the prober with `python scripts/availability_probe.py`.
 
 ### One honest score for the whole project — `/health`
 The `health` skill (`.claude/skills/health`) answers "how healthy is this project right now?" with a
