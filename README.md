@@ -272,7 +272,8 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `agent-eval` | `/agent-eval` — makes AI evals runnable: scaffolds an eval set (cases + rubric + passing bar), runs it for a plain-English pass/fail report, wires an automatic CI gate (+`assets/eval_runner.py` tested runner, `assets/eval_set_template/`, `references/judge-prompt.md`). Implements checklist #14 + constitution Principle VIII |
 | `goal` | Turns a vague ask into a task contract (outcome + verification + stop rules) |
 | `discover` | `/discover` — the pre-spec reality check: pain-mines real users, scores which need is most underserved, cuts V1, names your first 10 users → hands a grounded problem statement to `/speckit-specify`. Read-only |
-| `grill-me` | Interrogates a fuzzy plan one question at a time |
+| `grill-me` | Interrogates a fuzzy plan one question at a time (offers `research-scout` with consent) |
+| `research-scout` | `/research-scout` — third research lane: gathers REAL, CITED prior-art (papers, repos, docs, blogs, Reddit) → a `research/<topic>.md` note + summary. Quick default + hard ceiling; consent-gated; never fabricates a source. Distinct from `/discover` (problem) + GitMCP (APIs) |
 | `grill-with-docs` | Same, against your real code + decisions (+`ADR-FORMAT.md`, `CONTEXT-FORMAT.md`) |
 | `zoom-out` | `/zoom-out` — plain-English map of how a piece of code fits |
 | `prototype` | Throwaway demo to feel out a design (+`LOGIC.md`, `UI.md`), then deleted |
@@ -318,6 +319,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `005-inventory-coverage-gate/` | Spec for the README completeness CI gate |
 | `006-discover/` | Spec for the `/discover` pre-spec validation skill |
 | `007-agent-eval/` | Full spec/plan/tasks/research/data-model/quickstart/contracts for the `/agent-eval` skill |
+| `008-research-scout/` | Spec/plan/tasks/research for the `/research-scout` cited prior-art research skill |
 
 ### Tests — `tests/`
 | File | Covers |
@@ -331,6 +333,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `test_recommender_nudge.py` | Recommender-nudge SessionStart hook |
 | `test_token_quick_wins.py` | Token-quick-wins doc guard |
 | `test_eval_runner.py` | agent-eval runner core (judge mocked): scoring, critical tier, borderline re-run, cost cap, exit codes, injection framing |
+| `test_research_scout.py` | research-scout skill guard: required rules in SKILL.md + references + registration |
 
 ### Docs — `docs/`
 | Path | What it's for |
