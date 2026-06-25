@@ -259,6 +259,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 ### Skills — `.claude/skills/` (run inside Claude Code; mirrored in `.agents/skills/` for other AI tools)
 | Skill | What it's for |
 |---|---|
+| `start` | **The Conductor** — `/start`: proactive front-door mentor. Greets you, asks what you want, and DRIVES the whole build in plain English, routing to the right skill at each step (drives `idea-to-app` + `guide`; weaves in discover/grill-me/research-scout/loop-design/stack suggestion). Checkpoints + "just run it" bypass; never pushes/merges/deploys. Greets once per project |
 | `guide` | The mentor/router — `/guide`: "where am I, what's next, which skill?" |
 | `idea-to-app` | Guardrail — walks every gate for a new build, refuses to skip |
 | `safe-change` | Guardrail — regression-safe edits to existing code |
@@ -292,6 +293,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `tdd_guard.py` | The TDD-Guard enforcement hook (blocks code before a failing test exists) |
 | `ruff_on_edit.py` | PostToolUse hook — auto-runs `ruff check --fix` on a Python file right after it's edited (can never block an edit) |
 | `recommender_nudge.py` | SessionStart hook — offers the Claude automation recommender once per project (or when dependencies change), then stays quiet (can never block a session) |
+| `conductor_greeting.py` | SessionStart hook — offers the Conductor (`/start`) once per project, then stays quiet (can never block a session) |
 | `lint-goal.py` | Lints `/goal` task-contract files |
 | `check-plan.ps1` | Plan↔build seam check — is the plan measurable / did the build match it |
 | `capture-lessons.ps1` | Stop-hook that logs candidate lessons from your corrections |
@@ -320,6 +322,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `006-discover/` | Spec for the `/discover` pre-spec validation skill |
 | `007-agent-eval/` | Full spec/plan/tasks/research/data-model/quickstart/contracts for the `/agent-eval` skill |
 | `008-research-scout/` | Spec/plan/tasks/research for the `/research-scout` cited prior-art research skill |
+| `009-conductor/` | Spec/plan/tasks/research for the `/start` Conductor (proactive front-door mentor) |
 
 ### Tests — `tests/`
 | File | Covers |
@@ -334,6 +337,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `test_token_quick_wins.py` | Token-quick-wins doc guard |
 | `test_eval_runner.py` | agent-eval runner core (judge mocked): scoring, critical tier, borderline re-run, cost cap, exit codes, injection framing |
 | `test_research_scout.py` | research-scout skill guard: required rules in SKILL.md + references + registration |
+| `test_conductor.py` | Conductor `/start` guard: SKILL.md behaviors + stage-resource map + greeting-hook fire-once |
 
 ### Docs — `docs/`
 | Path | What it's for |

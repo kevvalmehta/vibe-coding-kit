@@ -100,6 +100,20 @@ the user's intent to the right skill and STOPS them if they skip a step (e.g. co
 full plain-English "which skill for which moment" map is in **`SKILL-MAP.md`** at the repo root (readable
 by any AI tool). For non-Claude agents: when the user seems unsure, consult `SKILL-MAP.md` and route them.
 
+### The front door — `/start` (the Conductor)
+The `start` skill (`.claude/skills/start/`) is the proactive front-door MENTOR for a non-technical
+owner who'd rather be guided than know which skill to run. It greets, states its capabilities + limits,
+asks what they want to build in plain English, and then **drives the whole journey** — routing to the
+right existing skill at each stage and explaining what/why — with a **checkpoint at every stage** and an
+opt-in **"just run it" bypass**. It **NEVER** pushes/merges/deploys (both modes). It adds NO new
+pipeline: it **drives `idea-to-app` + `guide`** and weaves in `/discover`, `grill-me`, `research-scout`
+(with consent), `loop-design`, and a light stack suggestion — naming the optional extras (recommender,
+GitMCP, cookbook, agent-architect, agent-eval) at their moment. Full stage → resource map in
+`references/stage-resource-map.md`. Difference from `/guide`: guide is a "what's my next step?" router
+you call when lost; the Conductor proactively GREETS and DRIVES. v1 = the guided spine; v2 deep-wires
+the extras, v3 a full stack-decider, v4 end-to-end build→bugfix→security (spec `specs/009-conductor/`).
+Non-Claude agents: read its `SKILL.md` and follow it.
+
 ### One honest score for the whole project — `/health`
 The `health` skill (`.claude/skills/health`) answers "how healthy is this project right now?" with a
 single 0–100 score across 12 things that matter (plan-before-code, tests pass, tests mean something,
@@ -254,6 +268,15 @@ than once per project.
 - After firing it writes `.claude/.recommender-nudged` (git-ignored) and stays quiet on later sessions.
 - It only injects a one-line OFFER; it never runs the recommender unprompted and can never block a session.
 - Deterministic detection in stdlib Python; the nudge text is injected via SessionStart `additionalContext`.
+
+### Conductor-greeting (proactive front-door offer)
+A `SessionStart` hook (`conductor_greeting.py`, registered in the plugin's `hooks/hooks.json`) that
+offers the Conductor (`/start`) once per project — a one-line "say start and I'll guide you" offer,
+then a marker (`.claude/.conductor-greeted`, git-ignored) keeps it quiet after. Deterministic stdlib;
+only injects an OFFER; never launches the Conductor unprompted; never blocks. Coexists with
+recommender-nudge (both marker-deduped one-liners). **Manual fallback (Principle VI — Claude-only
+hook):** in a non-Claude agent, when a project opens, tell the owner they can say "start" to be guided
+— see `.claude/skills/start/SKILL.md`.
 
 ### Git safety (version control)
 Never work on `main` directly — branch/worktree per change, merge via PR. Commit small + push often

@@ -34,7 +34,8 @@ the build. (Covers the spec→tasks→checks middle of the order above; you stil
 
 | When you're… | Use | What it does |
 |---|---|---|
-| Lost / "what do I do now?" | **`/guide`** | Tells you your stage + the exact next skill |
+| New / "just guide me through building" | **`/start`** (the Conductor) | The proactive front-door mentor: greets you, asks what you want, and DRIVES the whole journey in plain English — routing to the right skill at each step (drives `idea-to-app` + `guide`, weaves in discover / grill-me / research-scout / loop-design / a light stack suggestion), checkpoint at every stage, opt-in "just run it" bypass. Never pushes/merges/deploys. Greets once per project automatically |
+| Lost / "what do I do now?" | **`/guide`** | Tells you your stage + the exact next skill (the Conductor calls this under the hood) |
 | "What shape is this in? / safe to ship?" | **`/health`** | One 0–100 score across 12 checks + a plain-English ledger of what cost points and how to fix it |
 | "What's actually worth fixing?" (existing code, deep) | **`/audit`** | Reads the repo, finds + verifies the highest-leverage issues across 9 categories, writes ready-to-run briefs routed to `safe-change`/`/speckit-specify`/`autopilot`. The deep follow-on to `/health`. Read-only; stops before push/merge/deploy |
 | Want the whole planning flow run for you | **`autopilot`** | Runs specify→clarify→plan→tasks→checks, stops for "go" each step; never pushes/merges |
