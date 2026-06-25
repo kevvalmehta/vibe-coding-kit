@@ -269,6 +269,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `lean-review` | `/lean-review` — over-engineering check on JUST your current changes; lists what to cut + the simpler swap |
 | `lean-debt` | `/lean-debt` — harvests every `shortcut:` comment into a ledger (what was simplified, when to revisit) |
 | `autopilot` | Runs specify→clarify→plan→tasks→checks as one guided flow (+`references/`: gates, parallel-plan, prepr-checks) |
+| `ship` | `/ship` — build auto-chaining (Conductor v4): the post-plan counterpart of autopilot. Drives build (tests first) → `/verify` → a safe bug-fix loop → `/security-review`, ending at a green, reviewed branch (+`references/bug-fix-loop.md`). Fix loop has anti-cheat guardrails (test files read-only, every fix diff-checked) + a multi-exit STOP (3 attempts / no-progress / cheat-detected). Refuses to build with no plan; never pushes/merges/deploys. `/start` build stage routes in |
 | `agent-architect` | Proposes the agent design for apps that contain AI (+`references/decision-routine.md`) |
 | `agent-eval` | `/agent-eval` — makes AI evals runnable: scaffolds an eval set (cases + rubric + passing bar), runs it for a plain-English pass/fail report, wires an automatic CI gate (+`assets/eval_runner.py` tested runner, `assets/eval_set_template/`, `references/judge-prompt.md`). Implements checklist #14 + constitution Principle VIII |
 | `goal` | Turns a vague ask into a task contract (outcome + verification + stop rules) |

@@ -56,9 +56,11 @@ in `references/stage-resource-map.md`.
    choice. (`/stack` is recommend-only — it never sets anything up.)
 5. **Write the spec + plan + tasks** → the `/speckit-*` steps (this is `idea-to-app`'s gated spine —
    drive it, don't rebuild it).
-6. **Build it** → Superpowers (tests first, isolated copy, fresh-eyes review).
-7. **Confirm it works** → `/verify`. 8. **Check it's safe** → `/security-review`.
-9. **Save + ship** → `git-safety` (branch → PR → preview). You stop before anything goes live.
+6. **Build it (the whole build phase)** → route into **`/ship`** (the build auto-chainer): it drives
+   build (tests first, Superpowers) → confirm it works (`/verify`) → fix failing tests in a safe loop
+   (anti-cheat guardrails + a 3-attempt/no-progress STOP) → harden security (`/security-review`), and
+   ends at a green, reviewed branch. `/ship` never pushes/merges/deploys.
+7. **Save + ship** → `git-safety` (branch → PR → preview). You stop before anything goes live.
 
 ### 3a. Deep-wire the optional extras (v2)
 
