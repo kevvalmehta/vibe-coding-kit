@@ -89,9 +89,25 @@ and a cheap LLM-as-judge (Haiku, temperature 0, prompt caching) for fuzzy output
 percentage bar + a critical-cases tier, with a borderline re-run to tame non-determinism. Fails loud
 (exit 2 = eval broke, never a false pass), shows a cost estimate, honors a hard `cost_cap_usd`. The
 runner is shipped in the plugin at `skills/agent-eval/assets/eval_runner.py` (unit-tested with the
-judge mocked in `skills/agent-eval/tests/`). v1 = build-time evals; after-launch live monitoring (#15)
-and fuller trajectory evals are named later phases. Pairs with `agent-architect`. Non-Claude agents:
+judge mocked in `skills/agent-eval/tests/`). v1 = build-time evals; after-launch live monitoring is now
+**`/monitor`** (see below). Pairs with `agent-architect`. Non-Claude agents:
 read its `SKILL.md` and run the vendored Python runner directly — nothing is Claude-only.
+
+### Watch a LIVE app's AI output for drift — `/monitor` (Conductor v5)
+Original to this kit (`.claude/skills/monitor/` + `scripts/monitor_sample.py`). The **post-launch half
+of Principle VIII** (and the deferred **#15** from agent-eval): after an AI app is deployed, it samples
+recent real outputs and grades them against the **same agent-eval rubric** to catch **drift** (the AI
+getting worse over time). It **reuses agent-eval's tested `eval_runner`** — no new judge engine
+(Principle V): `monitor_sample.py` takes a batch of logged `(input, output)` records + the rubric and
+returns a DRIFT verdict (pct-passed vs the bar, failing case ids), with the judge `transport` injected
+so it's unit-tested with a mock. It **fails loud** (exit 2 on a grading error, never a false "all good")
+and is **honest about infra**: the live log + scheduled run need a DEPLOYED app, so the skill documents
+a **switch-on recipe** (a Supabase log table capturing each AI input+output → a GitHub Actions **cron**
+that samples recent rows and runs `monitor_sample.py` → an **alert** on drift) rather than faking a live
+integration — if no app is deployed, it says so and points to the recipe (Principle VII). The same judge
+can optionally double-check `/ship` fixes (heavier anti-cheat; `/ship`'s deterministic diff-check covers
+the common case). **Non-Claude fallback:** run `python scripts/monitor_sample.py <records.json>
+<config.json>`; the live wiring is the deploy-time recipe. Registered in README + SKILL-MAP; both repos.
 
 ### Not sure what to do? Run `/guide` (the mentor / router)
 The `guide` skill (`.claude/skills/guide`) reads where the project is (HANDOFF, `specs/`, git) and tells
