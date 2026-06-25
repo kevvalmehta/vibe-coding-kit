@@ -39,3 +39,6 @@ Thumbs.db
 
 # Recommender-nudge marker — per-machine "already offered here" state, not shared
 .claude/.recommender-nudged
+
+# Conductor greeting marker — per-machine "already greeted here" state, not shared
+.claude/.conductor-greeted
