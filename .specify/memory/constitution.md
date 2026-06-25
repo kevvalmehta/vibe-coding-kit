@@ -74,11 +74,23 @@ never checked is the failure this kit most guards against. The agent must:
 - **Re-ground after summarization / at session start** before any state claim: re-run git status,
   git log -1, and the relevant tests. A summary is memory, not proof.
 
+### VIII. Verify AI Output — Tests for Logic, Evals for AI (applies to AI-inside features)
+For any feature that contains an LLM (AI inside the product), tests alone are not enough.
+Tests cover the **deterministic** parts (fixed input → fixed correct output). **Evals** (scored
+evaluations against a written rubric) cover the **non-deterministic** AI output (no single right
+answer) — covering both **output quality** (was the answer good?) and **trajectory** (did it reach
+the answer for sound reasons — right tools, right order?). **Set the bar at the eval, not the
+demo:** a demo proves it worked once; an eval suite proves it works reliably — decide the passing
+bar in the spec. After launch, watch the live AI (logs, traces, drift, LLM-as-judge sampling) so
+silent decline is caught. Plain apps with no LLM inside need only Principle II. Detail:
+`docs/ai-feature-checklist.md` (#14, #15) and `docs/context-engineering.md`.
+
 ## Quality Gates (must all pass before "done")
 1. Spec + plan approved, and the plan passes the seam check — `scripts\check-plan.ps1` when the plan
    is written (every Independent Test measurable, no scaffolding left), and `scripts\check-plan.ps1 -Gate`
    before merge (no unchecked tasks, no vague tests). The script decides plan↔build match, not the agent's word.
-2. Tests written and passing (unit + integration for new contracts).
+2. Tests written and passing (unit + integration for new contracts). For AI-inside features, evals
+   also written and meeting their passing bar (Principle VIII) — tests alone don't prove AI output.
 3. Full existing test suite still green — no regressions.
 4. Security review clean — inputs validated, no secrets in code, RLS on.
 5. Plain-English errors for end users — no raw stack traces shown.
@@ -111,4 +123,4 @@ and run each entry's self-check; mistakes worth never repeating get logged there
 is promoted into a Principle here when it earns it.
 Amendments: edit this file (or run `/speckit-constitution`), bump the version, note the date.
 
-**Version**: 1.6.0 | **Ratified**: 2026-06-06 | **Last Amended**: 2026-06-19
+**Version**: 1.7.0 | **Ratified**: 2026-06-06 | **Last Amended**: 2026-06-25

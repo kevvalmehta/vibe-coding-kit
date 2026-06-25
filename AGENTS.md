@@ -57,6 +57,15 @@ At intake, ALWAYS state whether the product contains AI (an LLM feature, chatbot
 or skill). If YES: walk **`docs/ai-feature-checklist.md`** (12-Factor Agents, plain English) during
 the **specify** and **plan** stages — record each of its 13 decisions (or why one doesn't apply) in
 the spec/plan. It also tells you when to use Claude Managed Agents vs the plain Messages API.
+The same file adds two checks from Google's *New SDLC* whitepaper that tests alone can't cover:
+**#14 Evals** (score the AI's fuzzy output against a rubric — output + trajectory; set the bar at the
+eval, not the demo) and **#15 Watch it after launch** (logs/traces/drift/LLM-as-judge). These are
+constitution **Principle VIII** (verify AI output) — a hard rule for AI-inside features, not optional.
+Also do **context engineering** at the plan stage — decide exactly what the AI sees each turn — using
+**`docs/context-engineering.md`** (6 context types, static vs dynamic, progressive disclosure, review
+context boundaries in the PR). Background: **`docs/agentic-engineering-primer.md`** (verification
+spectrum, the 80% problem, conductor vs orchestrator, the cost curve + model routing, MCP/A2A). To
+actually build and run those evals, use the **`/agent-eval`** skill (see its section below).
 If NO (ordinary app, no LLM inside): skip the checklist. This applies to EVERY agent (Claude Code,
 Codex, Gemini, Cursor, …) — in Claude Code it is enforced by `idea-to-app` GATE 0/3/5; other agents
 follow this paragraph.
@@ -68,6 +77,21 @@ work → cheap Haiku), managed-agent vs Messages API (suggested with a reason �
 human-approval gates, the 13 checklist boxes pre-filled, and a diagram. It is recommendation-only (no
 code-gen in v1) and grills the design by default. Non-Claude agents: read its `SKILL.md` and follow it.
 For non-AI apps it declines.
+
+**Verify AI output — `agent-eval`:** for AI-inside apps, run the `agent-eval` skill
+(`skills/agent-eval/SKILL.md`) to make evals runnable (checklist #14, constitution Principle VIII).
+It scaffolds an eval set in the project's `evals/<feature>/` (human-readable `config.yaml` +
+`cases.yaml` + a `feature_adapter.py` stub) and **vendors the runner** (`eval_runner.py` +
+`judge-prompt.md`) into `evals/` so the project is self-contained and CI works without the plugin
+installed. It runs the set for a plain-English pass/fail report and wires an automatic CI gate
+(sample on PR, full on merge). Grading is code-based where an exact answer exists (free, deterministic)
+and a cheap LLM-as-judge (Haiku, temperature 0, prompt caching) for fuzzy output; passing = a
+percentage bar + a critical-cases tier, with a borderline re-run to tame non-determinism. Fails loud
+(exit 2 = eval broke, never a false pass), shows a cost estimate, honors a hard `cost_cap_usd`. The
+runner is shipped in the plugin at `skills/agent-eval/assets/eval_runner.py` (unit-tested with the
+judge mocked in `skills/agent-eval/tests/`). v1 = build-time evals; after-launch live monitoring (#15)
+and fuller trajectory evals are named later phases. Pairs with `agent-architect`. Non-Claude agents:
+read its `SKILL.md` and run the vendored Python runner directly — nothing is Claude-only.
 
 ### Not sure what to do? Run `/guide` (the mentor / router)
 The `guide` skill (`.claude/skills/guide`) reads where the project is (HANDOFF, `specs/`, git) and tells
@@ -326,6 +350,10 @@ Confirm understanding in plain English before any code.
    in the SAME message. No ungrounded assumptions or invented names/numbers/paths. Label uncertainty;
    say "I don't know" or "unverified" rather than guess confidently. Re-ground (git status, git log -1,
    tests) after any context summarization or at session start before claiming state.
+8. Verify AI output (Principle VIII) — for AI-inside features, tests alone aren't enough: add EVALS
+   (score fuzzy AI output against a rubric — output + trajectory; set the bar at the eval, not the demo)
+   and watch the live AI after launch (logs/traces/drift/LLM-as-judge). Plain apps with no LLM need only
+   tests. See `docs/ai-feature-checklist.md` #14/#15 + `docs/context-engineering.md` + run `/agent-eval`.
 
 ## Note on the "Awesome AI Dev" list
 It is a **reference library**, not an automatic step. Brainstorming/questions come from Superpowers
