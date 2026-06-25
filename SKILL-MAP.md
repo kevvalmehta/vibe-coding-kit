@@ -41,7 +41,8 @@ the build. (Covers the spec→tasks→checks middle of the order above; you stil
 | Your ask is vague / you want guardrails up front | **`/goal`** | Turns it into a task contract: outcome + concrete verification + what-not-to-touch + when-to-stop-and-ask; then routes you to `/speckit-specify` (or runs as-is if tiny) |
 | Starting any new idea (even vague) | **`idea-to-app`** | Walks intake → … → ship, won't let you skip a step |
 | Have an idea — is it worth building? | **`/discover`** | Pain-mines real users (Reddit + paid-tool reviews), scores which need is most underserved (ODI), cuts V1, names your first 10 users → grounded problem statement for `/speckit-specify`. Runs before the spec; read-only. Never fabricates evidence |
-| Pinning down a fuzzy plan | **`grill-me`** | Interviews you one question at a time until it's solid |
+| Pinning down a fuzzy plan | **`grill-me`** | Interviews you one question at a time until it's solid (offers `research-scout` with your consent when evidence beats a guess) |
+| "How do others BUILD this? what stack/pattern fits?" | **`/research-scout`** | The third research lane: gathers REAL, CITED evidence (papers, repos, docs, blogs, Reddit) → a `research/<topic>.md` note + plain-English summary. Standalone or consent-offered by grill-me/plan/conductor. Quick default + hard ceiling; advises when deeper is worth it; never fabricates a source. Distinct from `/discover` (problem) + GitMCP (library APIs) |
 | Same, but extending existing code | **`grill-with-docs`** | Grills against your real code + decisions |
 | Unsure how a piece of code fits | **`/zoom-out`** | Plain-English map before you touch it |
 | Want to try a design before committing | **`prototype`** | Throwaway demo to feel it out, then deleted |

@@ -24,6 +24,12 @@ Ask the questions **one at a time**. Wait for the answer before asking the next.
 If a question can be answered by exploring the codebase, explore the codebase instead of
 asking.
 
+If a question would be answered better with **real evidence** than your memory (e.g. "what stack do
+similar apps use?", "how do others build this?"), OFFER to run the **`research-scout`** skill first —
+*"Want me to research this before I recommend? (yes/no)"* — and run it only on **yes** (the consent
+gate; the owner controls cost/time). Fold its cited findings into your recommended answer. On **no**,
+continue.
+
 When the decision tree is resolved, summarize everything you covered in plain English.
 
 ## Fit with this project
