@@ -368,7 +368,23 @@ types instead of faking a default. Core knowledge: `references/stack-decision-ta
 cited `research/stack-by-project-type.md`. **Bakes in the key research correction: never host a Streamlit
 app on Vercel** (Streamlit → Streamlit Community Cloud; Vercel only for Next.js/React frontends).
 `/start` stage 4 routes into it. Recommendation-only: never scaffolds/sets up (scaffolding = v7), never
-pushes/merges/deploys. Sibling of `agent-architect` / `loop-design`.
+pushes/merges/deploys. Sibling of `agent-architect` / `loop-design`. **Hands off to `/scaffold`** to
+create the starter files.
+
+### Scaffold the starter — `/scaffold` (Conductor v7)
+Original to this kit (`.claude/skills/scaffold/` + `scripts/scaffold_stack.py`). The **doer companion to
+`/stack`**: turns a chosen stack into a **minimal, runnable starter** (Option 1) so an empty folder
+becomes something that runs locally. Supported stack keys: `streamlit`, `fastapi`, `python-script`
+(runnable Python skeletons) and `nextjs`, `static-site` (safe files + a README pointing at the official
+creator). Each starter has a dependency/marker file, an entry file (Python stacks), `.gitignore`,
+`.env.example`, and a `README.md` with **how to run it + "How to put this live"** naming the matching
+host. **HARD GUARANTEES:** it **NEVER overwrites** an existing file (creates only what's missing, reports
+skips), **declines** an unknown/non-scaffoldable stack instead of writing a wrong skeleton (Principle
+VII), and **NEVER pushes/merges/deploys** — going live stays the owner's manual `git-safety` → host
+step. The owner grows the app afterward via the kit's build flow (`/safe-change`, `/start` / `/ship`) —
+richness is built-to-fit, not a guessed template (richer templates = a possible v7.5). **Non-Claude
+fallback:** run `python scripts/scaffold_stack.py <stack> <target>` and relay created-vs-skipped.
+Registered in README + SKILL-MAP; ships to both repos.
 
 ### Ground decisions in real sources — `/research-scout`
 Original to this kit (`.claude/skills/research-scout/`). The **third research lane**: `/discover`
