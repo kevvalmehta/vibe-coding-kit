@@ -277,6 +277,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `grill-me` | Interrogates a fuzzy plan one question at a time (offers `research-scout` with consent) |
 | `research-scout` | `/research-scout` — third research lane: gathers REAL, CITED prior-art (papers, repos, docs, blogs, Reddit) → a `research/<topic>.md` note + summary. Quick default + hard ceiling; consent-gated; never fabricates a source. Distinct from `/discover` (problem) + GitMCP (APIs) |
 | `stack` | `/stack` — the stack-decider (Conductor v3): recommends the matching "boring, proven" stack (language/framework/database/hosting) per project type, asks your priority once (budget/scale/simplicity/speed), shows tiered cost-labelled options (free + pay-for-better) + the wrong-choice trigger, honors your own tool choice, escape hatch for exotic builds. Encodes the Streamlit→Streamlit-Cloud (not Vercel) fix. `/start` stage 4 routes in. Recommendation-only — never scaffolds/deploys (scaffolding = v7) |
+| `scaffold` | `/scaffold` — stack scaffolding (Conductor v7): the doer companion to `/stack`. Turns the chosen stack into a MINIMAL runnable starter in a folder (dependency file, hello-world entry, `.gitignore`, `.env.example`, a README with run + "put this live" notes) via `scripts/scaffold_stack.py`. NEVER overwrites an existing file; declines stacks it can't scaffold; never deploys. Grow it after with `/safe-change` / `/start` / `/ship` |
 | `grill-with-docs` | Same, against your real code + decisions (+`ADR-FORMAT.md`, `CONTEXT-FORMAT.md`) |
 | `zoom-out` | `/zoom-out` — plain-English map of how a piece of code fits |
 | `prototype` | Throwaway demo to feel out a design (+`LOGIC.md`, `UI.md`), then deleted |
@@ -297,6 +298,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `recommender_nudge.py` | SessionStart hook — offers the Claude automation recommender once per project (or when dependencies change), then stays quiet (can never block a session) |
 | `conductor_greeting.py` | SessionStart hook — offers the Conductor (`/start`) once per project, then stays quiet (can never block a session) |
 | `availability_probe.py` | Conductor v6 — portable on-disk availability check: reads `.mcp.json` + `.claude/settings.json` and reports which MCP servers + plugins (gitmcp, cookbook, the recommender) are CONFIGURED. Complements v2's in-session tool-list check; states "configured ≠ live". Stdlib, defensive (never raises) |
+| `scaffold_stack.py` | Conductor v7 — minimal stack scaffolder: given a stack key + target folder, writes a small runnable starter (deps, hello-world entry, `.gitignore`, `.env.example`, README with run + deploy notes). NEVER overwrites existing files; declines unknown stacks; stdlib, defensive. Driven by the `/scaffold` skill |
 | `lint-goal.py` | Lints `/goal` task-contract files |
 | `check-plan.ps1` | Plan↔build seam check — is the plan measurable / did the build match it |
 | `capture-lessons.ps1` | Stop-hook that logs candidate lessons from your corrections |

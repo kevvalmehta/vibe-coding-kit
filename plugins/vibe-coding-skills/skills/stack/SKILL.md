@@ -80,8 +80,12 @@ computer, a real operating system, anything exotic), do **NOT** invent a confide
 
 ## 6. Hand off
 
-Once the owner picks, summarize the chosen stack in plain English and hand back to the build step
-(`/speckit-plan` → build). You do **not** set anything up — recommendation only.
+Once the owner picks, summarize the chosen stack in plain English. You do **not** set anything up —
+recommendation only. Then offer the next step:
+- **Create the starter files** → hand off to **`/scaffold`** (Conductor v7): it turns the chosen stack
+  into a minimal, runnable starter in a folder (never overwriting anything). Supported:
+  `streamlit`, `fastapi`, `python-script`, `nextjs`, `static-site`.
+- **Or go straight to planning/building** → `/speckit-plan` → `/ship`.
 
 ## Hard rules
 
