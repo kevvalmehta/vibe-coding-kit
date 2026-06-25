@@ -19,6 +19,11 @@ Your core knowledge is `references/stack-decision-table.md` (the 7 project-type 
 escape-hatch lane), grounded in the cited research at `research/stack-by-project-type.md`. Don't invent
 stack facts — if you're unsure, offer to run `research-scout` rather than guess (Principle VII).
 
+Before suggesting an optional resource that depends on an MCP server (e.g. GitMCP for a library's real
+docs), check it's available the same way `/start` does — the in-session tool list, or the portable
+`python scripts/availability_probe.py` (which reads `.mcp.json` / `.claude/settings.json`; "configured"
+≠ "responding live"). Say so and continue if it isn't there — never pretend.
+
 ## 1. Identify what they're building
 
 Work out which project type it is (from the owner's words; ask one quick question if it's ambiguous):
