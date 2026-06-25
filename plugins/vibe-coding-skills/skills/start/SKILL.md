@@ -50,9 +50,10 @@ in `references/stage-resource-map.md`.
    guess, OFFER **`research-scout`** first — *"want me to research how others do this? (yes/no)"* —
    and fold the cited findings in (consent gate; never auto-run).
 3. **Decide how the build runs** → `loop-design` (once / repeat-until-right / split helpers / steps).
-4. **What to build it with** → a **light stack suggestion**: a sensible default (the kit's
-   Python/Streamlit/Supabase/Vercel, nudged by project type) + a one-line "why". Say the full
-   stack-decider is a later version.
+4. **What to build it with** → route into **`/stack`** (the stack-decider): it asks the owner's
+   priority once (budget / scale / simplicity / speed), then recommends the matching "boring, proven"
+   stack with tiered, cost-labelled options (free + pay-for-better) and honors the owner's own tool
+   choice. (`/stack` is recommend-only — it never sets anything up.)
 5. **Write the spec + plan + tasks** → the `/speckit-*` steps (this is `idea-to-app`'s gated spine —
    drive it, don't rebuild it).
 6. **Build it** → Superpowers (tests first, isolated copy, fresh-eyes review).

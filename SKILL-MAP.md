@@ -50,6 +50,7 @@ the build. (Covers the spec→tasks→checks middle of the order above; you stil
 | Writing what the app should do | **`/speckit-specify`** | Creates the spec |
 | Spec feels unclear | **`/speckit-clarify`** | Targeted questions, answers folded back in |
 | Deciding the architecture | **`/speckit-plan`** | The "how" |
+| "What should I build it with?" / which stack | **`/stack`** (the stack-decider, Conductor v3) | Recommends the matching "boring, proven" stack (language/framework/database/hosting) per project type, asks your priority once (budget/scale/simplicity/speed) then shows tiered, cost-labelled options (free + pay-for-better) + the trigger that makes each default wrong. Honors your own tool choice; escape hatch for exotic builds. Encodes the Streamlit→Streamlit-Cloud-not-Vercel fix. `/start` stage 4 routes in. Recommendation-only — never scaffolds/deploys (scaffolding = v7) |
 | Breaking work into steps | **`/speckit-tasks`** | Small testable tasks |
 | Changing / fixing / editing existing code | **`safe-change`** | Impact map → tests → isolate → review |
 | "Did I over-build what I just changed?" | **`/lean-review`** | Looks only at your current changes, lists what to cut (dead code, reinvented built-ins, single-use abstractions) + the simpler replacement. The fast, narrow follow-on to `/audit`. Read-only |
