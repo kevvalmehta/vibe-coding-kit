@@ -237,6 +237,25 @@ stop-at-every-step gate BY HAND; run the PLAN candidates and the PRE-PR checks S
 slower) and say so. Resume by reading the `AUTOPILOT-STATE` block in `HANDOFF.md` (or run
 `python scripts/autopilot_state.py`). This is the LLM-portable contract for the skill.
 
+### Want the whole BUILD run for you? Use `/ship` (build auto-chaining, Conductor v4)
+The `ship` skill (`.claude/skills/ship/`) is the **post-plan counterpart of `autopilot`**: where
+autopilot chains the *planning* phase, `/ship` chains the *build* phase end-to-end for a non-technical
+owner. Fixed order: **gate (refuse if no approved plan) → build tests-first (Superpowers) → `/verify` →
+bug-fix loop (if red) → `/security-review` → hand off a green, reviewed branch.** It **drives existing
+skills** (Superpowers, `/verify`, `systematic-debugging`, `/security-review`, `git-safety`) — no new
+build/debug engine (Principle V). The **bug-fix loop** is the safety-critical piece, grounded in
+`research/self-healing-loop-safety.md`: it fixes **one failing test per pass** with the real test output
+fed back; treats **test files as read-only** (fixes touch source only); **diff-checks every fix** and
+**rejects + escalates immediately** any cheat (a fix that edits/skips a test, hardcodes the expected
+value, or weakens an assertion — never counted as a pass, enforcing constitution Principle II
+mechanically); confirms **"green" by an independent full-suite run**, never a self-report; and **STOPS**
+on any of **3 attempts / no-progress / cheat-detected / budget exhausted**, handing back a plain-English
+summary. Checkpoints by default + opt-in **"just run it"** bypass (which never relaxes the STOP, the
+anti-cheat guardrails, or the wall). **NEVER pushes/merges/deploys** — ends at a green reviewed branch.
+`/start`'s build stage routes into it; reference `references/bug-fix-loop.md`. **Non-Claude fallback:**
+follow `SKILL.md` + `bug-fix-loop.md` by hand — same gate order, same read-only-tests + diff-check
+guardrails, same multi-exit STOP. Registered in SKILL-MAP + README; ships to both repos.
+
 ### Editing existing code (regression safety)
 When CHANGING / fixing / refactoring / removing code that already exists, do NOT just edit. Follow:
 ```
