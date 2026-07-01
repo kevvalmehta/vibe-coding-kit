@@ -56,6 +56,20 @@ manager). A tradeoff recorded in an ADR/decision doc is settled. Flag these only
 - Production config: overly broad CORS with credentials, missing hardening headers, cookies missing
   `HttpOnly`/`Secure`/`SameSite`, debug enabled in production.
 - Data minimization: PII in logs, stack traces returned to clients, internal errors exposed via API.
+- Rate limiting / abuse: auth + expensive + write endpoints with no throttle or lockout (brute-force,
+  credential-stuffing, spam). **Absence-of-defence** — a *missing* limit, so ripgrep/Semgrep can't
+  prove it; reason about which endpoints lack one rather than grepping for a bad line.
+- Token / session lifecycle: long-lived or non-expiring JWTs/sessions, no revocation path (a stolen
+  token can't be killed fast), tokens not invalidated on logout/password-change. Also absence-of-defence.
+- Resilience / DoS: a single unbounded query, upload, or recursive/expensive request that can exhaust
+  CPU/memory/DB for everyone (no pagination, size cap, or timeout). Absence-of-defence.
+
+**The Six-Question frame.** The list above maps to the kit's six-question security check
+(`docs/security-six-check.md`): authorization + access control, secrets (credential hygiene), rate
+limiting, token security, resilience. Report each of the six as `covered` / `gap` /
+`not-applicable (+reason)`; surface any left unanswered. The last three (rate limiting, token
+lifecycle, resilience) are **absence-of-defence** — code-search cannot prove them, so judge them by
+reasoning, and be honest that a clean grep is **not** proof they are handled.
 
 ## 3. Performance
 
