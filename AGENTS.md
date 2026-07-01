@@ -326,6 +326,19 @@ Never work on `main` directly — branch/worktree per change, merge via PR. Comm
 (backups). Undo with `git revert` (safe); confirm before destructive ops; never force-push `main`.
 Tag known-good versions. Enforced by the `git-safety` skill (`.claude/skills/git-safety`); plain-English
 human guide in `GITHUB-GUIDE.md`.
+**Public-deploy escalation:** when the owner signals a *public* launch (open internet / real external
+users — by intent, not just the word "public"), `git-safety` STOPS and reminds them of the heavier
+security methods deferred for internal tools (per-app attack-tests, custom Semgrep rules, live DAST scan,
+threat modeling — see `docs/security-six-check.md`), offers to add attack-tests for login + money/data
+endpoints before go-live, records the decision, and **warns without blocking**. Fires on the
+internal→public transition, quiet on routine re-deploys.
+
+### Security six-check (asked at plan + audit)
+`/speckit-plan` and `/audit` ask all six security questions — authorization, rate limiting, secrets,
+access control, token security, resilience (`docs/security-six-check.md`). Three (rate limiting, token
+revocation, resilience) are *absence-of-defence*: code-search/Semgrep cannot prove them, so the check
+REMINDS, it does not PROVE. Advisory, not a hard gate. Heavier proof is deferred to the public-deploy
+escalation above (Principle IV).
 
 ### Review with fresh eyes (and show proof)
 Review every change in a FRESH context — a separate agent/session that did NOT write the code (the

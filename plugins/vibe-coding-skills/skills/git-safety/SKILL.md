@@ -40,6 +40,26 @@ clean and deployable. Make every change reversible. Default to SAFE, non-destruc
 - Never commit secrets (`.env`, keys) — they live in `.gitignore`; keep them there.
 - Never delete a branch with unmerged work without the user's OK.
 
+## Going public (deploy escalation)
+When the owner signals they want to put an app **live for real external users** — deploy/ship/launch
+*publicly* — read the **intent**, not just the word "public" ("put it live", "on Vercel for everyone",
+"send customers the link" all count). At that moment, STOP and do this before helping them deploy:
+
+1. **Remind them, in plain English, of the heavier security methods deferred for internal tools** —
+   from `docs/security-six-check.md`: per-app **attack-tests** (hit login 1,000× → assert blocked;
+   fetch another user's record → assert denied), **custom Semgrep rules**, a **live attack scan
+   (DAST)**, and a **threat-modeling step**. These were skipped on purpose because the app was internal;
+   going public is exactly when they start to matter.
+2. **Offer to add the per-app attack-tests** for the **login** and **money/data** endpoints before go-live.
+3. **Record the owner's decision** (accept or decline) in plain markdown (the deploy conversation /
+   HANDOFF.md) — a conscious, logged choice, never a silent skip.
+4. **Warn, do not block.** Declining does not stop the deploy — the owner decides; you log it.
+5. **Fire on the internal→public transition** while these items are still open. Do **not** nag on
+   routine re-deploys once they are resolved or explicitly declined (check the log first).
+
+This lives in the kit (this file + `docs/security-six-check.md`), so any AI tool reaches it — not
+only Claude's memory (Principle VI).
+
 ## Resuming a session (start where you left off)
 On a new session: run `git status` + `git log --oneline -5`, run `git pull`, and read `HANDOFF.md`.
 Then summarize in plain English where things stand and what's next BEFORE doing anything.

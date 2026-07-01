@@ -27,7 +27,14 @@ disable, skip, or delete a test to make the bar go green.
 - Secrets live in environment variables only. Never hardcode keys; never commit `.env`.
 - Database: enable Row-Level Security (RLS) on every table; deny by default.
 - Run a security review (`/security-review` or Semgrep) before shipping.
-
+- **Ask the six-question security check** (`docs/security-six-check.md`) at plan time (`/speckit-plan`)
+  and audit time (`/audit`): authorization, rate limiting, secrets, access control, token security,
+  resilience. Three (rate limiting, token revocation, resilience) are *absence-of-defence* — code-search
+  cannot prove them, so the check REMINDS, it does not PROVE. Advisory, not a hard gate.
+- **Public-deploy escalation:** when an app goes public (open internet, real external users), `git-safety`
+  reminds the owner of the heavier proof methods deferred for internal tools (per-app attack-tests, DAST,
+  threat modeling) and offers to add attack-tests for login + money/data endpoints before go-live —
+  warn, never block; record the decision.
 ### V. Simplicity & Surgical Changes
 Minimum code that solves the problem. No speculative features (YAGNI).
 Touch only what the task requires. Don't refactor or "improve" unrelated code.
@@ -123,4 +130,4 @@ and run each entry's self-check; mistakes worth never repeating get logged there
 is promoted into a Principle here when it earns it.
 Amendments: edit this file (or run `/speckit-constitution`), bump the version, note the date.
 
-**Version**: 1.7.0 | **Ratified**: 2026-06-06 | **Last Amended**: 2026-06-25
+**Version**: 1.8.0 | **Ratified**: 2026-06-06 | **Last Amended**: 2026-07-01
