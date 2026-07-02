@@ -128,14 +128,16 @@ Reply "use defaults" or e.g. "1B 2A".
 Next: this is substantial → run /speckit-specify to turn this contract into a full spec.
 ```
 
-## Check it (optional)
-Run the linter to catch weak verification, placeholders, and unbounded permissions:
+## Check it (REQUIRED before handing the contract over)
+Run the linter — do not skip it or eyeball the contract instead (spec 016 Phase 2: the
+script decides, not the agent's word):
 ```
 python3 "${CLAUDE_PLUGIN_ROOT}/scripts/lint-goal.py" goal.txt
 ```
 It flags (it does not fix): vague verification like "make sure it works", leftover placeholders
 like `[outcome]`/`TODO`/`TBD`, unbounded boundaries like "edit anything", and infinite-retry
-language like "keep trying". In the spirit of Gate 1 — the script decides, not the agent's word.
+language like "keep trying". Exit 0 = contract is sound, proceed. Exit 1 = fix every flagged
+problem and re-run until clean. Only a clean contract may be handed to `/speckit-specify` or a build.
 
 ## Boundaries of this skill
 - It produces a task contract; it does **not** run the build itself.

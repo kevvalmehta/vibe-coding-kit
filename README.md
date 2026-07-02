@@ -294,8 +294,12 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `save.ps1` | One-command save + backup to GitHub |
 | `new-project.ps1` | Spin up a new project from this scaffold (`-Update` re-syncs skills/scripts) |
 | `autopilot_state.py` | Deterministic resume helper for `autopilot` (TDD-covered) |
-| `tdd_guard.py` | The TDD-Guard enforcement hook (blocks code before a failing test exists) |
+| `tdd_guard.py` | The TDD-Guard enforcement hook (blocks code before a failing test exists). ON by default; opt out with `.no-tdd-guard` |
 | `ruff_on_edit.py` | PostToolUse hook — auto-runs `ruff check --fix` on a Python file right after it's edited (can never block an edit) |
+| `lessons_injector.py` | SessionStart hook — injects confirmed L-#/P-# lessons from the Scar Log into every session, closing the learning loop (capture wrote lessons; this reads them back) |
+| `done_claim_verifier.py` | Stop hook — blocks a turn that ends on an unverified completion claim ("tests pass"/"pushed"/"committed"/"build green") unless the proving command ran this turn. Opt-out: `.no-claim-verify` |
+| `regrounding.py` | SessionStart hook (resume/compact only) — injects live git ground truth (branch, changed files, last commit, HANDOFF pointer) after context compression, so state claims restart from facts not memory |
+| `import_reality_check.py` | PostToolUse hook — after an edit, flags imports that are neither stdlib/builtin, installed, declared, nor local: the front door for invented APIs |
 | `recommender_nudge.py` | SessionStart hook — offers the Claude automation recommender once per project (or when dependencies change), then stays quiet (can never block a session) |
 | `conductor_greeting.py` | SessionStart hook — offers the Conductor (`/start`) once per project, then stays quiet (can never block a session) |
 | `availability_probe.py` | Conductor v6 — portable on-disk availability check: reads `.mcp.json` + `.claude/settings.json` and reports which MCP servers + plugins (gitmcp, cookbook, the recommender) are CONFIGURED. Complements v2's in-session tool-list check; states "configured ≠ live". Stdlib, defensive (never raises) |
@@ -338,9 +342,14 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `test_agent_architect.py` | Agent-architect skill guard |
 | `test_audit_advisor.py` | Audit skill guard |
 | `test_health_skill.py` | Health-score skill guard |
-| `test_tdd_guard.py` | TDD-Guard hook |
+| `test_tdd_guard.py` | TDD-Guard hook (default-on, `.no-tdd-guard` opt-out) |
 | `test_ruff_on_edit.py` | Ruff-on-edit PostToolUse hook |
 | `test_recommender_nudge.py` | Recommender-nudge SessionStart hook |
+| `test_lessons_injector.py` | Lessons-injector SessionStart hook |
+| `test_done_claim_verifier.py` | Done-claim-verifier Stop hook |
+| `test_regrounding.py` | Re-grounding SessionStart (resume/compact) hook |
+| `test_import_reality_check.py` | Import-reality-check PostToolUse hook |
+| `test_production_readiness.py` | Production-readiness doc + git-safety registration guard |
 | `test_token_quick_wins.py` | Token-quick-wins doc guard |
 | `test_eval_runner.py` | agent-eval runner core (judge mocked): scoring, critical tier, borderline re-run, cost cap, exit codes, injection framing |
 | `test_research_scout.py` | research-scout skill guard: required rules in SKILL.md + references + registration |
@@ -354,6 +363,8 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `agentic-engineering-primer.md` | Plain-English tour of the *New SDLC* ideas: verification spectrum, 80% problem, conductor/orchestrator, cost curve, MCP/A2A |
 | `awesome-claude-code-shortlist.md` | Vetted shortlist of external tools to consider (not all installed) |
 | `token-quick-wins.md` | Six habits to cut token cost per session |
+| `security-six-check.md` | The six security questions any app should answer — authorization, rate limiting, secrets, access control, token security, resilience. Asked at `/speckit-plan` + `/audit`; advisory |
+| `production-readiness.md` | The six checks between "works" and "safe for real users": dependency audit (CI-enforced), migration safety, error monitoring, data backups, load smoke, accessibility. `git-safety` walks it at deploy time |
 | `memory-snapshot/MEMORY.md` | Portable memory mirror for other AI tools |
 | `superpowers/plans/`, `superpowers/specs/` | Design notes (TDD-Guard, workflow-evolution map) |
 

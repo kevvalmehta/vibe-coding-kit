@@ -22,6 +22,12 @@
             "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/capture-lessons.ps1\"",
             "timeout": 10,
             "statusMessage": "Capturing lessons..."
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/done_claim_verifier.py\"",
+            "timeout": 15,
+            "statusMessage": "Verifying done-claims..."
           }
         ]
       }
@@ -40,6 +46,18 @@
             "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/conductor_greeting.py\"",
             "timeout": 10,
             "statusMessage": "Checking Conductor..."
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/lessons_injector.py\"",
+            "timeout": 10,
+            "statusMessage": "Loading the Scar Log..."
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/regrounding.py\"",
+            "timeout": 15,
+            "statusMessage": "Re-grounding in git state..."
           }
         ]
       }
@@ -53,6 +71,12 @@
             "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/ruff_on_edit.py\"",
             "timeout": 30,
             "statusMessage": "Ruff auto-fixing..."
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/import_reality_check.py\"",
+            "timeout": 30,
+            "statusMessage": "Checking imports are real..."
           }
         ]
       }

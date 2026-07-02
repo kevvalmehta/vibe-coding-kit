@@ -56,9 +56,15 @@ When the owner signals they want to put an app **live for real external users** 
 4. **Warn, do not block.** Declining does not stop the deploy — the owner decides; you log it.
 5. **Fire on the internal→public transition** while these items are still open. Do **not** nag on
    routine re-deploys once they are resolved or explicitly declined (check the log first).
+6. **Walk `docs/production-readiness.md` with them** (spec 016 Phase 3) — the six checks between
+   "works" and "safe to run for real users": dependency audit green (CI does it), schema changes
+   via additive-first migrations with a backup taken first, error monitoring wired (Sentry-style —
+   crashes, not just AI drift), data backups exist AND a restore was tested once, a load smoke on
+   the heaviest endpoint, and accessibility basics for anything user-facing. Same rule as above:
+   record decisions, warn, never block.
 
-This lives in the kit (this file + `docs/security-six-check.md`), so any AI tool reaches it — not
-only Claude's memory (Principle VI).
+This lives in the kit (this file + `docs/security-six-check.md` + `docs/production-readiness.md`),
+so any AI tool reaches it — not only Claude's memory (Principle VI).
 
 ## Resuming a session (start where you left off)
 On a new session: run `git status` + `git log --oneline -5`, run `git pull`, and read `HANDOFF.md`.

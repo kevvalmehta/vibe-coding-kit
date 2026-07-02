@@ -59,7 +59,17 @@ def test_decide_unknown_mode_defaults_to_strict():
     assert tdd_guard.decide("strikt", "impl", False) == "block"
 
 
-def test_read_marker_absent_returns_none(tmp_path):
+def test_read_marker_absent_returns_default_on(tmp_path):
+    """Spec 016 Phase 2: TDD is a constitution hard rule, so the guard is ON by default —
+    no marker means strict mode, not off."""
+    cfg = tdd_guard.read_marker(tmp_path)
+    assert cfg is not None
+    assert cfg["mode"] == "strict"
+    assert cfg["explicit"] is False
+
+
+def test_off_marker_disables_guard(tmp_path):
+    (tmp_path / ".no-tdd-guard").write_text("scratch project\n", encoding="utf-8")
     assert tdd_guard.read_marker(tmp_path) is None
 
 
@@ -103,7 +113,40 @@ def _run_main(monkeypatch, capsys, payload, marker_red=None):
     return code, capsys.readouterr().out
 
 
-def test_main_no_marker_allows_silently(monkeypatch, capsys, tmp_path):
+def test_main_no_marker_impl_green_blocks(monkeypatch, capsys, tmp_path):
+    """Default-on: even without a .tdd-guard marker, an impl edit on a green suite blocks."""
+    payload = {"tool_name": "Edit", "tool_input": {"file_path": "app/x.py"}, "cwd": str(tmp_path)}
+    code, out = _run_main(monkeypatch, capsys, payload, marker_red=False)
+    assert code == 0
+    data = json.loads(out)
+    assert data["hookSpecificOutput"]["permissionDecision"] == "deny"
+    assert ".no-tdd-guard" in data["hookSpecificOutput"]["permissionDecisionReason"]
+
+
+def test_main_no_marker_impl_red_allows(monkeypatch, capsys, tmp_path):
+    payload = {"tool_name": "Edit", "tool_input": {"file_path": "app/x.py"}, "cwd": str(tmp_path)}
+    code, out = _run_main(monkeypatch, capsys, payload, marker_red=True)
+    assert code == 0
+    assert out.strip() == ""
+
+
+def test_main_off_marker_allows_silently(monkeypatch, capsys, tmp_path):
+    (tmp_path / ".no-tdd-guard").write_text("off\n", encoding="utf-8")
+    payload = {"tool_name": "Edit", "tool_input": {"file_path": "app/x.py"}, "cwd": str(tmp_path)}
+    code, out = _run_main(monkeypatch, capsys, payload, marker_red=False)
+    assert code == 0
+    assert out.strip() == ""
+
+
+def test_main_default_mode_unrunnable_test_cmd_allows(monkeypatch, capsys, tmp_path):
+    """Fail-open in DEFAULT mode: a project that never opted in (maybe no pytest at all)
+    must not have every edit hard-blocked by a test command that can't run. Explicit
+    .tdd-guard mode keeps the loud deny (tested separately)."""
+    monkeypatch.setattr(
+        tdd_guard,
+        "tests_are_red",
+        lambda *a, **k: (_ for _ in ()).throw(tdd_guard.TestCommandError("no pytest")),
+    )
     payload = {"tool_name": "Edit", "tool_input": {"file_path": "app/x.py"}, "cwd": str(tmp_path)}
     code, out = _run_main(monkeypatch, capsys, payload)
     assert code == 0
@@ -182,11 +225,11 @@ def test_main_multiedit_impl_green_blocks(monkeypatch, capsys, tmp_path):
 
 # Task 6 — hook + gitignore
 def test_hook_registered_in_settings():
-    """If .claude/settings.json wires edit-time (PreToolUse) hooks, TDD-Guard must be among them — the
-    dev repo must never lose the guard. A settings.json that only carries plugin/marketplace config,
-    with no PreToolUse hooks, is allowed: the published-plugin repo intentionally does NOT ship the
-    PreToolUse wiring (it would run python on every edit for end users). Separately, any shipped plugin
-    hooks.json must parse — a broken hook config turns this RED, it never silently skips."""
+    """Dev repo: TDD-Guard is wired in .claude/settings.json. Published-plugin repo: the PreToolUse
+    wiring is intentionally NOT shipped (it would run python on every edit), so a settings.json that
+    carries only plugin/marketplace config (no PreToolUse hooks at all) is allowed there. Either way,
+    any shipped plugin hooks.json must parse — a broken hook config turns this RED, it never silently
+    skips."""
     settings_path = ROOT / ".claude" / "settings.json"
     hook_files = sorted(ROOT.glob("plugins/*/hooks/hooks.json"))
     assert settings_path.is_file() or hook_files, "no .claude/settings.json and no plugins/*/hooks/hooks.json found"
@@ -228,6 +271,7 @@ def test_main_unrunnable_test_command_denies_not_crashes(tmp_path, monkeypatch, 
 def test_marker_is_gitignored():
     gi = (ROOT / ".gitignore").read_text(encoding="utf-8")
     assert ".tdd-guard" in gi, ".tdd-guard must be gitignored"
+    assert ".no-tdd-guard" in gi, ".no-tdd-guard must be gitignored"
 
 
 # Task 7 — portability docs

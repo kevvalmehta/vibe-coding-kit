@@ -291,16 +291,54 @@ graph before editing — only raw code stays local. See https://github.com/safis
 ### TDD-Guard (test-first edit guard)
 
 A `PreToolUse` hook (`scripts/tdd_guard.py`) that enforces Hard Rule #2 during a build.
-It is OFF unless a gitignored `.tdd-guard` marker file exists at the repo root.
+**ON by default** (spec 016 Phase 2 — TDD is a constitution hard rule, so the guard defaults
+to strict). Opt out per project with a gitignored `.no-tdd-guard` marker; configure with a
+`.tdd-guard` marker.
 
 - `.tdd-guard` contains `mode: strict` (enforce red-green) or `mode: refactor` (allow
   edits while green), and an optional `test:` command (default `python -m pytest -q`).
+- Fail-open vs fail-loud: with an explicit `.tdd-guard`, an unrunnable test command DENIES
+  loudly; in default (no-marker) mode it allows silently — a project that never opted in
+  (e.g. no pytest) must not have every edit hard-blocked.
 - When `strict`, an edit to implementation code (`.py`, `.ts`, `.js`, …) is blocked if the
   test suite is fully green — write a failing test first. Test files and non-code files are
   always allowed. A red suite allows the edit (you are making it pass).
 - Deterministic, no LLM, stdlib only. Native rebuild of the community "TDD Guard" idea — no
   third-party code installed (supply-chain rule).
 - Design: `docs/superpowers/specs/2026-06-13-tdd-guard-design.md`.
+
+### Opus-hardening hooks (the enforcement layer — spec 016)
+
+Four deterministic hooks that convert the kit's most-violated PROSE rules into MECHANICAL
+checks. Born from the 2026-07-02 audit: ~47 guardrails existed but only TDD-Guard could
+physically stop the model; everything else was instructions a model can ignore. Principle:
+you cannot instruct a model into reliability — engineer the environment to catch it.
+
+- **`scripts/lessons_injector.py`** (`SessionStart`) — reads `.specify/memory/lessons.md`
+  and injects a digest of every confirmed `L-#` scar / `P-#` pattern (Rule + Self-check)
+  into session context. Closes the learning loop: `capture-lessons.ps1` WRITES lessons,
+  this READS them back — without it "learn from your mistakes" never survives a session.
+  Never injects unreviewed auto-captured candidates. No lessons file → silent.
+- **`scripts/done_claim_verifier.py`** (`Stop`) — blocks a turn whose final message makes
+  a strong completion claim ("tests pass", "pushed", "committed", "build green",
+  "deployed", "lint clean") when the matching command never ran that turn. The model must
+  run the proving command or rewrite the claim honestly. Mechanizes the owner's global
+  Truth-Over-Confidence rule. Opt-out: `.no-claim-verify` marker at repo root.
+- **`scripts/regrounding.py`** (`SessionStart`, fires only on `resume`/`compact`) — after
+  context compression or session resume, injects live git ground truth (branch, changed
+  files, last commit, HANDOFF.md pointer): a summary is memory, memory is not proof.
+- **`scripts/import_reality_check.py`** (`PostToolUse` on Edit/Write) — flags imports in
+  the just-edited file that are neither stdlib/builtin, installed, declared in
+  package.json, nor local modules — the front door for invented (hallucinated) APIs.
+  Feedback to the model, does not roll back the edit.
+
+All four: stdlib-only, deterministic, exception-swallowed, exit 0 always (a hook must
+never break a session). Tests: `tests/test_lessons_injector.py`, `test_done_claim_verifier.py`,
+`test_regrounding.py`, `test_import_reality_check.py`. **Manual fallback (Principle VI —
+Claude-only hooks):** in a non-Claude tool, at session start read `lessons.md` Entries and
+apply each Self-check; before claiming done/pushed/passing, run the proving command in the
+same reply; after any context loss, re-run `git status` + `git log -1` and re-read
+HANDOFF.md; after writing imports, verify each package exists before moving on.
 
 ### Recommender-nudge (proactive setup offer)
 A `SessionStart` hook (`recommender_nudge.py`, registered in the plugin's `hooks/hooks.json`) that
@@ -332,6 +370,16 @@ security methods deferred for internal tools (per-app attack-tests, custom Semgr
 threat modeling — see `docs/security-six-check.md`), offers to add attack-tests for login + money/data
 endpoints before go-live, records the decision, and **warns without blocking**. Fires on the
 internal→public transition, quiet on routine re-deploys.
+
+### Production readiness (walked at deploy — spec 016 Phase 3)
+Six checks between "the app works" and "safe for real users", canonical in
+`docs/production-readiness.md`: **dependency vulnerability audit** (pip-audit + npm audit,
+BLOCKING in CI, + weekly Dependabot PRs), **DB migration safety** (migration files only,
+additive-first, backup before), **error monitoring** (Sentry-style — crashes, distinct from
+`/monitor`'s AI-drift), **data backup/restore** (git saves code, nothing saves data by itself —
+test one restore), **load smoke** (short burst on the heaviest endpoint), **accessibility
+basics** (alt text, labels, contrast, keyboard, Lighthouse). `git-safety`'s deploy escalation
+walks all six; decisions recorded, warned not blocked. Guard: `tests/test_production_readiness.py`.
 
 ### Security six-check (asked at plan + audit)
 `/speckit-plan` and `/audit` ask all six security questions — authorization, rate limiting, secrets,

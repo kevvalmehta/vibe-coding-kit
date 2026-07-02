@@ -1,10 +1,12 @@
 name: CI
 
 # Runs automatically on every push and pull request.
-# - Security: Semgrep scans the code for vulnerabilities.
+# - Security: Semgrep scans the code for vulnerabilities (BLOCKING).
 # - Lint: ruff catches real Python bugs (skipped if the project has no Python).
 # - Lint: Biome + tsc catch real JS/TS bugs (skipped if the project has no JS/TS).
 # - Tests: runs Node and/or Python tests if the project has them.
+# - Plan gate (PRs only): the newest specs/*/tasks.md must have every task checked
+#   off before merge — no half-done feature lands on main (spec 016 Phase 2).
 
 on:
   push:
@@ -24,11 +26,11 @@ jobs:
       - name: Install Semgrep
         run: pip install semgrep
       - name: Run Semgrep
-        # NON-BLOCKING by default: it reports findings but won't stop your push,
-        # so early false positives don't get in your way.
-        # To BLOCK pushes when issues are found (recommended once stable),
-        # change the next line to:  continue-on-error: false
-        continue-on-error: true
+        # BLOCKING (spec 016 Phase 2): a security finding fails the build. A security
+        # gate that only reports is a gate the model (and a rushed human) can ignore.
+        # Hit a false positive? Add an inline `# nosemgrep: <rule-id>` comment with a
+        # one-line justification instead of turning the gate back off.
+        continue-on-error: false
         run: semgrep scan --config auto --error
 
   lint:
@@ -74,6 +76,47 @@ jobs:
         run: |
           npm ci || npm install
           npx tsc --noEmit
+
+  deps-audit:
+    name: Dependency vulnerability audit
+    # BLOCKING (spec 016 Phase 3): a dependency with a known CVE fails the build.
+    # Both steps skip automatically when the project has no deps of that kind.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        if: ${{ hashFiles('requirements.txt') != '' }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python dependency audit (pip-audit)
+        if: ${{ hashFiles('requirements.txt') != '' }}
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt
+        shell: bash
+      - name: Setup Node
+        if: ${{ hashFiles('package-lock.json') != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Node dependency audit (npm audit)
+        # high threshold keeps low-severity noise from blocking; real holes still do.
+        if: ${{ hashFiles('package-lock.json') != '' }}
+        run: npm audit --audit-level=high
+
+  plan-gate:
+    name: Plan gate (all tasks done before merge)
+    # PRs only: mid-feature pushes to a branch may legitimately have open tasks;
+    # a merge to main must not.
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check newest tasks.md is fully done
+        if: ${{ hashFiles('specs/**/tasks.md') != '' }}
+        shell: pwsh
+        run: ./plugins/vibe-coding-skills/scripts/check-plan.ps1 -Gate
 
   test:
     name: Tests

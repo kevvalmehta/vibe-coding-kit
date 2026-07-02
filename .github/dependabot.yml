@@ -1,0 +1,17 @@
+# Dependabot: GitHub opens small weekly PRs when a dependency has an update —
+# security patches arrive as routine maintenance instead of emergencies.
+# Ecosystems with no dependencies in the repo are simply ignored by GitHub.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

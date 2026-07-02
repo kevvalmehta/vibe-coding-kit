@@ -1,6 +1,6 @@
 # HANDOFF — Current State
 
-_Last updated: 2026-06-25_
+_Last updated: 2026-07-02_
 
 <!-- AUTOPILOT-STATE -->
 **Autopilot — idle.** No feature in progress. Last completed: `002-token-quick-wins` (merged). Start a
@@ -117,6 +117,21 @@ both inside Claude Code. Deploy via Vercel + Supabase.
   borrowed natively from the MIT `shadcn/improve` skill — deliberately NO execute/reconcile fork
   (scar L-1: would duplicate `safe-change`/`autopilot`), NO `npx` install.** Built via the kit flow on
   `004-audit-advisor` (`specs/004-audit-advisor/`).
+
+## Shipped/In progress 2026-07-02 — Opus Hardening mirror (branch `016-opus-hardening`)
+Mirrors PCK spec 016 (commits `d4b8b96`/`8b1f58a`/`c506105`/`bd335f8`) into this plugin repo:
+- **4 new enforcement hooks**, wired in `plugins/vibe-coding-skills/hooks/hooks.json` —
+  `lessons_injector.py` (SessionStart — injects confirmed Scar Log lessons), `done_claim_verifier.py`
+  (Stop — blocks an unverified "tests pass/pushed/committed" claim), `regrounding.py` (SessionStart
+  resume/compact — injects live git truth after context compression), `import_reality_check.py`
+  (PostToolUse — flags invented/hallucinated imports).
+- **TDD-Guard now ON by default** (`.no-tdd-guard` opt-out; `.tdd-guard` still configures mode).
+- **CI gates activated**: Semgrep now BLOCKS on findings, `deps-audit` job (pip-audit + npm audit)
+  BLOCKS on known-vulnerable dependencies, `plan-gate` job (PR-only) blocks merge until the newest
+  `tasks.md` is fully checked off.
+- **`docs/production-readiness.md`** — the six checks between "works" and "safe for real users";
+  `git-safety`'s public-deploy escalation now walks all six (record decision, warn, never block).
+- Full test suite green. Registered in `AGENTS.md` + `SKILL-MAP.md` + `README.md`.
 
 ## Shipped 2026-06-10 (all merged to `master`)
 - ✅ **Token quick-wins** (`docs/token-quick-wins.md`, PR #10) — six habits to cut token cost.
