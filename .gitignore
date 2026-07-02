@@ -36,6 +36,7 @@ Thumbs.db
 
 # TDD-Guard marker — local on/off switch, never commit in the "on" state
 .tdd-guard
+.no-tdd-guard
 
 # Recommender-nudge marker — per-machine "already offered here" state, not shared
 .claude/.recommender-nudged

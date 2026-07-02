@@ -1,7 +1,15 @@
 # scripts/tdd_guard.py
 """TDD-Guard: PreToolUse hook that enforces test-first edits during a build.
 
-Off by default. Active only when a `.tdd-guard` marker file exists at repo root.
+ON by default (spec 016 Phase 2 — TDD is a constitution hard rule, so the guard
+defaults to strict). Opt out per project with a `.no-tdd-guard` marker file at repo
+root; configure with a `.tdd-guard` marker (mode/test command).
+
+Fail-open vs fail-loud: with an EXPLICIT `.tdd-guard`, an unrunnable test command is
+a loud deny (the owner asked for the guard — a broken guard must not silently allow).
+In DEFAULT mode it allows silently (a project that never opted in, e.g. with no
+pytest, must not have every edit hard-blocked).
+
 See docs/superpowers/specs/2026-06-13-tdd-guard-design.md.
 """
 
@@ -46,21 +54,28 @@ def decide(mode, classification: str, tests_red: bool) -> str:
 
 
 MARKER = ".tdd-guard"
+OFF_MARKER = ".no-tdd-guard"
 DEFAULT_TEST_CMD = "python -m pytest -q"
 
 
 def read_marker(root):
-    """Return {'mode':..., 'test':...} if the marker exists at root, else None."""
-    marker = Path(root) / MARKER
-    if not marker.exists():
+    """Return the active config {'mode','test','explicit'}, or None when opted out.
+
+    Default-on: no marker at all means strict mode with the default test command
+    ('explicit': False). A `.no-tdd-guard` marker disables the guard entirely.
+    """
+    root = Path(root)
+    if (root / OFF_MARKER).exists():
         return None
-    cfg = {"mode": "strict", "test": DEFAULT_TEST_CMD}
-    for line in marker.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or ":" not in line:
-            continue
-        key, value = line.split(":", 1)
-        cfg[key.strip()] = value.strip()
+    marker = root / MARKER
+    cfg = {"mode": "strict", "test": DEFAULT_TEST_CMD, "explicit": marker.exists()}
+    if marker.exists():
+        for line in marker.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or ":" not in line:
+                continue
+            key, value = line.split(":", 1)
+            cfg[key.strip()] = value.strip()
     return cfg
 
 
@@ -91,7 +106,8 @@ def tests_are_red(test_cmd: str, cwd) -> bool:
 
 BLOCK_MSG = (
     "TDD-Guard: all tests are green — write a failing test before adding or changing "
-    "implementation code. (Refactoring? set 'mode: refactor' in .tdd-guard.)"
+    "implementation code. (Refactoring? set 'mode: refactor' in .tdd-guard. Scratch "
+    "project that doesn't need TDD? create a .no-tdd-guard file to opt out.)"
 )
 
 
@@ -118,6 +134,8 @@ def main() -> int:
         try:
             tests_red = tests_are_red(marker.get("test", DEFAULT_TEST_CMD), root)
         except TestCommandError as err:
+            if not marker.get("explicit"):
+                return 0  # default mode fails open: never hard-block a never-opted-in project
             print(
                 json.dumps(
                     {
