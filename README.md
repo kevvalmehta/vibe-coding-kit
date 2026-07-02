@@ -255,6 +255,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `GITHUB-GUIDE.md` | Plain-English guide to saving / undoing / publishing |
 | `SETUP.md` | How to spin up a new project from this kit |
 | `plan.md` | Historical phased build plan |
+| `docs/kit-walkthrough.md` | End-to-end walkthrough of how to use the kit (worked example: building a social app with streaks) |
 
 ### Skills — `.claude/skills/` (run inside Claude Code; mirrored in `.agents/skills/` for other AI tools)
 | Skill | What it's for |
