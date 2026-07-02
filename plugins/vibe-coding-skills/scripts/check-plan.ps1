@@ -33,7 +33,10 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+# Repo root: script-relative works in the dev repo (scripts/ at root) but not when this
+# script ships nested inside a plugin — prefer the caller's cwd when it has a specs\ dir.
 $repoRoot = Split-Path -Parent $PSScriptRoot
+if (Test-Path (Join-Path (Get-Location).Path 'specs')) { $repoRoot = (Get-Location).Path }
 
 function Say-Fail($m) { Write-Host "  [X]  $m" -ForegroundColor Red }
 function Say-Pass($m) { Write-Host "  [OK] $m" -ForegroundColor Green }
@@ -44,8 +47,14 @@ if (-not $TasksFile) {
   $specsDir = Join-Path $repoRoot 'specs'
   $candidate = $null
   if (Test-Path $specsDir) {
+    # "Most recent" by GIT commit time, not filesystem time: a fresh CI checkout stamps
+    # every file with checkout time, which would make this pick a coin flip.
     $candidate = Get-ChildItem -Path $specsDir -Filter 'tasks.md' -Recurse -ErrorAction SilentlyContinue |
-      Sort-Object LastWriteTime -Descending | Select-Object -First 1
+      Sort-Object {
+        $ts = $null
+        try { $ts = (git -C $repoRoot log -1 --format=%ct -- $_.FullName 2>$null | Select-Object -First 1) } catch {}
+        if ($ts) { [long]$ts } else { [long](($_.LastWriteTime.ToUniversalTime() - [datetime]'1970-01-01').TotalSeconds) }
+      } -Descending | Select-Object -First 1
   }
   if (-not $candidate) {
     Write-Host "No tasks.md found under specs\. Run /speckit-tasks first, then re-run this." -ForegroundColor Yellow

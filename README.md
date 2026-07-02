@@ -281,6 +281,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `scaffold` | `/scaffold` — stack scaffolding (Conductor v7): the doer companion to `/stack`. Turns the chosen stack into a MINIMAL runnable starter in a folder (dependency file, hello-world entry, `.gitignore`, `.env.example`, a README with run + "put this live" notes) via `scripts/scaffold_stack.py`. NEVER overwrites an existing file; declines stacks it can't scaffold; never deploys. Grow it after with `/safe-change` / `/start` / `/ship` |
 | `grill-with-docs` | Same, against your real code + decisions (+`ADR-FORMAT.md`, `CONTEXT-FORMAT.md`) |
 | `zoom-out` | `/zoom-out` — plain-English map of how a piece of code fits |
+| `frugal-fable` | `/frugal-fable` — token-saving delegation when running on a premium model (Fable): keeps judgment (decompose/architect/review) on the big model, routes bounded verifiable work to cheaper tiers, file-based context firewall |
 | `prototype` | Throwaway demo to feel out a design (+`LOGIC.md`, `UI.md`), then deleted |
 | `speckit-specify` / `-clarify` / `-plan` / `-tasks` / `-analyze` / `-implement` / `-constitution` | The GitHub Spec Kit planning + build commands |
 | `speckit-checklist` | Generates a quality checklist for the current feature |
