@@ -4,7 +4,9 @@
 - [x] T2 G2 destructive_action_gate.py + tests (Fable)
 - [x] T3 G1 preflight_gate.py + tests + CI blocking job (Opus agent)
 - [x] T4 G3 spec_drift_warn.py + tests (Opus agent)
-- [x] T5 G4 settings.json: deny rules + register G2/G3 hooks (Fable)
+- [x] T5 G4 deny rules + hook registration — VCK note: hooks wired in plugin hooks.json;
+      permissions.deny has no plugin surface (user-level settings only), so VCK documents
+      the deny list in AGENTS.md instead of shipping it (see HANDOFF.md) (Fable)
 - [x] T6 Tweaks: plan template cost section; spec template lean note; agent-eval
       categorical labels; git-safety preflight + no-YOLO-flag; CLAUDE.md/AGENTS.md
       dependency pinning (Sonnet agent)
