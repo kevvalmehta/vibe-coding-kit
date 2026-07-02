@@ -302,6 +302,9 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `done_claim_verifier.py` | Stop hook — blocks a turn that ends on an unverified completion claim ("tests pass"/"pushed"/"committed"/"build green") unless the proving command ran this turn. Opt-out: `.no-claim-verify` |
 | `regrounding.py` | SessionStart hook (resume/compact only) — injects live git ground truth (branch, changed files, last commit, HANDOFF pointer) after context compression, so state claims restart from facts not memory |
 | `import_reality_check.py` | PostToolUse hook — after an edit, flags imports that are neither stdlib/builtin, installed, declared, nor local: the front door for invented APIs |
+| `preflight_gate.py` | Pre-deploy security gate (no LLM) — deterministic scan for leaked secrets, tables missing Row-Level Security, and API routes missing rate limiting; blocking CI job + run by git-safety before any deploy |
+| `destructive_action_gate.py` | PreToolUse hook — pauses destructive actions (`rm -rf`, `DROP TABLE`, `db reset`, `migrate reset`, bulk `DELETE` without WHERE, migration/schema edits) for explicit owner approval before they run. Opt-out: `.no-destructive-gate` |
+| `spec_drift_warn.py` | PreToolUse hook (warn-only) — on `git commit`, nudges when code changed but no spec did, so spec and code never silently drift apart. Opt-out: `.no-spec-drift-warn` |
 | `recommender_nudge.py` | SessionStart hook — offers the Claude automation recommender once per project (or when dependencies change), then stays quiet (can never block a session) |
 | `conductor_greeting.py` | SessionStart hook — offers the Conductor (`/start`) once per project, then stays quiet (can never block a session) |
 | `availability_probe.py` | Conductor v6 — portable on-disk availability check: reads `.mcp.json` + `.claude/settings.json` and reports which MCP servers + plugins (gitmcp, cookbook, the recommender) are CONFIGURED. Complements v2's in-session tool-list check; states "configured ≠ live". Stdlib, defensive (never raises) |
@@ -351,6 +354,9 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `test_done_claim_verifier.py` | Done-claim-verifier Stop hook |
 | `test_regrounding.py` | Re-grounding SessionStart (resume/compact) hook |
 | `test_import_reality_check.py` | Import-reality-check PostToolUse hook |
+| `test_preflight_gate.py` | Preflight-gate deterministic pre-deploy security scan (secrets, RLS, rate limiting) |
+| `test_destructive_action_gate.py` | Destructive-action-gate PreToolUse hook |
+| `test_spec_drift_warn.py` | Spec-drift-warn PreToolUse hook (warn-only, on `git commit`) |
 | `test_production_readiness.py` | Production-readiness doc + git-safety registration guard |
 | `test_token_quick_wins.py` | Token-quick-wins doc guard |
 | `test_eval_runner.py` | agent-eval runner core (judge mocked): scoring, critical tier, borderline re-run, cost cap, exit codes, injection framing |

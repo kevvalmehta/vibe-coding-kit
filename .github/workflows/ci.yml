@@ -118,6 +118,20 @@ jobs:
         shell: pwsh
         run: ./plugins/vibe-coding-skills/scripts/check-plan.ps1 -Gate
 
+  preflight:
+    name: Pre-flight security gate
+    # BLOCKING (spec 017): deterministic sweep for the three solo-founder burn vectors —
+    # hardcoded secrets, tables without Row-Level Security, unthrottled API routes. No LLM
+    # in the loop, so it can't be talked out of a finding. Checks that don't apply SKIP.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Run pre-flight gate
+        run: python plugins/vibe-coding-skills/scripts/preflight_gate.py --json
+
   test:
     name: Tests
     runs-on: ubuntu-latest

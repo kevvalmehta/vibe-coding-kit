@@ -59,6 +59,9 @@ caveats in `AGENTS.md` → "Grounding against real library docs".
 5. **Simple + surgical** — minimum code, touch only what's needed.
 6. **LLM portability** — nothing (kit or project) may depend on a single AI tool. A skill,
    guardrail, or process change is NOT done until registered in `AGENTS.md` + `SKILL-MAP.md`.
+7. **Pin dependencies exactly** — no `^`/`~` version ranges; use `npm ci` (installs exactly what
+   the lockfile says) instead of `npm install` in test/CI loops, so builds are reproducible and a
+   newly-published malicious package version can't slip in unnoticed.
 
 ## Current State
 Read **HANDOFF.md** first — it holds what's built, what's next, and recent decisions.

@@ -7,6 +7,34 @@ _Last updated: 2026-07-02_
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
 
+## Built 2026-07-02 — Spec 017 Production Burn Guards (branch `017-production-burn-guards` — NOT merged, owner reviews → push → PR)
+Mirrors PCK spec 017 into this plugin repo.
+- **Why:** Gemini deep-research flagged the "90-day solo-founder burn vectors" — leaked secrets,
+  missing Row-Level Security, unthrottled endpoints, destructive database commands run by an agent,
+  and spec/code drift after v1 — none of which the kit's existing gates caught mechanically.
+- **What's built, in plain English:**
+  1. **`preflight_gate.py`** — a mechanical pre-deploy scan (no AI) that checks for leaked
+     secrets, database tables missing Row-Level Security (the setting that stops one user seeing
+     another user's data), and API routes with no rate limit (a cap on how many times someone can
+     hammer an endpoint).
+  2. **`destructive_action_gate.py`** — pauses and asks for your OK before running a
+     destructive command (like deleting a database table) or editing a database migration file.
+  3. **`spec_drift_warn.py`** — a warning (never a block) when code changes but the spec
+     doesn't, so the plan and the build don't quietly drift apart.
+  4. **Five doc tweaks**: a "Running cost implications" section in the plan template (call out
+     anything with a running per-usage cost before you approve the build); a lean-specs note in the
+     spec template (~300 lines max); a rule in `agent-eval` that AI judges must use fixed labels
+     (pass/fail/unsafe) instead of unreliable 1-10 scores; a `git-safety` update to run the preflight
+     gate before every deploy and never use `--dangerously-skip-permissions`; and a dependency-pinning
+     rule in `CLAUDE.md`/`AGENTS.md` (exact versions, `npm ci` not `npm install` in CI).
+- **New CI job**: `preflight` (blocking) runs `preflight_gate.py --json` against the repo.
+- **Note:** VCK's `.claude/settings.json` has no `permissions`/`hooks` blocks (hooks live in the
+  plugin's `hooks/hooks.json` instead), so PCK's `permissions.deny` (G4) was not mirrored there —
+  no equivalent settings surface exists in this repo to carry it.
+- **State:** all three guards registered in `AGENTS.md` + `SKILL-MAP.md` + `README.md`
+  (Principle VI); hooks wired in `plugins/vibe-coding-skills/hooks/hooks.json`. **Next / owner
+  actions:** review the branch → push → PR → merge.
+
 ## What this is
 Spec-driven development workspace. Tools: **GitHub Spec Kit** (planning) + **Superpowers** (safe building),
 both inside Claude Code. Deploy via Vercel + Supabase.

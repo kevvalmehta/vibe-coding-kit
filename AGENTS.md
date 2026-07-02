@@ -340,6 +340,38 @@ apply each Self-check; before claiming done/pushed/passing, run the proving comm
 same reply; after any context loss, re-run `git status` + `git log -1` and re-read
 HANDOFF.md; after writing imports, verify each package exists before moving on.
 
+### Production Burn Guards (spec 017)
+
+Three mechanical guards closing the "90-day solo-founder burn vectors" Gemini deep-research
+identified: leaked secrets, missing Row-Level Security, unthrottled endpoints, destructive
+database commands run by an agent, and spec/code drift after v1. Same principle as the
+Opus-hardening hooks above: these bypass the LLM entirely, so they can't be talked around.
+
+- **`scripts/preflight_gate.py`** (deterministic, no LLM; run before any deploy and in CI) —
+  scans a project for the three burn vectors: **secrets** (regex sweep for hardcoded API
+  keys/tokens/private keys in tracked files), **RLS** (every `CREATE TABLE` in migrations has a
+  matching `ENABLE ROW LEVEL SECURITY`), and **rate limiting** (API routes have a recognized
+  rate-limit mechanism). Checks that don't apply (no migrations, no API routes) SKIP, not fail.
+  Exit non-zero on any failure with plain-English reasons. Wired as a blocking CI job and into
+  `git-safety`'s public-deploy escalation.
+- **`scripts/destructive_action_gate.py`** (`PreToolUse`, registered in the plugin's
+  `hooks/hooks.json`) — intercepts, BEFORE execution, Bash commands matching destructive
+  patterns (`drop table`, `db reset`, `rm -rf`, `truncate`, bulk `delete from` without `where`,
+  `--dangerously-skip-permissions`) and Edit/Write to migration/schema files. Returns "ask"
+  with a plain-English explanation of what the action changes, so the owner explicitly
+  approves. Never blocks reads. Opt-out: `.no-destructive-gate`.
+- **`scripts/spec_drift_warn.py`** (`PreToolUse` on `git commit`, registered in the plugin's
+  `hooks/hooks.json`, warn-only) — if source dirs changed but no file under `specs/` or
+  `.specify/` changed, prints a WARNING (never blocks): "Code changed without a spec update —
+  update the spec first to prevent AI drift." Opt-out: `.no-spec-drift-warn`.
+
+Tests: `tests/test_preflight_gate.py`, `test_destructive_action_gate.py`,
+`test_spec_drift_warn.py`. **Manual fallback (Principle VI — Claude-only hooks):** in a
+non-Claude tool, run `python plugins/vibe-coding-skills/scripts/preflight_gate.py` by hand
+before any deploy; before running a destructive command or editing a migration/schema file,
+stop and ask the owner first; before committing, check whether `specs/`/`.specify/` should
+have changed alongside the code. Spec: `specs/017-production-burn-guards/`.
+
 ### Recommender-nudge (proactive setup offer)
 A `SessionStart` hook (`recommender_nudge.py`, registered in the plugin's `hooks/hooks.json`) that
 proactively OFFERS the `claude-code-setup` recommender — but only when it would help, and never more
@@ -530,6 +562,9 @@ Confirm understanding in plain English before any code.
    (score fuzzy AI output against a rubric — output + trajectory; set the bar at the eval, not the demo)
    and watch the live AI after launch (logs/traces/drift/LLM-as-judge). Plain apps with no LLM need only
    tests. See `docs/ai-feature-checklist.md` #14/#15 + `docs/context-engineering.md` + run `/agent-eval`.
+9. Pin dependencies exactly — no `^`/`~` version ranges; use `npm ci` (installs exactly what the
+   lockfile says) instead of `npm install` in test/CI loops, so builds are reproducible and a
+   newly-published malicious package version can't slip in unnoticed.
 
 ## Note on the "Awesome AI Dev" list
 It is a **reference library**, not an automatic step. Brainstorming/questions come from Superpowers
