@@ -109,7 +109,17 @@ def load_turn(transcript_path: Path) -> list:
     return objs[last_user + 1 :]
 
 
+# "NOT pushed" / "hasn't been deployed" are honest status lines, not completion claims.
+NEGATION_RE = re.compile(
+    r"\b(?:not|never|no|haven'?t|hasn'?t|isn'?t|aren'?t|wasn'?t|weren'?t|won'?t(?:\s+be)?|"
+    r"without(?:\s+being)?|un)[\s-]*(?:yet\s+|been\s+|be\s+|being\s+)*"
+    r"(?:pushed|committed|deployed|merged|verified|tested)\b",
+    re.IGNORECASE,
+)
+
+
 def detect_claims(text: str) -> set:
+    text = NEGATION_RE.sub(" ", text)
     return {cat for cat, (claim_re, _) in CATEGORIES.items() if claim_re.search(text)}
 
 

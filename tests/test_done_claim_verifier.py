@@ -65,6 +65,17 @@ def test_plain_prose_has_no_claims():
     assert dcv.detect_claims("Here is my plan for the refactor.") == set()
 
 
+def test_negated_claims_are_not_claims():
+    """'NOT pushed' is an honest status line, not a completion claim — found live when
+    the verifier blocked its own author's 'committed, NOT pushed' summary."""
+    assert "push" not in dcv.detect_claims("Everything is committed, NOT pushed.")
+    assert "push" not in dcv.detect_claims("The branch has not been pushed yet.")
+    assert "push" not in dcv.detect_claims("I haven't pushed anything.")
+    assert "deploy" not in dcv.detect_claims("This is never deployed automatically.")
+    # ...but a real positive claim right next to a negation still counts
+    assert "push" in dcv.detect_claims("Docs not updated, but I pushed the fix.")
+
+
 def test_claim_without_evidence_blocks(tmp_path):
     t = write_transcript(
         tmp_path,
