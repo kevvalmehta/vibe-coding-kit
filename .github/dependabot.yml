@@ -1,17 +1,25 @@
 # Dependabot: GitHub opens small weekly PRs when a dependency has an update —
 # security patches arrive as routine maintenance instead of emergencies.
 # Ecosystems with no dependencies in the repo are simply ignored by GitHub.
+# cooldown: wait 7 days before proposing a newly published version — brand-new
+# releases are where malicious/broken packages live (supply-chain safety).
 version: 2
 updates:
   - package-ecosystem: pip
     directory: "/"
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
