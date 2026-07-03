@@ -8,6 +8,11 @@
 
 **Input**: User description: "$ARGUMENTS"
 
+> **Keep this spec lean — roughly 300 lines max.** Over-specifying paralyzes the AI (too many rules to
+> juggle, so it juggles none well); under-specifying makes it hallucinate (it fills gaps with guesses).
+> This spec describes WHAT the feature does and WHY it matters — never HOW to build it; that decision
+> belongs to `/speckit-plan`.
+
 ## User Scenarios & Testing *(mandatory)*
 
 <!--

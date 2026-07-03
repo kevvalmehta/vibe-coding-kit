@@ -45,23 +45,32 @@ When the owner signals they want to put an app **live for real external users** 
 *publicly* — read the **intent**, not just the word "public" ("put it live", "on Vercel for everyone",
 "send customers the link" all count). At that moment, STOP and do this before helping them deploy:
 
-1. **Remind them, in plain English, of the heavier security methods deferred for internal tools** —
+1. **Run the pre-flight security gate first**: `python plugins/vibe-coding-skills/scripts/preflight_gate.py`. This is a
+   deterministic, no-AI scan — it mechanically checks for leaked secrets (API keys/tokens hardcoded
+   in tracked files), missing Row-Level Security (a Supabase/Postgres setting that stops one user
+   reading another user's data), and missing rate limiting (a cap on how many times someone can hit
+   an endpoint). Show the owner the result before any deploy step continues.
+2. **Remind them, in plain English, of the heavier security methods deferred for internal tools** —
    from `docs/security-six-check.md`: per-app **attack-tests** (hit login 1,000× → assert blocked;
    fetch another user's record → assert denied), **custom Semgrep rules**, a **live attack scan
    (DAST)**, and a **threat-modeling step**. These were skipped on purpose because the app was internal;
    going public is exactly when they start to matter.
-2. **Offer to add the per-app attack-tests** for the **login** and **money/data** endpoints before go-live.
-3. **Record the owner's decision** (accept or decline) in plain markdown (the deploy conversation /
+3. **Offer to add the per-app attack-tests** for the **login** and **money/data** endpoints before go-live.
+4. **Record the owner's decision** (accept or decline) in plain markdown (the deploy conversation /
    HANDOFF.md) — a conscious, logged choice, never a silent skip.
-4. **Warn, do not block.** Declining does not stop the deploy — the owner decides; you log it.
-5. **Fire on the internal→public transition** while these items are still open. Do **not** nag on
+5. **Warn, do not block.** Declining does not stop the deploy — the owner decides; you log it.
+6. **Fire on the internal→public transition** while these items are still open. Do **not** nag on
    routine re-deploys once they are resolved or explicitly declined (check the log first).
-6. **Walk `docs/production-readiness.md` with them** (spec 016 Phase 3) — the six checks between
+7. **Walk `docs/production-readiness.md` with them** (spec 016 Phase 3) — the six checks between
    "works" and "safe to run for real users": dependency audit green (CI does it), schema changes
    via additive-first migrations with a backup taken first, error monitoring wired (Sentry-style —
    crashes, not just AI drift), data backups exist AND a restore was tested once, a load smoke on
    the heaviest endpoint, and accessibility basics for anything user-facing. Same rule as above:
    record decisions, warn, never block.
+
+**Never run Claude Code with `--dangerously-skip-permissions`.** That flag removes every human
+approval gate this skill (and the kit) relies on — no more "ask before deploy," no more pausing on
+a destructive command. It is never appropriate for this project, deploy or otherwise.
 
 This lives in the kit (this file + `docs/security-six-check.md` + `docs/production-readiness.md`),
 so any AI tool reaches it — not only Claude's memory (Principle VI).

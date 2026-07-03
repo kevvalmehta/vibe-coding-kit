@@ -42,6 +42,16 @@
 
 [Gates determined based on constitution file]
 
+## Running cost implications
+
+*Call out anything in this plan that costs money per-usage at scale — not one-time build cost, but
+cost that grows with usage. The owner approves these before build, not after the bill arrives.*
+
+- **Realtime listeners** (e.g. Supabase Realtime, WebSockets): [one-line plain-English cost note, or "N/A"]
+- **LLM API calls** (e.g. Claude, OpenAI): [one-line plain-English cost note, or "N/A"]
+- **Image/file storage + bandwidth** (e.g. Supabase Storage, S3, CDN egress): [one-line plain-English cost note, or "N/A"]
+- **Per-seat services** (e.g. per-user pricing on a hosted tool): [one-line plain-English cost note, or "N/A"]
+
 ## Project Structure
 
 ### Documentation (this feature)

@@ -72,6 +72,12 @@ no AI, never flaky); fuzzy cases use the **judge** (cheap model, set to its stea
 scores don't jump around). If a result lands right on the borderline, the runner re-runs it once
 before declaring a fail — so one unlucky run never blocks a good change.
 
+**Judges grade with categorical labels, never open-ended numeric scores.** The judge must pick from a
+fixed set of labels written into the rubric — e.g. `pass` / `fail` / `unsafe` / `hallucinated` — never
+a free "rate this 1-10." Research shows numeric scores from an LLM are erratic (the same output can
+get a 6 one run and a 9 the next), which makes a passing bar meaningless. A categorical label against
+a written rubric is far more repeatable, so the pass/fail verdict can actually be trusted.
+
 Exit codes the owner may see: **0** = passed, **1** = failed (AI got worse), **2** = the eval itself
 broke (e.g. a bad API key) — never a false "pass."
 

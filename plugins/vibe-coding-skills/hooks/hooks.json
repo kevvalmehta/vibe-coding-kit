@@ -9,6 +9,29 @@
             "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/tdd_guard.py\"",
             "timeout": 60,
             "statusMessage": "TDD-Guard checking..."
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/destructive_action_gate.py\"",
+            "timeout": 15,
+            "statusMessage": "Checking for destructive changes..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/destructive_action_gate.py\"",
+            "timeout": 15,
+            "statusMessage": "Checking for destructive commands..."
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/spec_drift_warn.py\"",
+            "timeout": 15,
+            "statusMessage": "Checking spec drift..."
           }
         ]
       }
