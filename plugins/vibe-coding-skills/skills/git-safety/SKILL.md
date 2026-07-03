@@ -35,6 +35,43 @@ clean and deployable. Make every change reversible. Default to SAFE, non-destruc
   `git revert` the bad range (or branch from the good commit). NEVER force-push `main`.
 - ALWAYS confirm before any destructive/irreversible git op, and explain in plain English what it does.
 
+## Merge conflicts — rescue (nothing is lost)
+A **merge conflict** happens when you and another change (another branch, another session, a
+teammate) both edited the **same lines** of the same file. Git can merge most changes
+automatically, but when two edits overlap, git refuses to guess which version should win — it
+stops and asks a human to decide.
+
+**Nothing is lost.** Both versions are still sitting right there in the file — git just needs
+you to pick. Nothing has been deleted or overwritten.
+
+**What the owner will literally see** in the conflicted file, between markers git inserts:
+```
+<<<<<<< HEAD
+(your current version of these lines)
+=======
+(the other version of these lines)
+>>>>>>> other-branch
+```
+Everything from `<<<<<<<` down to `=======` is one version; everything from `=======` down to
+`>>>>>>>` is the other. Both are real, both are preserved — git is just waiting to be told which
+one (or what combination) to keep.
+
+**Division of labor:** the AI runs the git mechanics (starts the merge, finds every conflicted
+file, removes the markers once a choice is made) and explains **both versions in plain English** —
+what each one does, not just the raw code. The **owner picks** which version wins, or asks for a
+blend. The AI never silently picks a side.
+
+**The always-safe escape hatch:** `git merge --abort` cancels the merge in progress and puts
+everything back exactly to how it was the moment before the merge started — no conflict markers,
+no half-finished merge, no risk. If a conflict looks confusing or high-stakes, abort first and
+regroup; you can always try again.
+
+**Special rule — never resolve conflicts blind in migration/schema files.** A conflict in a
+database migration or schema file is destructive-action-gate territory (spec 017): both sides may
+have changed what the database looks like, and guessing wrong can corrupt real data. For these
+files, stop, show the owner both versions in plain English, and get explicit confirmation on the
+resolution before continuing — never auto-merge and move on.
+
 ## Never
 - Never `git push --force` to `main`/`master`. Never rewrite shared history.
 - Never commit secrets (`.env`, keys) — they live in `.gitignore`; keep them there.

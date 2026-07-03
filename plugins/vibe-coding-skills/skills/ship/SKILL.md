@@ -30,6 +30,17 @@ pass it) in an isolated copy. Explain in plain English what's being built this s
 Route to **`/verify`** — run the real thing + a risk rating + visual/real proof. A passing unit test
 isn't the same as "it actually works"; `/verify` checks the real behavior. Checkpoint.
 
+**Review on two separate axes, and report them separately** (adapted from Matt Pocock's skills,
+MIT — never blend the two into one verdict):
+- **Axis 1 — SPEC FIDELITY:** does the build do what the spec actually says? Beautiful, clean code
+  that quietly builds the WRONG THING fails HERE, not on axis 2.
+- **Axis 2 — STANDARDS:** is it built well — naming, simplicity, following this project's
+  conventions? Correct behavior written badly fails HERE, not on axis 1.
+
+Reporting them separately matters because a pass on one axis can hide a failure on the other — code
+that reads beautifully but ignores the spec is not "mostly done," and code that nails the spec but
+is a mess is not "fine as-is." Call out each axis's verdict on its own line.
+
 ## 3. Fix failing tests → the bug-fix loop (only if red)
 
 If tests are red, run the **bug-fix loop** (full detail in `references/bug-fix-loop.md`). In plain
