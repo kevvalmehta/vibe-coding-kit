@@ -7,6 +7,25 @@ _Last updated: 2026-07-02_
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
 
+## Built 2026-07-03 — Spec 018 Adopted Patterns (branch `018-adopted-patterns` — NOT merged, owner reviews → push → PR)
+Mirrors PCK spec 018 into this plugin repo (stacked on `017-production-burn-guards`, same as source).
+Four patterns adapted natively from mattpocock/skills (MIT) — never install, rebuild.
+1. **`/pathfinder`** (new skill, `plugins/vibe-coding-skills/skills/pathfinder/SKILL.md`, adapted
+   from his in-progress `wayfinder` draft) — for ideas too big and foggy to plan in one sitting: a
+   local `pathfinder/map.md` (Notes, Decisions-so-far index, Fog) plus one-sharp-question tickets
+   routed to existing skills; one ticket resolved per session; hands off to `/speckit-specify` when
+   fog + open tickets are both empty.
+2. **Merge-conflict rescue** (`git-safety`) — plain-English walkthrough of what a conflict is, the
+   `<<<<<<<`/`=======`/`>>>>>>>` markers, `git merge --abort` as the safe escape hatch, and a rule
+   never to resolve conflicts blind in migration/schema files (spec 017 gate territory).
+3. **Two-axis review lens** (`/ship`) — review reports SPEC FIDELITY and STANDARDS separately, so a
+   pass on one can't mask a failure on the other.
+4. **domain-modeling named entry** (`SKILL-MAP.md`) — registers the discipline (challenge fuzzy
+   terms, `CONTEXT.md` glossary, sparse ADRs) by name, home = `grill-with-docs`.
+**State:** all four registered in `AGENTS.md` + `SKILL-MAP.md` + `README.md` (Principle VI); guard
+test `tests/test_adopted_patterns.py` (6 checks) green; full suite green. **Next / owner actions:**
+review the branch → push → PR → merge.
+
 ## Built 2026-07-02 — Spec 017 Production Burn Guards (branch `017-production-burn-guards` — NOT merged, owner reviews → push → PR)
 Mirrors PCK spec 017 into this plugin repo.
 - **Why:** Gemini deep-research flagged the "90-day solo-founder burn vectors" — leaked secrets,

@@ -202,6 +202,8 @@ Full plain-English map lives in **`SKILL-MAP.md`**. The short version:
 Optional skills that make the **planning** stage sharper. They never start the build. (Adopted from
 Matt Pocock's skills, MIT — full notes in `AGENTS.md`.)
 
+- **`/pathfinder`** — for an idea too big and foggy to plan in one sitting: charts it down to
+  something speccable, one small ticket at a time, before `/speckit-specify`.
 - **`grill-me`** — interrogates your plan, one question at a time, until every decision is resolved.
 - **`grill-with-docs`** — same, but checked against your existing code + recorded decisions.
 - **`/zoom-out`** — a plain-English map of how a piece of code fits the bigger picture.
@@ -276,6 +278,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `monitor` | `/monitor` — live post-launch monitoring (Conductor v5): after an app is deployed, samples recent real AI outputs, grades them against the same agent-eval rubric, and alerts on DRIFT (quality dropping below the bar). Reuses agent-eval's runner via `scripts/monitor_sample.py`; documents the Supabase-log + cron + alert switch-on recipe. Honest: needs a deployed app, never pretends to monitor one that isn't live |
 | `goal` | Turns a vague ask into a task contract (outcome + verification + stop rules) |
 | `discover` | `/discover` — the pre-spec reality check: pain-mines real users, scores which need is most underserved, cuts V1, names your first 10 users → hands a grounded problem statement to `/speckit-specify`. Read-only |
+| `pathfinder` | `/pathfinder` — for ideas too big and foggy to plan in one sitting: keeps a local `pathfinder/map.md` (Notes, Decisions-so-far index, Fog) + one-sharp-question-per-file tickets routed to `research-scout` / `/prototype` / `grill-me` / `grill-with-docs` / a manual checklist. One ticket resolved per session; hands the Decisions-so-far index to `/speckit-specify` once fog is empty and no tickets remain open. Runs before `/speckit-specify`; composes with `/discover` |
 | `grill-me` | Interrogates a fuzzy plan one question at a time (offers `research-scout` with consent) |
 | `research-scout` | `/research-scout` — third research lane: gathers REAL, CITED prior-art (papers, repos, docs, blogs, Reddit) → a `research/<topic>.md` note + summary. Quick default + hard ceiling; consent-gated; never fabricates a source. Distinct from `/discover` (problem) + GitMCP (APIs) |
 | `stack` | `/stack` — the stack-decider (Conductor v3): recommends the matching "boring, proven" stack (language/framework/database/hosting) per project type, asks your priority once (budget/scale/simplicity/speed), shows tiered cost-labelled options (free + pay-for-better) + the wrong-choice trigger, honors your own tool choice, escape hatch for exotic builds. Encodes the Streamlit→Streamlit-Cloud (not Vercel) fix. `/start` stage 4 routes in. Recommendation-only — never scaffolds/deploys (scaffolding = v7) |
