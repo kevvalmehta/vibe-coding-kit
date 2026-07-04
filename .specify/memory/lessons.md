@@ -18,6 +18,17 @@ never repeating, add a new entry using the template. Over time this file teaches
 future session what already went wrong here. When a scar matters enough to be a law,
 promote it into `constitution.md` and link back to the entry here.
 
+**Graduation path — when a scar can be checked by machine, don't leave it as prose.** If a
+confirmed L-# scar is **mechanically checkable** — a regex could spot it, a file-exists
+check could catch it, or a command could verify it — graduate it into a hook, lint rule, or
+CI check instead of leaving it as a paragraph someone has to remember to re-read. A check
+fires **100% of the time**, every run, with no memory required; a prose lesson only works if
+the model happens to recall it and apply it, which is not every time. The prose entry stays
+either way — it holds the **why**, which a bare check can't explain — but add a line to the
+entry naming which check now enforces it, so the lesson isn't relying on memory alone
+anymore. (This is exactly how this kit's own hooks were born: repeated corrections here
+turned into mechanical checks instead of staying as things to remember.)
+
 ---
 
 ## The template (copy this for every new entry)

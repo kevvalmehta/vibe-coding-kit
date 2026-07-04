@@ -75,6 +75,30 @@ Pause / Stop:   The high-risk triggers where the agent must stop and ask a human
 
 ## Built-in principles
 
+**Every constraint needs an instrument.** *Instrument* here means the actual command or check that
+MEASURES whether a constraint is being kept — not a feeling, a real thing you can point at. A
+constraint without an instrument is a vibe, and an agent will cheerfully violate a vibe because it
+has no way to tell it's crossing the line. When you write a Constraints line, name what checks it:
+- **Time** → wall-clock elapsed (the actual clock time that has passed). Agents have no built-in
+  sense of time passing — left unchecked, one will happily grind for 10 hours chasing a 2% gain that
+  isn't worth it. Give it a real instrument: "stop after 30 minutes wall-clock" only works if
+  something is actually reading the clock and telling the agent when 30 minutes is up.
+- **Money / API spend** → a command that prints the running cost so far (e.g. the cost estimate
+  `agent-eval`'s runner prints), checked against a hard cap.
+- **Test count / quality bar** → the test-runner's own pass count (e.g. "247/250 passing"), not a
+  guess at "most tests pass."
+If you can't name the instrument for a constraint, it isn't ready to ship in the contract — either
+find the check or admit the constraint is aspirational, not enforced.
+
+**Target mode (optional — for optimization problems only).** Most business-app goals have a clean
+finish line ("the booking flow works end-to-end") and don't need this. But some goals are a *chase*
+— "make the scraper more accurate," "make the page load faster" — where there's no single
+done-when, only better-or-worse. For these, instead of a finite Done-when line, set a **bar to
+descend toward**: a concrete number to beat, e.g. "95% of the 200 held-out cases pass" or "page load
+under 1.5s on a cold cache." If the bar involves an eval set with known answers, blind the answer key
+per `agent-eval`'s answer-key-blinding rule — the agent chasing the bar sees the score and failure
+categories, never the expected answers, so it improves the real thing instead of memorizing the test.
+
 **Default forward on low risk.** Don't stop the user to fill in blanks for low-stakes unknowns.
 State a clear assumption and pick the best default.
 
