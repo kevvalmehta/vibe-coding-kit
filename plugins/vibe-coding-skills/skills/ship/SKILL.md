@@ -55,6 +55,24 @@ English, the loop:
   of: **3 attempts** on a bug, **no progress** (same failure unchanged), a **detected cheat**, or
   budget exhausted.
 
+**Before every attempt, log three lines** (this is a quality bar on the attempts, not an extra exit —
+see below): the **hypothesis** (what I think is actually broken), the **expected failure mode** (what
+I expect to still be wrong if this hypothesis is mistaken), and — after running — the **diagnostic
+result** (what the real output showed). This log survives context compaction (the point where an
+agent's earlier reasoning gets summarized away) and turns each attempt into something the owner can
+actually review, instead of a string of vague "tried again" retries.
+
+**Entropy on stall — no repeating the same idea "but harder."** If an attempt makes no progress, the
+NEXT attempt must state a **genuinely different hypothesis** — a different theory of what's broken,
+not the same knob turned up. Banned: retrying the same fix with a bigger timeout, a broader regex, an
+extra retry loop, or any other "same idea, harder" move. If no new hypothesis is available, that
+**is** the no-progress stop below firing — don't manufacture a fake new angle just to keep going.
+
+**All existing exits are unchanged by this.** The 3-attempt cap, the no-progress stop, the
+cheat-detection hard-stop, and the budget exit all still fire exactly as before — the hypothesis log
+and the entropy rule raise the quality of what happens *inside* each attempt; they do not add, remove,
+or loosen any exit.
+
 The loop never reports "done" on a red suite and never passes a faked fix (Principle VII, constitution II).
 
 ## 4. Harden security → `/security-review`

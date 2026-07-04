@@ -92,6 +92,9 @@ runner is shipped in the plugin at `skills/agent-eval/assets/eval_runner.py` (un
 judge mocked in `skills/agent-eval/tests/`). v1 = build-time evals; after-launch live monitoring is now
 **`/monitor`** (see below). Pairs with `agent-architect`. Non-Claude agents:
 read its `SKILL.md` and run the vendored Python runner directly — nothing is Claude-only.
+**Hardened in 019:** any agent iterating on a fix against an eval set is now **answer-key blinded** —
+it sees the score + failed-case categories only, never the expected answers, so a small eval can't be
+memorized instead of the feature actually being fixed.
 
 ### Watch a LIVE app's AI output for drift — `/monitor` (Conductor v5)
 Original to this kit (`.claude/skills/monitor/` + `scripts/monitor_sample.py`). The **post-launch half
@@ -275,6 +278,10 @@ anti-cheat guardrails, or the wall). **NEVER pushes/merges/deploys** — ends at
 `/start`'s build stage routes into it; reference `references/bug-fix-loop.md`. **Non-Claude fallback:**
 follow `SKILL.md` + `bug-fix-loop.md` by hand — same gate order, same read-only-tests + diff-check
 guardrails, same multi-exit STOP. Registered in SKILL-MAP + README; ships to both repos.
+**Hardened in 019:** every attempt now logs hypothesis → expected failure mode → diagnostic result
+(survives context compaction, makes attempts reviewable); on a no-progress attempt the next one must
+state a genuinely different hypothesis (repeating the same idea "but harder" is banned). All existing
+exits (3-attempt cap, no-progress stop, cheat-detection, budget) are unchanged.
 
 ### Editing existing code (regression safety)
 When CHANGING / fixing / refactoring / removing code that already exists, do NOT just edit. Follow:
@@ -449,6 +456,10 @@ conditions — rebuilt tool-agnostic; that repo was NOT installed.
 Optional check: `python3 scripts/lint-goal.py goal.txt` flags weak verification ("make sure it
 works"), placeholders, unbounded boundaries ("edit anything"), and infinite-retry language —
 the script decides, not the agent's word (Gate 1 spirit).
+**Hardened in 019:** every constraint must now name its **instrument** (the command/check that
+measures it — wall-clock elapsed, spend, test count), since an unmeasurable constraint is a vibe an
+agent can't tell it's violating; plus an optional **target mode** for optimization goals (a bar to
+descend toward, answer-key blinded per `agent-eval`).
 
 ### Validate the idea before speccing — `/discover`
 Original to this kit (`.claude/skills/discover/`). The reality-check that runs BEFORE
@@ -494,6 +505,9 @@ step. The owner grows the app afterward via the kit's build flow (`/safe-change`
 richness is built-to-fit, not a guessed template (richer templates = a possible v7.5). **Non-Claude
 fallback:** run `python scripts/scaffold_stack.py <stack> <target>` and relay created-vs-skipped.
 Registered in README + SKILL-MAP; ships to both repos.
+**Hardened in 019:** the starter README now also advises **structured logs** (one event per line,
+plain words, e.g. `payment failed: card declined, user 812`) so an AI debugging the app later can read
+what actually happened instead of guessing (source credit: OpenAI harness-engineering, 2026).
 
 ### Ground decisions in real sources — `/research-scout`
 Original to this kit (`.claude/skills/research-scout/`). The **third research lane**: `/discover`
@@ -544,7 +558,7 @@ Source: github.com/mattpocock/skills. For non-Claude agents, read the matching `
 1. `HANDOFF.md` — current state
 2. `docs/memory-snapshot/` — mirrored memory (all files)
 3. `.specify/memory/constitution.md` — the non-negotiable rules
-4. `.specify/memory/lessons.md` — scars (L-# past mistakes + self-checks; run each before saying "done") AND patterns (P-# good habits worth repeating)
+4. `.specify/memory/lessons.md` — scars (L-# past mistakes + self-checks; run each before saying "done") AND patterns (P-# good habits worth repeating). **Hardened in 019:** a mechanically-checkable scar should graduate into a hook/lint/CI check, not stay prose-only — a check fires every time, a paragraph only if remembered.
 5. `plan.md` — history  ·  6. `README.md` — overview
 
 Confirm understanding in plain English before any code.

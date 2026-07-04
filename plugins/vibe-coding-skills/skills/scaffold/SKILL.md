@@ -27,6 +27,12 @@ a dependency file, a hello-world entry file (for code stacks), `.gitignore` (so 
 saved), `.env.example` (a template for secret keys, no real values), and a `README.md` that includes
 **how to run it** and a **"How to put this live"** note naming the matching host.
 
+The starter README also advises **structured logs** — one line per event, written in plain words
+(e.g. `payment failed: card declined, user 812`), instead of scattered or silent output. The payoff:
+when something breaks later, an AI helping debug it can **read what the app actually did** from
+these lines instead of guessing from a stack trace alone. (Source credit: OpenAI harness-engineering,
+2026.)
+
 ## 3. Never overwrite — report honestly
 
 The scaffolder **never overwrites an existing file** — it only creates what's missing and reports what

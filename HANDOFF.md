@@ -7,6 +7,30 @@ _Last updated: 2026-07-02_
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
 
+## Built 2026-07-04 — Spec 019 Feedback-Loop Hardening (branch `019-feedback-loop-hardening` — NOT merged, owner reviews → push → PR)
+Mirrors PCK spec 019 into this plugin repo. Two sources reviewed 2026-07-04 (OpenAI "harness
+engineering" post + the loss-function-development thread) found the kit's harness fundamentals solid
+but its FEEDBACK LOOPS soft. Five doc/skill-only edits, no scripts:
+1. **`agent-eval` — answer-key blinding** — any agent iterating on a fix against an eval set now sees
+   the score + failed-case categories only, never the expected answers (a 28-item eval got memorized
+   in one round when answers were visible; blinding forces a real fix instead).
+2. **`/goal` — instruments rule + target mode** — every constraint must name the command/check that
+   measures it (wall-clock, spend, test count) since an unmeasurable constraint is a vibe an agent
+   can't tell it's violating; plus an optional "target mode" for optimization goals (a bar to descend
+   toward, answer-key blinded per item 1).
+3. **`/ship` — iteration log + entropy on stall** — every bug-fix attempt now logs hypothesis →
+   expected failure mode → diagnostic result before/after running; a stalled attempt's next try must
+   state a genuinely different hypothesis (same idea "but harder" is banned). All existing exits
+   (3-attempt cap, no-progress stop, cheat-detection, budget) are unchanged.
+4. **Scar Log graduation path** (`.specify/memory/lessons.md`) — a mechanically-checkable L-# scar
+   should graduate into a hook/lint/CI check instead of staying prose-only; the prose entry stays for
+   the why, with a line naming which check now enforces it.
+5. **`/scaffold` — legibility line** — starter READMEs now advise structured logs (one event per
+   line, plain words) so an AI debugging the app later can read what happened instead of guessing.
+**State:** all five registered in `AGENTS.md` + `SKILL-MAP.md` (Principle VI); guard test
+`tests/test_feedback_loop_hardening.py` (5 checks) green; full suite green. **Next / owner actions:**
+review the branch → push → PR → merge.
+
 ## Built 2026-07-03 — Spec 018 Adopted Patterns (branch `018-adopted-patterns` — NOT merged, owner reviews → push → PR)
 Mirrors PCK spec 018 into this plugin repo (stacked on `017-production-burn-guards`, same as source).
 Four patterns adapted natively from mattpocock/skills (MIT) — never install, rebuild.

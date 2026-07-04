@@ -21,6 +21,23 @@ tests to green **without** the AI cheating its way there.
 6. **Diff-check the fix** (next section) before it counts.
 7. Re-run the full suite (back to step 1).
 
+## The iteration log (log this before every attempt)
+
+Three lines, written down before you try anything, then completed after running:
+1. **Hypothesis** — what I think is actually broken.
+2. **Expected failure mode** — what I'd expect to still see if this hypothesis turns out wrong.
+3. **Diagnostic result** (filled in after running) — what the real output showed.
+
+This survives context compaction (the point where earlier reasoning in a long session gets
+summarized away and lost) and makes every attempt reviewable by the owner instead of a vague "tried
+again."
+
+**Entropy on stall.** If an attempt makes no progress, the next attempt's hypothesis must be
+**genuinely different** — a different theory of the bug, not the same one turned up louder. Repeating
+the prior approach "but harder" (bigger timeout, broader regex, one more retry) is banned. This is a
+quality bar on what an attempt may look like — it does not add a 4th attempt or loosen the stop rule
+below.
+
 ## Anti-cheating guardrails (layered — no single one is enough)
 
 1. **Test files are READ-ONLY.** The fix step may edit source code; it may **never** edit the test files
