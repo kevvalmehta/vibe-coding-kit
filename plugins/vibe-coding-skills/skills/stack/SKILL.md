@@ -85,6 +85,9 @@ recommendation only. Then offer the next step:
 - **Create the starter files** → hand off to **`/scaffold`** (Conductor v7): it turns the chosen stack
   into a minimal, runnable starter in a folder (never overwriting anything). Supported:
   `streamlit`, `fastapi`, `python-script`, `nextjs`, `static-site`.
+- **If the stack includes a database** (the app keeps track of things) → **`/data-model`** BEFORE
+  building: it interviews the owner in plain English about what the app must remember and writes the
+  table plan into a contract file, so the schema is a decision, not a mid-build guess.
 - **Or go straight to planning/building** → `/speckit-plan` → `/ship`.
 
 ## Hard rules

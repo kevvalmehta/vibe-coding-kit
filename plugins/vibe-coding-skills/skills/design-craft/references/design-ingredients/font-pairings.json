@@ -1,0 +1,26 @@
+{
+  "_provenance": {
+    "source": "speakr originals + taste-skill (github.com/leonxlnx/taste-skill, MIT)",
+    "license": "MIT",
+    "adapted_on": "2026-06-22",
+    "curated_subset": "15 pairings — curated, not a full font catalogue",
+    "note": "taste-skill demotes Inter/Fraunces/Instrument Serif as the AI-default signature and prefers distinctive faces (Geist, Outfit, Satoshi, Cabinet/Space Grotesk). ai_default:true entries are kept available but ranked last by suggest(). An Inter BODY under a distinctive display heading stays distinctive."
+  },
+  "items": [
+    {"name": "Space Grotesk / DM Sans", "heading": "Space Grotesk", "body": "DM Sans", "note": "Characterful techy display over a highly readable body — distinctive without trying hard.", "ai_default": false},
+    {"name": "Cabinet Grotesk / DM Sans", "heading": "Cabinet Grotesk", "body": "DM Sans", "note": "Modern grotesque display with a clean body; a fresh alternative to the usual defaults.", "ai_default": false},
+    {"name": "Satoshi / Inter", "heading": "Satoshi", "body": "Inter", "note": "Crisp geometric display; Inter body is fine under a distinctive heading.", "ai_default": false},
+    {"name": "Montserrat / Lato", "heading": "Montserrat", "body": "Lato", "note": "Geometric headings + humanist body (matches the existing blog default).", "ai_default": false},
+    {"name": "Libre Franklin / Lora", "heading": "Libre Franklin", "body": "Lora", "note": "Grotesque headings with a warm, readable serif body.", "ai_default": false},
+    {"name": "DM Serif Display / DM Sans", "heading": "DM Serif Display", "body": "DM Sans", "note": "High-contrast serif display matched to its own sans.", "ai_default": false},
+    {"name": "Work Sans / Merriweather", "heading": "Work Sans", "body": "Merriweather", "note": "Clean sans heading over a classic, comfortable serif body.", "ai_default": false},
+    {"name": "IBM Plex Sans / IBM Plex Serif", "heading": "IBM Plex Sans", "body": "IBM Plex Serif", "note": "Superfamily pairing; technical, precise tone.", "ai_default": false},
+    {"name": "Playfair Display / Source Sans 3", "heading": "Playfair Display", "body": "Source Sans 3", "note": "Editorial: elegant high-contrast serif display over a clean sans body.", "ai_default": false},
+    {"name": "Space Grotesk / Inter", "heading": "Space Grotesk", "body": "Inter", "note": "Techy display with a neutral, readable body.", "ai_default": false},
+    {"name": "Archivo / Inter", "heading": "Archivo", "body": "Inter", "note": "Strong, slightly condensed headings; neutral body.", "ai_default": false},
+    {"name": "Outfit / Inter", "heading": "Outfit", "body": "Inter", "note": "Rounded, friendly modern display with a neutral body.", "ai_default": false},
+    {"name": "Inter / Inter", "heading": "Inter", "body": "Inter", "note": "Safe but the #1 AI-default signature when used as the display face. Available, but reach for a distinctive heading first.", "ai_default": true},
+    {"name": "Fraunces / Inter", "heading": "Fraunces", "body": "Inter", "note": "Popular but a strong AI tell as a default display serif (taste-skill bans it as default). Use only if the brand explicitly calls for it.", "ai_default": true},
+    {"name": "Instrument Serif / Inter", "heading": "Instrument Serif", "body": "Inter", "note": "Trendy display serif that reads as AI-default; kept available but demoted.", "ai_default": true}
+  ]
+}
