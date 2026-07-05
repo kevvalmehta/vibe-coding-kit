@@ -67,9 +67,10 @@ line, STOP: an input is missing — go get it or ask.
    - Exemplar test: read yours beside the exemplar named in the brief.
      If yours reads like a competent summary and theirs like crafted work,
      redraft.
-3. Score: all pass → present. One miss → fix, then present with honest notes.
-   Two or more → do NOT present; rework. Same question failing twice →
-   the approach is wrong; go back to the spec, don't patch symptoms.
+3. Score: all pass → present. One or two misses → fix what's fixable, then
+   present with honest notes. More than two → do NOT present; rework.
+   Same question failing twice across rounds → the approach is wrong; go
+   back to the spec, don't patch symptoms.
 4. If your tool supports fresh contexts/subagents, have a fresh context run
    this gate (the writer is biased toward its own work). Manual fallback:
    a deliberate second pass after a break — the fallback IS the contract.
@@ -87,9 +88,10 @@ line, STOP: an input is missing — go get it or ask.
 
 ## Portability
 
-Everything above is plain Markdown + stdlib scripts and runs identically in
-any AI tool. Every tool-dependent step states its manual fallback; the
-fallback is the contract — richer tooling is an optimization.
+Everything above is plain Markdown + scripts that need nothing installed,
+and runs identically in any AI tool. Every tool-dependent step states its
+manual fallback; the fallback is the contract — richer tooling is an
+optimization.
 ```
 
 ---

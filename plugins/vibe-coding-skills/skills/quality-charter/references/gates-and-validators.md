@@ -25,7 +25,8 @@ Tier 2 question. Two failure modes to avoid:
 
 ## Validator design rules (Tier 1)
 
-1. **Stdlib only, no network, no third-party deps.** The script must run
+1. **Stdlib only, no network, no third-party deps.** (Stdlib = Python's
+   built-in toolkit — nothing extra to install.) The script must run
    identically on any machine, driven by any model, forever.
 2. **Deterministic:** identical input → identical output. No timestamps, no
    randomness, no "current date" logic.
@@ -35,12 +36,14 @@ Tier 2 question. Two failure modes to avoid:
 4. **Honest scope in the docstring:** "Taste is NOT checked here — this
    supplements the Present Gate, it never replaces it."
 5. **Whitelist the loud placeholders.** Allow exactly a small recognizable
-   set of known-gap markers (`missing-photo`, `missing-asset`, `TODO-OWNER`);
-   fail *everything else* placeholder-shaped (`PLACEHOLDER`, `lorem ipsum`,
-   `example.com`, `YOUR_…`) — the dangerous placeholder is the one that reads
-   as real.
-6. **One CLI, subsettable.** A single runner with an `--only <checks>` flag
-   lets the mid-work self-check reuse the exact same code as final QA.
+   set of known-gap markers — the proven set is `missing-photo`,
+   `missing-asset`, `missing-video`, `missing-logo` (add project-specific
+   equivalents deliberately); fail *everything else* placeholder-shaped
+   (`PLACEHOLDER`, `lorem ipsum`, `example.com`, `YOUR_…`) — the dangerous
+   placeholder is the one that reads as real.
+6. **One runner command, subsettable.** A single command-line runner with an
+   `--only <checks>` flag lets the mid-work self-check reuse the exact same
+   code as final QA.
 
 ## Status vocabulary (non-negotiable)
 

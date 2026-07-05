@@ -2,11 +2,13 @@
 
 This catalog was extracted from three real plugin overhauls (a website copy
 pipeline, a website builder, and a blog/LinkedIn pipeline). Each had shipped
-bad output with the *same* instructions a good session used — proof that the
-problem was never the instructions. The fix, in every case, was the same
-architecture. One overhaul's trigger incident says it all: a site shipped with
-the default font, a missing image, and a literal `PLACEHOLDER` form endpoint —
-**and QA passed it**, because QA was a discipline, not a mechanism.
+weak output despite instructions that looked reasonable on paper — sometimes
+because a good session got lucky where a bad one defaulted, sometimes because
+most sessions silently skipped the instructions that would have prevented it.
+The fix, in every case, was the same architecture. One overhaul's trigger
+incident says it all: a site shipped with the default font, a missing image,
+and a literal `PLACEHOLDER` form endpoint — **and QA passed it**, because QA
+was a discipline, not a mechanism.
 
 **The unifying move: convert adjectives into artifacts.** Every vague quality
 wish becomes a file with a lifecycle:
@@ -53,9 +55,9 @@ unfalsifiable.
 **Mechanism:** a spec file written *before* generating, with concrete
 falsifiable values instead of adjectives — exact hex colors with a cap on how
 many, named fonts with an explicit banned-defaults list, numeric scales — plus
-a machine-readable JSON block inside the human-readable file. The build step
-refuses to run without it; the QA linter parses the same JSON and fails the
-build on mismatch.
+a machine-readable JSON block (JSON: a simple structured data format scripts
+can parse) inside the human-readable file. The build step refuses to run
+without it; the QA check parses the same JSON and fails the build on mismatch.
 
 **Rule:** before generating any artifact whose quality depends on decisions,
 force the decisions into one machine-parseable file. Every downstream step
@@ -85,8 +87,8 @@ model forgot to consider X" into a checkable artifact.
 The #1 recurring correction (a banned punctuation habit) recurred forever
 because the validator checked structure, never writing.
 
-**Mechanism:** small, dependency-free (Python stdlib) scripts that compute the
-check mechanically — banned-phrase lists, missing-file detection, placeholder
+**Mechanism:** small, dependency-free scripts (Python stdlib — the language's
+built-in toolkit, nothing extra to install) that compute the check mechanically — banned-phrase lists, missing-file detection, placeholder
 tokens, form endpoints, readability metrics — invoked as a MANDATORY phase
 gate: "run script X; all must report PASS before the next phase." Deterministic
 by design (identical input → identical output; no timestamps, no randomness),
@@ -97,7 +99,8 @@ gate, never replaces it").
 **Rule:** partition every quality rule into machine-checkable vs judgment-only.
 The machine-checkable slice becomes tested, stdlib-only code wired in as a
 required command — never a self-certified checkbox. A recurring correction
-that could be a regex MUST become a regex. And state each validator's scope
+that could be a regex (a text-search pattern) MUST become one. And state each
+validator's scope
 honestly so judgment checks are never skipped because "the linter passed."
 
 ## Pattern 5 — Scored self-review gate for the judgment slice

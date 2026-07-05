@@ -41,12 +41,18 @@ or piecemeal. Delete this file when all boxes are checked.
       format the two-layer (Rules / dated log) + `[promoted:]` convention from
       `self-evolution-loop.md`, so kit-level lessons follow the same
       reconcile/promote lifecycle.
-- [ ] **`HANDOFF.md`** — add `/quality-charter` as a routing target
-      (from `/start`, `/audit`, `/health`).
+- [ ] **`/guide` (`skills/guide/SKILL.md`)** — add a `quality-charter` row to
+      `## The skill map` so the kit's primary router can actually surface it.
+      Until this lands, `/guide` will NOT recommend quality-charter — only
+      `SKILL-MAP.md`/`README.md` list it.
+- [ ] **`HANDOFF.md`** — the Spec 020 landing entry is already in (this PR);
+      after weave-in, update it to point routing from `/start`, `/audit`,
+      `/health`.
 
 ## Testing after weave-in
 
-1. Fresh session → `/guide` → confirm `quality-charter` is discoverable.
+1. Fresh session → `/guide` → confirm `quality-charter` is discoverable
+   (expected to FAIL until the `/guide` weave-in item above lands).
 2. `/scaffold` a toy project → confirm seed files land.
 3. `/ship` on a project WITH a charter → confirm the gate runs; on a project
    WITHOUT one → confirm ship behaves exactly as before (no new friction).

@@ -47,8 +47,8 @@ here.
 
 ## Portability
 
-Plain Markdown + stdlib scripts only. Every tool-dependent step states its
-manual fallback; the fallback is the contract.
+Plain Markdown + scripts that need nothing installed. Every tool-dependent
+step states its manual fallback; the fallback is the contract.
 ```
 
 ---
