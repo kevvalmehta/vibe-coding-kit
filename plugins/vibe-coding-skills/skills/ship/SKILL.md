@@ -82,6 +82,10 @@ locked down). Surface findings in plain English; loop back to fix real ones. CI 
 
 ## 5. Hand off — stop at a green, reviewed branch
 
+If the project has a quality charter (`reference/charter.md`), "reviewed" includes it: run the
+charter's validator scripts and its Present Gate as one more exit condition before declaring the
+branch done (see `/quality-charter`). Projects without a charter: this step is unchanged.
+
 End at a **green, reviewed branch**. Summarize in plain English what was built and verified. Then
 **STOP**: push, merge, and deploy are the **owner's** manual action — route them to `git-safety` to do
 it themselves. (See the wall below.)

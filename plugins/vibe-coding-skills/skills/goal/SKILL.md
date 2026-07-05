@@ -66,6 +66,8 @@ Verification:   The PROOF it works — specific commands to run, logs to read, a
                 a test that passes, a file that appears. Never "make sure it works".
 Constraints:    What must NOT happen — no fabricated facts, no copyrighted assets, no new login/
                 backend/paid API in v1, no real user data, etc.
+Charter rules:  If the project has a quality charter (reference/charter.md), which numbered house
+                rules bind THIS task — cite by number (e.g. "R3, R7"). No charter → write "none".
 Boundaries:     Which files/areas the agent may write to. Never "edit anything" — name the lane.
 Iteration:      How to recover on failure, and a hard cap (e.g. "read the error log first; at most
                 3 focused rounds") so it can't loop forever.

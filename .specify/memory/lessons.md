@@ -55,7 +55,11 @@ Should be answerable yes/no in seconds.}
 
 A scar is a mistake to never repeat. A **pattern** is the opposite: a good way of doing
 something, discovered once, worth reaching for again. Scars use **L-#**; patterns use
-**P-#**. Both live in the Entries section below.
+**P-#**. Both live in the Entries section below. Lifecycle conventions (shared with
+`/quality-charter`'s `references/self-evolution-loop.md`): if a new lesson contradicts an
+old one, rewrite the current entry and mark the old one **SUPERSEDED (date)** — never leave
+two conflicting instructions live; and when the same lesson recurs twice, promote it to an
+enforced check (hook/lint/CI — the graduation path above) and tag the entry `[promoted: yes]`.
 
 ```
 ### P-{number} — {short name of the practice in plain English}

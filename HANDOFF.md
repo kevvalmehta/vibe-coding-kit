@@ -1,11 +1,31 @@
 # HANDOFF — Current State
 
-_Last updated: 2026-07-02_
+_Last updated: 2026-07-05_
 
 <!-- AUTOPILOT-STATE -->
 **Autopilot — idle.** No feature in progress. Last completed: `002-token-quick-wins` (merged). Start a
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
+
+## Built 2026-07-05 — Spec 020 Quality Charter (branch `020-quality-charter` — NOT merged, owner reviews → push → PR)
+New skill `/quality-charter` + 5 references: the 8-pattern quality architecture extracted from three
+real plugin overhauls (M1-M4 copy charter v0.4.0, M5-M6 taste-as-contract v0.2.0, blog-pipeline
+quality gates). Patterns: numbered charter with failure provenance (P1), contract-before-work (P2),
+pre-flight brief (P3), deterministic MUST-PASS validator scripts (P4), scored self-review gate (P5),
+exemplar banks (P6), loud labelled failure — never fabrication (P7), READ/CAPTURE/RECONCILE/PROMOTE
+learnings loop (P8). References: quality-architecture (the catalog + 3 cross-cutting laws),
+charter-template, gates-and-validators, self-evolution-loop, project-seed (starter AGENTS.md for any
+new project). Adversarially reviewed before landing: accuracy pass (all load-bearing claims verified
+against the three source repos) + kit-fit pass (frontmatter/heading/jargon/routing findings fixed).
+Second pass on the same branch added `references/working-method.md` (the 10 binding
+session-behavior rules — how a good session works, for any project type, pasteable into any
+AGENTS.md/CLAUDE.md) and completed the FULL weave-in: `/guide` map row, `/start` post-plan offer,
+`/scaffold` opt-in quality-file seeding, `/ship` charter-gate exit condition, `/goal` charter-rules
+contract line, `/audit` presence check, `/health` check-12 extension, `speckit-implement` charter
+read, `agent-eval` rubric↔gate cross-link, `lessons.md` SUPERSEDED/[promoted:] conventions.
+`INTEGRATION-TODO.md` deleted per its own rule (all items done).
+**State:** registered in `SKILL-MAP.md` + `README.md`; `check_inventory.py` green; weave-in complete.
+**Next / owner actions:** review the branch → push → PR → merge.
 
 ## Built 2026-07-04 — Spec 019 Feedback-Loop Hardening (branch `019-feedback-loop-hardening` — NOT merged, owner reviews → push → PR)
 Mirrors PCK spec 019 into this plugin repo. Two sources reviewed 2026-07-04 (OpenAI "harness

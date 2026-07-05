@@ -64,7 +64,7 @@ Dock up to the cap shown. Partial problems = partial deduction.
 | 9 | **AI-portable** | All 5 files present + memory snapshot synced, so any AI tool can pick up cold. | −6 |
 | 10 | **Git is reversible** | Working on a branch (not raw `main`), clean status, every change recoverable. | −6 |
 | 11 | **CI gate works** | GitHub Actions + lint + security scan present and passing. | −6 |
-| 12 | **Risks are written down** | Known issues / lessons are logged, not silently carried in someone's head. | −6 |
+| 12 | **Risks are written down** | Known issues / lessons are logged, not silently carried in someone's head — and if the project has a quality charter (`reference/charter.md`), its learnings file is actually being written to, not sitting empty (see `/quality-charter`). | −6 |
 
 Total possible dock = 100. A clean project keeps all 100.
 
