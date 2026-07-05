@@ -29,7 +29,9 @@ English ("Does this feature use an AI model to produce its output?") and decline
 1. **Confirm the feature uses AI** (see "When to decline").
 2. **Ask, in plain English, what "good output" looks like** for this feature. Turn the answer into a
    **rubric**. If the owner is unsure, propose a sensible default rubric and let them edit — never
-   leave them stuck.
+   leave them stuck. If the project has a quality charter (`reference/charter.md`), start from its
+   Present-Gate questions — they're ready-made rubric rows (and good new rubric rows are worth
+   copying back as gate questions; see `/quality-charter`).
 3. **Scaffold the folder.** Create `evals/<feature-name>/` in the project by copying the three files
    from `${CLAUDE_PLUGIN_ROOT}/skills/agent-eval/assets/eval_set_template/`:
    - `config.yaml` — the passing rules (bar %, critical-case rule, sample size, cost cap, judge model,

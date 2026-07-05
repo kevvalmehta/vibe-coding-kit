@@ -33,6 +33,12 @@ when something breaks later, an AI helping debug it can **read what the app actu
 these lines instead of guessing from a stack trace alone. (Source credit: OpenAI harness-engineering,
 2026.)
 
+After the script runs, ASK once: *"want the house quality rules seeded too? (yes/no)"* If yes,
+create the quality-system starters per `/quality-charter`'s `references/project-seed.md`:
+`reference/charter.md` (from its charter template, mostly blank), `reference/learnings.md` (just the
+two layer headers), and `reference/exemplars/README.md` (the fetch-first rule). Same no-overwrite
+guarantee applies. If no, skip silently — `/quality-charter` can install them any time later.
+
 ## 3. Never overwrite — report honestly
 
 The scaffolder **never overwrites an existing file** — it only creates what's missing and reports what

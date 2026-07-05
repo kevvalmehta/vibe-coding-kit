@@ -55,7 +55,10 @@ in `references/stage-resource-map.md`.
    stack with tiered, cost-labelled options (free + pay-for-better) and honors the owner's own tool
    choice. (`/stack` is recommend-only — it never sets anything up.)
 5. **Write the spec + plan + tasks** → the `/speckit-*` steps (this is `idea-to-app`'s gated spine —
-   drive it, don't rebuild it).
+   drive it, don't rebuild it). Once the plan is approved, OFFER **`/quality-charter`** once —
+   *"want the quality system installed before we build? (house rules + checks that catch sloppy
+   output — yes/no)"* — consent gate, never auto-run; skip the offer if the project already has a
+   charter (`reference/charter.md`).
 6. **Build it (the whole build phase)** → route into **`/ship`** (the build auto-chainer): it drives
    build (tests first, Superpowers) → confirm it works (`/verify`) → fix failing tests in a safe loop
    (anti-cheat guardrails + a 3-attempt/no-progress STOP) → harden security (`/security-review`), and

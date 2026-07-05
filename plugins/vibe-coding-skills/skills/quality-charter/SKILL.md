@@ -28,6 +28,9 @@ next year's.
 The method comes from three real plugin overhauls that each turned a failing
 build pipeline into a reliable one. The full pattern catalog with evidence is
 in `references/quality-architecture.md` — read it before installing anything.
+The session-level half (how a good working session behaves, as 10 binding
+rules any project can paste into its AGENTS.md/CLAUDE.md) is
+`references/working-method.md` — install it alongside the patterns.
 
 ## What you do / don't do
 

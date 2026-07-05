@@ -5,10 +5,14 @@ good sessions good was never the model alone — it was the *files the model was
 made to read and obey*. This seed is how a brand-new project gets that
 environment from day one, for any model, any vendor, any year.
 
-Copy the block below into `AGENTS.md` (or `CLAUDE.md`) at the project root,
-fill the brackets, then create the four files it names. Keep it under ~60
-lines — length degrades compliance; detail lives in the referenced files, not
-here.
+Copy the block below into `AGENTS.md` at the project root, fill the brackets,
+then create the four files it names. The same content works verbatim as
+`CLAUDE.md` (Claude Code reads that name natively; `AGENTS.md` is the
+cross-tool standard other AI tools read) — keep ONE of the two as the source
+of truth and make the other a one-line pointer to it, so they never drift.
+Keep it under ~60 lines — length degrades compliance; detail lives in the
+referenced files, not here. Then add the 10-rule session-behavior block from
+`working-method.md` beneath it.
 
 ---
 

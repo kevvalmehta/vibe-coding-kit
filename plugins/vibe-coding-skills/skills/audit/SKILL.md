@@ -78,7 +78,10 @@ verbatim (subagents don't inherit them) and an instruction to return findings on
 
 Depth follows the level keyword (default `standard`): `quick` (hotspots, top findings, HIGH-confidence
 only), `standard` (key packages, all nine categories), `deep` (whole repo, every category). A single
-focus keyword (`security`, `perf`, `tests`, …) scopes to that one category. Whatever the level, **state
+focus keyword (`security`, `perf`, `tests`, …) scopes to that one category. At any level, also run the
+cheap **quality-architecture presence check** (`/quality-charter`'s step-1 diagnosis: charter? script
+gates? learnings loop? exemplars?) — if largely absent, one brief routed to `/quality-charter`. It's a
+presence check, not a tenth deep-dive category. Whatever the level, **state
 what was NOT audited.** Every finding needs `file:line` evidence, impact, effort (S/M/L), fix-risk, and
 confidence — no vibes-only findings.
 

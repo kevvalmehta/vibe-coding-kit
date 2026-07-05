@@ -17,11 +17,15 @@ learnings loop (P8). References: quality-architecture (the catalog + 3 cross-cut
 charter-template, gates-and-validators, self-evolution-loop, project-seed (starter AGENTS.md for any
 new project). Adversarially reviewed before landing: accuracy pass (all load-bearing claims verified
 against the three source repos) + kit-fit pass (frontmatter/heading/jargon/routing findings fixed).
-**State:** registered in `SKILL-MAP.md` + `README.md`; `check_inventory.py` green. Weave-in to
-existing skills (`/start`, `/scaffold`, `/ship`, `/guide` map, `/goal`, `/audit`, `/health`,
-`speckit-implement`, `agent-eval`, lessons hooks) deliberately deferred — see `INTEGRATION-TODO.md`
-(11 bounded edits). Until the `/guide` row lands, discovery is via `SKILL-MAP.md`/`README.md` only.
-**Next / owner actions:** review the branch → push → PR → merge → later PR for INTEGRATION-TODO.
+Second pass on the same branch added `references/working-method.md` (the 10 binding
+session-behavior rules — how a good session works, for any project type, pasteable into any
+AGENTS.md/CLAUDE.md) and completed the FULL weave-in: `/guide` map row, `/start` post-plan offer,
+`/scaffold` opt-in quality-file seeding, `/ship` charter-gate exit condition, `/goal` charter-rules
+contract line, `/audit` presence check, `/health` check-12 extension, `speckit-implement` charter
+read, `agent-eval` rubric↔gate cross-link, `lessons.md` SUPERSEDED/[promoted:] conventions.
+`INTEGRATION-TODO.md` deleted per its own rule (all items done).
+**State:** registered in `SKILL-MAP.md` + `README.md`; `check_inventory.py` green; weave-in complete.
+**Next / owner actions:** review the branch → push → PR → merge.
 
 ## Built 2026-07-04 — Spec 019 Feedback-Loop Hardening (branch `019-feedback-loop-hardening` — NOT merged, owner reviews → push → PR)
 Mirrors PCK spec 019 into this plugin repo. Two sources reviewed 2026-07-04 (OpenAI "harness
