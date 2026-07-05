@@ -7,6 +7,19 @@ _Last updated: 2026-07-05_
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
 
+## Built 2026-07-05 — Spec 022 Skill Craft (branch `022-skill-craft` — NOT merged, owner reviews → push → PR)
+New skill `/skill-craft`: the skill-writing coach for creating new skills/plugins that get followed
+the same way every run. Five steps: one job + one leading word; AI-triggered vs owner-triggered
+invocation (description context cost, `disable-model-invocation`); tripwire descriptions
+(front-loaded leading word, one quoted trigger per branch); short cores with checkable steps +
+gates near the top; review against five failure modes (premature completion, duplication, sediment,
+sprawl, no-ops) then the registration ritual. Routes to skill-creator (scaffolding/evals) and
+`/quality-charter` (quality system) — writing craft only, no duplication. Adapts invocation-economics
+/ leading-words / failure-modes ideas from mattpocock/skills `writing-great-skills` (MIT, credited
+in-skill); merged with the kit's own conventions and quality-charter's laws.
+**State:** registered in `SKILL-MAP.md` + `README.md` + `/guide` map + `QUICKSTART.md`;
+`check_inventory.py` green. **Next / owner actions:** review → push → PR → merge.
+
 ## Built 2026-07-05 — Spec 020 Quality Charter (branch `020-quality-charter` — NOT merged, owner reviews → push → PR)
 New skill `/quality-charter` + 5 references: the 8-pattern quality architecture extracted from three
 real plugin overhauls (M1-M4 copy charter v0.4.0, M5-M6 taste-as-contract v0.2.0, blog-pipeline
