@@ -15,7 +15,11 @@ Usage:
 
 Exit code is the number of HIGH-severity findings (0 = none), so CI can gate on it.
 """
-import os, re, sys, json, argparse
+import argparse
+import json
+import os
+import re
+import sys
 
 EXTS = {".html", ".htm", ".css", ".scss", ".sass", ".less", ".js", ".jsx",
         ".ts", ".tsx", ".vue", ".svelte", ".astro", ".mdx"}
@@ -101,7 +105,8 @@ def compile_rules(min_sev):
 
 def iter_files(path):
     if os.path.isfile(path):
-        yield path; return
+        yield path
+        return
     for root, dirs, files in os.walk(path):
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
         for f in files:
@@ -155,7 +160,8 @@ def main():
     args = ap.parse_args()
 
     if not os.path.exists(args.path):
-        print(f"path not found: {args.path}", file=sys.stderr); sys.exit(2)
+        print(f"path not found: {args.path}", file=sys.stderr)
+        sys.exit(2)
 
     findings = scan(args.path, args.severity)
     by_sev = {}
