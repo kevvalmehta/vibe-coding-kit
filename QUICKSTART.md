@@ -52,6 +52,9 @@ reads the real state first.
 | You want to… | Type |
 |---|---|
 | Run the whole build for me (after a plan exists) | **`/ship`** |
+| Work out what the app must remember — "what tables do I need?" | **`/data-model`** |
+| Add login / user accounts / "only members see this" | **`/add-login`** |
+| Take payments, send emails, or let users upload files | **`/wire-up`** |
 | Change / fix existing code safely | **`safe-change`** |
 | Stuck on a bug | **`systematic-debugging`** |
 | Confirm a change really works (not just "tests exist") | **`/verify`** |
@@ -65,6 +68,8 @@ reads the real state first.
 | "Did I over-build this?" | **`/lean-review`** |
 | Check security before going live | **`/security-review`** |
 | Anything git — save, undo, branch, put it live, "it broke" | **`git-safety`** |
+| Know the moment your live site goes down | **`/uptime`** |
+| Make sure no service can quietly bill you | **`/cost-watch`** |
 
 ### If your app has AI inside it (chatbot, agent, any LLM feature)
 | You want to… | Type |

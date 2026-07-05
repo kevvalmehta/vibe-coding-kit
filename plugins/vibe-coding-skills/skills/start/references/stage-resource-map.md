@@ -17,6 +17,10 @@ stage, name the resource, explain in plain English what it is + why now, route t
 | Write spec / plan / tasks | **`/speckit-*`** (via `idea-to-app`) | The gated planning spine — drive it, don't rebuild it. |
 | Build it | **Superpowers** | Tests first, isolated copy, fresh-eyes review. |
 | …and it has a screen | **`/design-craft`** | Decides the LOOK before markup (a written design contract), then scans the result for the "looks AI-generated" tells. |
+| …and it must remember things | **`/data-model`** | Interviews you in plain English, writes the table plan into a contract you approve — before any table exists. |
+| …and it needs user accounts | **`/add-login`** | Adds login the boring, safe way (managed auth, magic links default) and proves one user can't read another's data. |
+| …and it takes money / sends email / stores uploads | **`/wire-up`** | Connects the outside service in test mode first; nothing real moves until you flip the keys. |
+| Just went live | **`/uptime`** + **`/cost-watch`** | A free robot that emails you if the site stops loading; a cap or alert on every service that can bill you. |
 | Prove the AI output is good | **`agent-eval`** | Scores fuzzy AI output against a rubric + a CI gate (only if the app has AI). |
 | Confirm it works | **`/verify`** | Runs the real thing + a risk rating + proof. |
 | Check it's safe | **`/security-review`** | Inputs validated, no secrets, database locked down. |

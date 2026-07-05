@@ -7,6 +7,29 @@ _Last updated: 2026-07-05_
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
 
+## Built 2026-07-05 — Specs 024–028: the five gap-fillers (branch `023-design-craft` — NOT merged, owner reviews → PR → merge)
+Five new skills closing the kit's gaps for non-website builds (from the 2026-07-05 full-kit gap
+survey), all following the contract-before-work house pattern (a named file the owner approves,
+then checkable steps, honest scope, plain English):
+- **`/data-model`** (024) — the database design coach: entity interview → binding `DATA-MODEL.md`
+  (JSON machine block, RLS sentence per user-owned table) BEFORE any table; additive-first
+  migrations; backups route to production-readiness.
+- **`/add-login`** (025) — the login coach: magic-links default, `AUTH-SPEC.md` contract, managed
+  auth only, secrets in `.env`, RLS everywhere, mandatory wrong-user test via `/verify`.
+- **`/wire-up`** (026) — the integrations coach: Stripe / transactional email / stack storage,
+  `INTEGRATIONS.md` contract, test mode first always, webhook-signature verification mandatory,
+  owner flips live keys at their own keyboard.
+- **`/uptime`** (027) — the "is my site down?" coach: free checker (owner opens the account),
+  `UPTIME.md` watch list + incident runbook, proves the test alert arrives before claiming setup.
+- **`/cost-watch`** (028) — the bills coach: inventories billable services from `.env.example`,
+  `COSTS.md` row per service, owner-at-keyboard cap-or-alert (AI keys get monthly usage limits),
+  monthly 5-minute review.
+Weave-ins: `/stack` hand-off (database → `/data-model`), `git-safety` going-public walk item 8
+(post-live → offer `/uptime` + `/cost-watch`), `/start` stage-resource-map (4 rows), `/guide` map,
+SKILL-MAP, README, QUICKSTART. Drafted by delegated agents against a shared style brief, reviewed
+and integrated by the orchestrator, adversarially verified before landing.
+**State:** registered everywhere; `check_inventory.py` green. **Next / owner actions:** review → PR → merge.
+
 ## Built 2026-07-05 — Spec 022 Skill Craft (branch `022-skill-craft` — MERGED via PR #33)
 New skill `/skill-craft`: the skill-writing coach for creating new skills/plugins that get followed
 the same way every run. Five steps: one job + one leading word; AI-triggered vs owner-triggered

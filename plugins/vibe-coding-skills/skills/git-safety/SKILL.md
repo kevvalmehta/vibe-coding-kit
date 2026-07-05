@@ -104,6 +104,10 @@ When the owner signals they want to put an app **live for real external users** 
    crashes, not just AI drift), data backups exist AND a restore was tested once, a load smoke on
    the heaviest endpoint, and accessibility basics for anything user-facing. Same rule as above:
    record decisions, warn, never block.
+8. **Once it's live, offer the two watchers** (one-time setup each, owner at the keyboard):
+   **`/uptime`** — a free robot that emails the owner the moment the site stops loading — and
+   **`/cost-watch`** — a cap or alert on every outside service that can bill them, so the first
+   news of a runaway bill is never the card statement. Offer once, record the decision, don't nag.
 
 **Never run Claude Code with `--dangerously-skip-permissions`.** That flag removes every human
 approval gate this skill (and the kit) relies on — no more "ask before deploy," no more pausing on
