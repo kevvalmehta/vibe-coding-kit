@@ -42,7 +42,11 @@ sections:
 3. **Fog** — questions you can feel coming but cannot phrase sharply yet. Written loosely, on
    purpose left incomplete. Example: "something about how refunds interact with the trial period,
    not sure what yet." Fog is not a task list — it is a place to note a shape without forcing it
-   into a question before it's ready.
+   into a question before it's ready. When a fog entry contains a concrete unknown VALUE you can
+   name but not answer yet (a number, a price, a limit, a region), mark it as a `{Variable}`
+   placeholder — e.g. "refunds during the trial, and whatever `{RefundWindowDays}` turns out to
+   be." Same unknowns-ledger notation as `/wargame`'s recon list: curly braces make every
+   unfilled unknown greppable with a search for `{`.
 
 ## Tickets — `pathfinder/tickets/`
 

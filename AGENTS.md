@@ -260,6 +260,25 @@ stop-at-every-step gate BY HAND; run the PLAN candidates and the PRE-PR checks S
 slower) and say so. Resume by reading the `AUTOPILOT-STATE` block in `HANDOFF.md` (or run
 `python scripts/autopilot_state.py`). This is the LLM-portable contract for the skill.
 
+### War-game the plan before the build — `/wargame` (spec 030)
+The `wargame` skill (`.claude/skills/wargame/`) sits between plan and build: the kit plans forward,
+but nothing simulated the plan FAILING before `/wargame` existed (concept adapted from Mark Kashef's
+AI war-gaming, youtube.com/watch?v=nuwlyQXrADg — rebuilt natively as a contract file, not advice).
+It reads the newest `specs/*/plan.md` (or a plan the owner points at) **READ-ONLY** and writes a
+binding `WARGAME.md` next to it: per plan step **expected observation / failure scenario / most
+likely cause / countermove** (countermoves route to existing skills — `systematic-debugging`,
+`safe-change`, `git-safety`, `research-scout`); numbered **decision forks** ("if you observe X →
+route A; if Y → route B") the owner picks now; **abort conditions** (executor stops, never
+improvises past one); an **assumptions ledger** split into assumed inputs vs recon needed, every
+unknown a greppable `{PlaceholderName}` the owner fills before the build; and a named **executor
+model** line so a cheaper model executes the battle plan faithfully (follows steps, takes forks as
+written, stops at aborts, never re-plans). Refuses with no plan file; never edits code; NEVER
+pushes/merges/deploys. Absorptions: `/speckit-tasks`' template gained the "Fails when → then what"
+companion line (copy each step's failure scenario + countermove into tasks), and `/pathfinder`'s
+Fog uses the same `{Variable}` unknowns notation. Skeleton: `references/wargame-template.md`; guard:
+`tests/test_wargame.py`. **Non-Claude fallback:** follow the "For non-Claude agents" procedure in
+`SKILL.md` — plain Markdown end to end.
+
 ### Want the whole BUILD run for you? Use `/ship` (build auto-chaining, Conductor v4)
 The `ship` skill (`.claude/skills/ship/`) is the **post-plan counterpart of `autopilot`**: where
 autopilot chains the *planning* phase, `/ship` chains the *build* phase end-to-end for a non-technical

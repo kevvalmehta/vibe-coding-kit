@@ -7,7 +7,25 @@ _Last updated: 2026-07-05_
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
 
-## Built 2026-07-05 — Specs 024–028: the five gap-fillers (branch `023-design-craft` — NOT merged, owner reviews → PR → merge)
+## Built 2026-07-05 — Spec 030: `/wargame` (branch `030-wargame` — NOT merged, owner reviews PR → merge)
+New skill `/wargame` — the plan war-gamer (item 7 of the 2026-07-05 gap survey; concept from Mark
+Kashef's AI war-gaming video, rebuilt on the contract-before-work house pattern). After
+`/speckit-plan` (or on any plan file), it reads the plan READ-ONLY and writes a binding
+`WARGAME.md` next to it: per step **expected observation / failure scenario / most likely cause /
+countermove** (routed to existing kit skills); numbered **decision forks** ("observe X → route A;
+Y → route B"); **abort conditions** (stop, never improvise past one); an **assumptions ledger**
+split into assumed inputs vs recon needed with greppable `{PlaceholderName}` unknowns the owner
+fills; and a named **executor model** line so a cheaper model executes the battle plan faithfully.
+Refuses with no plan file; never edits code; never pushes/merges/deploys. Skeleton in
+`references/wargame-template.md`; guard test `tests/test_wargame.py` (test-first).
+Absorptions: the tasks template's Done-When section gained the **"Fails when → then what"**
+companion line (copy failure scenario + countermove from `WARGAME.md` when one exists), and
+`/pathfinder`'s Fog now marks nameable-but-unanswered values with the same `{Variable}` notation.
+Registered: SKILL-MAP, AGENTS.md, README index, QUICKSTART, `/guide` map, `/start`
+stage-resource-map. **State:** full suite green (2 pre-existing env-only preflight failures
+unchanged). **Next / owner actions:** review PR → merge.
+
+## Built 2026-07-05 — Specs 024–028: the five gap-fillers (branch `023-design-craft` — MERGED via PR #34)
 Five new skills closing the kit's gaps for non-website builds (from the 2026-07-05 full-kit gap
 survey), all following the contract-before-work house pattern (a named file the owner approves,
 then checkable steps, honest scope, plain English):

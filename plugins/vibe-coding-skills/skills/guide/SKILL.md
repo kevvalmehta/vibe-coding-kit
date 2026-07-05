@@ -49,7 +49,8 @@ Always answer in this shape:
 | Writing the "what + why" | `/speckit-specify` | Creates the spec |
 | De-risking an unclear spec | `/speckit-clarify` | Up to 5 targeted questions |
 | Deciding the "how" (architecture) | `/speckit-plan` | The plan |
-| Breaking the plan into steps | `/speckit-tasks` | Small testable tasks (each with a "Done when") |
+| Plan approved — "what could go wrong?" / want a battle plan first | `/wargame` | War-games the plan read-only into a binding `WARGAME.md`: per step expected observation / failure scenario / likely cause / countermove, decision forks, abort conditions, `{Placeholder}` unknowns the owner fills, a named (cheaper) executor model. Never edits code |
+| Breaking the plan into steps | `/speckit-tasks` | Small testable tasks (each with a "Done when", optionally a "Fails when → then what") |
 | Building a brand-new feature | `idea-to-app` → Superpowers TDD build | Isolated worktree, tests first |
 | Changing / fixing / editing code that exists | `safe-change` | Impact map → tests → isolate → review |
 | Stuck on a bug or weird behavior | `superpowers:systematic-debugging` | Root-cause before fixing |
