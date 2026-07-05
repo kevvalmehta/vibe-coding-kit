@@ -26,6 +26,12 @@ can check itself (e.g. "uploading a CSV with 3 rows creates 3 records and shows 
 not "works correctly". A measurable goal lets the build agent run, self-verify, and keep going.
 Vague goals make YOU the bottleneck.
 
+**Companion line — "Fails when → then what."** A risky task's "Done when" may carry one extra line:
+the most likely way the step goes wrong and the pre-decided first move if it does (e.g. "Fails when:
+the API call ends 401 → then what: check the key name in `.env` before touching code"). If `/wargame`
+produced a `WARGAME.md` for this plan, copy each step's failure scenario + countermove here verbatim
+— the build then reacts by contract instead of improvising.
+
 **Machine check (the plan↔build seam).** After generating this file, run
 `powershell -File scripts\check-plan.ps1` — it confirms every Independent Test is measurable and no
 template scaffolding is left, so the plan is specific enough to build from. Before merging a finished

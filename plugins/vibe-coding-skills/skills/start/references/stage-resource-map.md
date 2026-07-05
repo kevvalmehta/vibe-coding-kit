@@ -15,6 +15,7 @@ stage, name the resource, explain in plain English what it is + why now, route t
 | Before coding vs a library | **GitMCP** | Lets the AI read the library's REAL current docs, so it can't invent functions. |
 | …building an AI feature | **cookbook** | Real, tested Claude recipes (evals, tool use, caching) instead of guessed code. |
 | Write spec / plan / tasks | **`/speckit-*`** (via `idea-to-app`) | The gated planning spine — drive it, don't rebuild it. |
+| …plan approved, want it failure-tested first | **`/wargame`** | Simulates each step going wrong BEFORE the build: what success looks like, the likely failure, the pre-decided countermove, and when to stop — written into a contract the build follows instead of improvising. |
 | Build it | **Superpowers** | Tests first, isolated copy, fresh-eyes review. |
 | …and it has a screen | **`/design-craft`** | Decides the LOOK before markup (a written design contract), then scans the result for the "looks AI-generated" tells. |
 | …and it must remember things | **`/data-model`** | Interviews you in plain English, writes the table plan into a contract you approve — before any table exists. |

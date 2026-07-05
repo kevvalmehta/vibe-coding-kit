@@ -51,6 +51,7 @@ reads the real state first.
 ### Building & fixing
 | You want to… | Type |
 |---|---|
+| War-game the plan first — know what failure looks like before building | **`/wargame`** |
 | Run the whole build for me (after a plan exists) | **`/ship`** |
 | Work out what the app must remember — "what tables do I need?" | **`/data-model`** |
 | Add login / user accounts / "only members see this" | **`/add-login`** |
