@@ -7,7 +7,7 @@ _Last updated: 2026-07-05_
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
 
-## Built 2026-07-05 — Spec 022 Skill Craft (branch `022-skill-craft` — NOT merged, owner reviews → push → PR)
+## Built 2026-07-05 — Spec 022 Skill Craft (branch `022-skill-craft` — MERGED via PR #33)
 New skill `/skill-craft`: the skill-writing coach for creating new skills/plugins that get followed
 the same way every run. Five steps: one job + one leading word; AI-triggered vs owner-triggered
 invocation (description context cost, `disable-model-invocation`); tripwire descriptions
@@ -18,7 +18,26 @@ sprawl, no-ops) then the registration ritual. Routes to skill-creator (scaffoldi
 / leading-words / failure-modes ideas from mattpocock/skills `writing-great-skills` (MIT, credited
 in-skill); merged with the kit's own conventions and quality-charter's laws.
 **State:** registered in `SKILL-MAP.md` + `README.md` + `/guide` map + `QUICKSTART.md`;
-`check_inventory.py` green. **Next / owner actions:** review → push → PR → merge.
+`check_inventory.py` green. **Merged.**
+
+## Built 2026-07-05 — Spec 023 Design Craft (branch `023-design-craft` — WORK IN PROGRESS, not yet reviewed/PR'd)
+New skill `/design-craft`: the UI/frontend design coach — the missing craft layer for anything with a
+screen. Forces a deliberate look BEFORE markup (stated reference/direction + a binding `DESIGN-SPEC.md`
+contract: palette, real fonts, grid, named layout skeletons H1–H4/B1–B8/F1, ≤3-move motion budget),
+applies real typographic + grid craft while building (taste rules, Swiss grid + Vignelli discipline,
+mono register, premium motion patterns), then verifies: `scripts/devibe_scan.py` (deterministic tell
+scan — AI purple, gradients, emoji icons, default fonts; exit code gates CI) + a scored 14-question
+self-critique (≥12/14 to present, never present a failing page). Bans UNDECIDED defaults, never the
+owner's choices — no house style imposed. Vendors the working core (~170KB) of three MIT bodies of
+work (leonxlnx/taste-skill, JCarterJohnson/vibecoded-design-tells, ui-ux-pro-max design ingredients;
+licenses in `references/licenses/`; the 1.5MB ui-ux CSV database was deliberately left out),
+battle-tested in a real client website overhaul (speakr website-builder v0.2.0, where a first
+render without these rules failed the owner's design gate and the redo that applied them passed).
+It is quality-charter's contract-before-work pattern
+(P2) applied to design. Woven in: `/ship` step 1 (route in when the work has a screen), `/scaffold`
+hand-off, `/start` stage-resource-map, `/guide` map.
+**State:** registered in `SKILL-MAP.md` + `README.md` (skill + `devibe_scan.py` script rows) +
+`QUICKSTART.md` + `/guide`; `check_inventory.py` green. **Next / owner actions:** review → PR → merge.
 
 ## Built 2026-07-05 — Spec 020 Quality Charter (branch `020-quality-charter` — NOT merged, owner reviews → push → PR)
 New skill `/quality-charter` + 5 references: the 8-pattern quality architecture extracted from three

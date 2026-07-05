@@ -51,6 +51,9 @@ Tell the owner, in plain English: what was created, the one command to run it, a
 "put this live" note is. Then hand off:
 - **Run it** locally with the printed command.
 - **Grow it** → `/safe-change` (edits) or `/start` / `/ship` (new features) — each built tests-first.
+- **If it has a screen** (nextjs / static-site, or any stack a human will look at) → `/design-craft`
+  BEFORE building the first real page, so the look is a decision (a `DESIGN-SPEC.md` contract), not
+  the generic AI default.
 - **Put it live** → `git-safety` → preview → the matching host (Vercel / Streamlit Cloud / Render) +
   Supabase. **`/scaffold` itself never deploys** — going live stays the owner's manual step.
 

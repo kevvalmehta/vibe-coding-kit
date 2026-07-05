@@ -25,6 +25,12 @@ the `/speckit-*` steps). Don't build on a guess.
 Route to **Superpowers** to build the tasks **test-first** (write the failing test, then the code to
 pass it) in an isolated copy. Explain in plain English what's being built this step. Checkpoint.
 
+**If the work has a screen** (a website, web app, dashboard, any UI a human will look at): before the
+first page/screen is written, route to **`/design-craft`** for the look contract (`DESIGN-SPEC.md`),
+and after the UI is built run its tell scan + self-critique gate. Without it the UI ships as the
+training-data median — the "looks AI-generated" look. Skip silently for screenless work (an API, a
+script, a pipeline).
+
 ## 2. Confirm it works → `/verify`
 
 Route to **`/verify`** — run the real thing + a risk rating + visual/real proof. A passing unit test

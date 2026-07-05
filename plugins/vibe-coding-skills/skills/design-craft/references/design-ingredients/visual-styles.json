@@ -1,0 +1,22 @@
+{
+  "_provenance": {
+    "source": "speakr originals + ui-ux-pro-max (github.com/nextlevelbuilder/ui-ux-pro-max-skill, MIT)",
+    "license": "MIT",
+    "adapted_on": "2026-06-22",
+    "curated_subset": "11 styles — curated, not the full 67-style catalogue",
+    "note": "Adapted named aesthetics from ui-ux-pro-max styles.csv, each with a when_not_to_use cue. Only static-graphic-relevant styles kept."
+  },
+  "items": [
+    {"name": "Swiss / International", "description": "Grid-driven, objective, lots of breathing room.", "key_elements": ["strict 12-column grid", "one accent colour", "abundant whitespace", "left-aligned sans-serif", "no decoration"], "when_not_to_use": "playful or artistic brands that need warmth and personality"},
+    {"name": "Bold Typographic", "description": "The headline IS the design.", "key_elements": ["oversized headline", "tight leading", "two-colour palette", "minimal supporting copy"], "when_not_to_use": "dense, data-heavy panels where the words must share space with figures"},
+    {"name": "Editorial Magazine", "description": "Print-magazine feel, considered and premium.", "key_elements": ["serif display", "thin rule lines", "drop initials", "columned rhythm"], "when_not_to_use": "fast, punchy promotional graphics"},
+    {"name": "Minimal Mono", "description": "Restrained, calm, one accent does the work.", "key_elements": ["black/white plus one accent", "generous margins", "small caps used sparingly", "no gradients"], "when_not_to_use": "brands that need energy, warmth, or playfulness"},
+    {"name": "Geometric Flat", "description": "Simple shapes and clear iconography.", "key_elements": ["basic geometric shapes", "duotone", "consistent icon stroke", "grid alignment"], "when_not_to_use": "luxury or heritage brands that need richness and depth"},
+    {"name": "Data-Forward", "description": "One number is the hero of each panel.", "key_elements": ["big-number hero", "one stat per panel", "short supporting label", "accent reserved for the figure"], "when_not_to_use": "narrative or emotional storytelling with little data"},
+    {"name": "Brutalism", "description": "Raw, high-contrast, deliberately unpolished and attention-grabbing.", "key_elements": ["heavy borders", "stark black/white", "monospaced or oversized type", "intentional asymmetry"], "when_not_to_use": "trust-first finance, healthcare, or accessibility-led contexts"},
+    {"name": "Glassmorphism", "description": "Frosted, layered translucency with depth.", "key_elements": ["backdrop blur", "translucent panels", "subtle 1px light borders", "vibrant background behind glass"], "when_not_to_use": "low-contrast or text-heavy graphics where legibility must win"},
+    {"name": "Vibrant & Block-based", "description": "Bold colour blocks and confident contrast.", "key_elements": ["large colour blocks", "high-saturation pairs", "chunky type", "clear section breaks"], "when_not_to_use": "calm, premium, or understated brands"},
+    {"name": "Dark Mode (OLED)", "description": "True-dark surfaces with a single luminous accent.", "key_elements": ["near-black surfaces", "one glowing accent", "off-white text (never pure)", "restrained contrast steps"], "when_not_to_use": "light, airy lifestyle brands or print-bound graphics"},
+    {"name": "Accessible & Ethical", "description": "Clarity and contrast first, decoration second.", "key_elements": ["WCAG-AA+ contrast everywhere", "clear hierarchy", "labels not colour-only", "generous text sizing"], "when_not_to_use": "only swap when a brief explicitly demands an expressive, lower-contrast look"}
+  ]
+}

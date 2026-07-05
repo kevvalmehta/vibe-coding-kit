@@ -40,6 +40,7 @@ reads the real state first.
 | Stop output being a coin flip — "make this actually good" | **`/quality-charter`** |
 | Turn a vague ask into clear guardrails before work starts | **`/goal`** |
 | Write a new skill/plugin the AI follows the same way every run | **`/skill-craft`** |
+| Make anything with a screen *look* designed — "it looks AI-generated" | **`/design-craft`** |
 
 > `/quality-charter` installs house rules + automatic checks so quality is
 > enforced by files, not by hoping the AI remembers. Do it once per serious

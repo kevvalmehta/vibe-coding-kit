@@ -16,6 +16,7 @@ stage, name the resource, explain in plain English what it is + why now, route t
 | …building an AI feature | **cookbook** | Real, tested Claude recipes (evals, tool use, caching) instead of guessed code. |
 | Write spec / plan / tasks | **`/speckit-*`** (via `idea-to-app`) | The gated planning spine — drive it, don't rebuild it. |
 | Build it | **Superpowers** | Tests first, isolated copy, fresh-eyes review. |
+| …and it has a screen | **`/design-craft`** | Decides the LOOK before markup (a written design contract), then scans the result for the "looks AI-generated" tells. |
 | Prove the AI output is good | **`agent-eval`** | Scores fuzzy AI output against a rubric + a CI gate (only if the app has AI). |
 | Confirm it works | **`/verify`** | Runs the real thing + a risk rating + proof. |
 | Check it's safe | **`/security-review`** | Inputs validated, no secrets, database locked down. |
