@@ -254,6 +254,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `HANDOFF.md` | Current state — what's built, what's next, recent decisions (read first) |
 | `README.md` | This file — human overview + AI switching prompt + full index |
 | `SKILL-MAP.md` | Plain-English "which skill for which moment" cheat sheet |
+| `QUICKSTART.md` | Non-technical quickstart — two habits, one fallback (`/guide`), and situation→skill tables |
 | `GITHUB-GUIDE.md` | Plain-English guide to saving / undoing / publishing |
 | `SETUP.md` | How to spin up a new project from this kit |
 | `plan.md` | Historical phased build plan |
