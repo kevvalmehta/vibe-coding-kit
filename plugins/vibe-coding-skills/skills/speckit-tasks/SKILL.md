@@ -176,6 +176,12 @@ Every task MUST strictly follow this format:
 
 ### Task Organization
 
+**Slice each story vertically (tracer bullets), never horizontally.** A user story is one thin path
+through every layer it needs (data → logic → interface) that delivers a working, demoable result on
+its own — not a layer ("all models", "all endpoints") that does nothing until every other layer lands.
+Order stories so the first is shippable alone (the MVP) and each later one adds another whole slice.
+See the template's "Slice vertically" note. (Framing adapted from mattpocock/skills `to-tickets`, MIT.)
+
 1. **From User Stories (spec.md)** - PRIMARY ORGANIZATION:
    - Each user story (P1, P2, P3...) gets its own phase
    - Map all related components to their story:

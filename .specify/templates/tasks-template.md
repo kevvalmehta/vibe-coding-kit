@@ -13,6 +13,15 @@ description: "Task list template for feature implementation"
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
+**Slice vertically, not horizontally (tracer bullets).** Each user story should be a *vertical slice*:
+one thin path that cuts through every layer it needs — data → logic → interface — to deliver one
+working, demoable thing end to end. A *tracer bullet* is that first thin slice built all the way
+through so you can see it actually hit the target, then thickened. Do NOT sequence the build as
+horizontal layers ("all the database tables, then all the services, then all the screens") — that way
+nothing works until the very end and a wrong assumption stays hidden until it's expensive to fix.
+Order tasks so the first slice is shippable on its own (that's the MVP), and each later story adds
+another whole slice. (Framing adapted from mattpocock/skills `to-tickets`, MIT.)
+
 ## Format: `[ID] [P?] [Story] Description`
 
 - **[P]**: Can run in parallel (different files, no dependencies)
