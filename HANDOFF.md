@@ -1,12 +1,20 @@
 # HANDOFF — Current State
 
-_Last updated: 2026-07-05_
+_Last updated: 2026-07-10_
 
 <!-- AUTOPILOT-STATE -->
 **Autopilot — idle.** No feature in progress. Last completed: `002-token-quick-wins` (merged). Start a
 new run with "use autopilot on <idea>" (default gate mode `stop-at-every-step`; `big-3`/`auto` opt-in).
 <!-- /AUTOPILOT-STATE -->
 
+## Ported 2026-07-10 — Spec 020 fable-distiller + fable-mode (branch `feat/fable-distiller-and-mode` — NOT merged, owner reviews PR → merge)
+Mirror of the two Fable-family skills from the Perfecting-Coding-Spec-Kit repo (spec 020) into the
+plugin: `plugins/vibe-coding-skills/skills/fable-distiller/` (workflow + 7 references + Codex agent)
+and `plugins/vibe-coding-skills/skills/fable-mode/` (the runnable discipline, self-contained +
+model-agnostic — "use fable mode"). PCK-specific paths genericized for the plugin layout; both
+registered in `README.md` (inventory gate green); frugal-fable owns model routing, unchanged. Full
+VCK suite 286 passed. Source repo carries the specs, evals, pilots, and behavior pack; this mirror
+ships only the two runnable skills. **VCK mirror of spec 020 = DONE** (was the pending item).
 ## Built 2026-07-05 — Spec 030: `/wargame` (branch `030-wargame` — NOT merged, owner reviews PR → merge)
 New skill `/wargame` — the plan war-gamer (item 7 of the 2026-07-05 gap survey; concept from Mark
 Kashef's AI war-gaming video, rebuilt on the contract-before-work house pattern). After

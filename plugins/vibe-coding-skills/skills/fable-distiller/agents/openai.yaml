@@ -1,0 +1,14 @@
+name: Fable Distiller
+description: >-
+  Distill a top-tier model's observable working method into a portable behavior
+  pack (procedures, examples, evals, rubrics, per-model adaptation notes) so
+  other models keep the discipline after access ends.
+default_prompt: >-
+  Use the fable-distiller skill at the fable-distiller SKILL.md in this skill directory.
+  Follow its fixed control flow (extract -> normalize -> adapt -> eval ->
+  refine -> package), load reference files only at the stage that needs them,
+  capture observable behavior only (never weights, training data, or private
+  internals), label every claim verified/inferred/guessed/unverified, and make
+  no transplant success claim without baseline-vs-loaded scores on held-out
+  eval cases. Stop for human approval before paid API calls, credentials,
+  plugin installation, or publishing.
