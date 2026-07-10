@@ -296,6 +296,8 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 | `grill-with-docs` | Same, against your real code + decisions (+`ADR-FORMAT.md`, `CONTEXT-FORMAT.md`) |
 | `zoom-out` | `/zoom-out` — plain-English map of how a piece of code fits |
 | `frugal-fable` | `/frugal-fable` — token-saving delegation when running on a premium model (Fable): keeps judgment (decompose/architect/review) on the big model, routes bounded verifiable work to cheaper tiers, file-based context firewall |
+| `fable-distiller` | Distills a top model's OBSERVABLE working method into a portable behavior pack (procedures, examples, self-tests, evals, per-model prompt variants) so Opus/Sonnet/ChatGPT/open-source models keep the discipline after access ends (+7 references). Observable behavior only; no success claim without blind baseline-vs-loaded scores on held-out cases; routing stays with `frugal-fable` |
+| `fable-mode` | The runnable output of `fable-distiller`: say "use fable mode" and the model runs the distilled v1.1 discipline out of the box — 3 uncuttable absolutes (never fabricate a specific, stop before irreversible actions, surface conflicts) + 5 gates + a triggered self-test. Self-contained + model-agnostic (no paste, no tools required). Distinct from `fable-distiller` (builds packs) and `frugal-fable` (routes models) |
 | `prototype` | Throwaway demo to feel out a design (+`LOGIC.md`, `UI.md`), then deleted |
 | `speckit-specify` / `-clarify` / `-plan` / `-tasks` / `-analyze` / `-implement` / `-constitution` | The GitHub Spec Kit planning + build commands |
 | `speckit-checklist` | Generates a quality checklist for the current feature |
