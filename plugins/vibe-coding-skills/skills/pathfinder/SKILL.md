@@ -13,8 +13,10 @@ description: >-
 # Pathfinder: chart an oversized idea down to something speccable
 
 > Adapted from Matt Pocock's skills (github.com/mattpocock/skills, MIT) — his `wayfinder` skill
-> (in-progress draft there). Rebuilt natively for this kit: no issue tracker, plain English
-> throughout, every ticket routes to a skill this kit already has.
+> (graduated to stable in his v1.1, 2026-07). Rebuilt natively for this kit: no issue tracker, plain
+> English throughout, every ticket routes to a skill this kit already has. The v1.1 hardening is
+> ported into HARD RULES below: **plan-don't-execute**, the **self-grilling guard**, and
+> **refer-to-tickets-by-name**.
 
 Some ideas are too big and too foggy to hand straight to `/speckit-specify` — you can feel there
 are important questions in there, but you can't even phrase most of them yet. Trying to write a
@@ -67,6 +69,23 @@ never invents new machinery:
 
 ## HARD RULES
 
+- **Plan, don't execute.** Pathfinder produces *decisions*, never *deliverables*. Each ticket
+  resolves an unknown; the map is done when the way to a spec is clear — nothing left to decide.
+  The pull to "just start building the thing" is the signal you've reached the edge of the map: that
+  is the moment to STOP charting and hand off to `/speckit-specify`, not to start coding inside
+  pathfinder. If you catch yourself writing app code here, you've gone too far — back out and hand
+  off. (Ported from wayfinder v1.1.)
+- **Self-grilling guard — never answer your own grilling ticket.** When a ticket is type **grilling**
+  and routes to `grill-me`/`grill-with-docs`, the *owner* answers the questions — pathfinder poses
+  them and waits. Do NOT invent the owner's answers to move faster; a decision the human didn't
+  actually make is a fake decision, and every downstream ticket inherits the mistake. Same for
+  **task** tickets: wait for the real answer, don't assume it. (Ported from wayfinder v1.1's
+  self-grilling fix.)
+- **Refer to tickets by NAME, not by number.** In everything the owner reads — narration, the
+  Decisions-so-far index — name the ticket by its one-line question ("Payments: one-time or
+  subscriptions?"), never by a bare id or filename ("0003"). A wall of `0001, 0002, 0003` is
+  illegible; names read at a glance. The filename still exists as the link target, but it rides
+  *inside* the name, it never stands in for it. (Ported from wayfinder v1.1.)
 - **Resolve at most ONE ticket per session.** Pick the single most valuable open, unblocked ticket
   and work only that one. This keeps each session small enough to actually finish and keeps
   decisions traceable to a single sitting.
