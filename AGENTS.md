@@ -186,10 +186,12 @@ breadcrumb left when a deliberate minimal choice is made — into a ledger (what
 ceiling where it stops being OK, the upgrade trigger), flagging any shortcut with no revisit plan.
 **Both are read-only — they report and hand off, never edit.** The lazy ladder + the `shortcut:`
 convention live in `constitution.md` Principle V, so the behavior is portable to every AI tool, not
-just Claude. Concept adapted natively from the MIT `ponytail` ruleset (we deliberately did NOT
-install its plugin — the value is the rules, which are now ours as plain text + two skills; this
-also avoids the duplicate hook/statusline machinery clashing with caveman mode). Non-Claude agents:
-read each `SKILL.md` and follow it; `SKILL-MAP.md` maps the situation to the skill.
+just Claude. Concept adapted from the MIT `ponytail` ruleset — first as the rules only (these two skills,
+June 2026), then (July 2026) **also vendored verbatim** for always-on proactive enforcement
+(see **ponytail (vendored)** below and `plugins/vibe-coding-skills/vendor/ponytail/`).
+`/lean-review` is the *reactive* check (after you change code); vendored ponytail is the
+*proactive* half (rules injected before you write). Non-Claude agents: read each `SKILL.md` and
+follow it; `SKILL-MAP.md` maps the situation to the skill.
 
 ### Token quick-wins (cheaper sessions, same quality)
 Six low-effort habits + defaults that lower token cost without changing what gets built:
@@ -416,6 +418,26 @@ only injects an OFFER; never launches the Conductor unprompted; never blocks. Co
 recommender-nudge (both marker-deduped one-liners). **Manual fallback (Principle VI — Claude-only
 hook):** in a non-Claude agent, when a project opens, tell the owner they can say "start" to be guided
 — see `.claude/skills/start/SKILL.md`.
+
+### ponytail (vendored — always-on code minimalism)
+`plugins/vibe-coding-skills/vendor/ponytail/` is DietrichGebert/ponytail v4.8.4 (MIT), vendored
+**verbatim** (the code is unmodified; only the wiring is ours). It is the *proactive* half of
+Principle V: a "lazy senior dev" ruleset injected every session so the AI climbs the ladder (needs
+to exist? already here? stdlib? native platform feature? one line?) BEFORE writing code — where
+`/lean-review` only catches over-building after. Registered as three hooks in the plugin's
+`hooks/hooks.json` (via `${CLAUDE_PLUGIN_ROOT}`):
+- **`vendor/ponytail/hooks/ponytail-activate.js`** (`SessionStart`) — inject the ruleset.
+- **`vendor/ponytail/hooks/ponytail-mode-tracker.js`** (`UserPromptSubmit`) — `/ponytail lite|full|ultra`; "stop ponytail" / "normal mode" turns it off.
+- **`vendor/ponytail/hooks/ponytail-subagent.js`** (`SubagentStart`) — inject into subagents, including a delegated Codex helper (this is what carries ponytail to Codex).
+
+Pairs with caveman by design (ponytail = what you build; caveman = how you talk). The `[PONYTAIL]`
+statusline is intentionally **not** wired (avoids `-ExecutionPolicy Bypass`). Statically
+security-reviewed at adoption (no network / exec / eval / secret access / install scripts);
+re-review on any version bump. Test: `tests/test_ponytail_adoption.py`. Provenance + update rule:
+`plugins/vibe-coding-skills/vendor/ponytail/README.md`. **Manual fallback (Principle VI —
+Claude-only hooks):** in a non-Claude tool the hooks do not fire — read
+`vendor/ponytail/skills/ponytail/SKILL.md` and follow the ladder by hand (the same rules already
+live in `constitution.md` Principle V).
 
 ### Git safety (version control)
 Never work on `main` directly — branch/worktree per change, merge via PR. Commit small + push often
