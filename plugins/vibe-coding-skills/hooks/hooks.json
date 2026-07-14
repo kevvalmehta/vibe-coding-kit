@@ -81,6 +81,36 @@
             "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/regrounding.py\"",
             "timeout": 15,
             "statusMessage": "Re-grounding in git state..."
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/vendor/ponytail/hooks/ponytail-activate.js\"",
+            "timeout": 10,
+            "statusMessage": "Loading ponytail mode..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/vendor/ponytail/hooks/ponytail-mode-tracker.js\"",
+            "timeout": 10,
+            "statusMessage": "Tracking ponytail mode..."
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/vendor/ponytail/hooks/ponytail-subagent.js\"",
+            "timeout": 10,
+            "statusMessage": "Loading ponytail mode..."
           }
         ]
       }
