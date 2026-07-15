@@ -439,6 +439,17 @@ Claude-only hooks):** in a non-Claude tool the hooks do not fire — read
 `vendor/ponytail/skills/ponytail/SKILL.md` and follow the ladder by hand (the same rules already
 live in `constitution.md` Principle V).
 
+### Recall -- search memory + transcripts (the "goldfish" fix)
+`scripts/recall.py` greps your saved memory files AND Claude Code's full session transcripts
+(`~/.claude/projects/<project>/*.jsonl` -- which already store every session verbatim) by keyword and
+prints dated matches. The gap it closes: storage + injection already worked, but nothing SEARCHED old
+sessions, so decisions from weeks ago felt lost. Usage: `python scripts/recall.py <words>` (`--all` for
+every project). Local-only -- no network, no AI, no telemetry; any tool can run it (that is why it is a
+script, not a Claude-only rule). **Rule (all tools): before claiming you do not remember something, run
+recall first.** Deliberately NOT built: an auto-capture summariser hook -- the raw transcripts already
+ARE the complete record, so it would be redundant (a `shortcut:` -- add only if transcript recall proves
+too noisy). Test: `tests/test_recall.py`.
+
 ### Git safety (version control)
 Never work on `main` directly — branch/worktree per change, merge via PR. Commit small + push often
 (backups). Undo with `git revert` (safe); confirm before destructive ops; never force-push `main`.
