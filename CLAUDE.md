@@ -70,6 +70,13 @@ Read **HANDOFF.md** first — it holds what's built, what's next, and recent dec
 Follows the AI-portable standard: CLAUDE.md / AGENTS.md / HANDOFF.md / README.md / plan.md
 + `docs/memory-snapshot/`. For other AI tools, see README → "Switching AI Tools."
 
+## Recall (don't start like a goldfish)
+Every session is already saved in full on disk (Claude Code transcripts) next to your memory files —
+storage was never the gap, **search** was. Before saying you don't remember something, run
+`python scripts/recall.py <keywords>` (add `--all` for every project): it prints dated matches from
+your memory + past transcripts. Local-only (no network / AI / telemetry). This is the recall half of
+the "stop forgetting like a goldfish" fix.
+
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
