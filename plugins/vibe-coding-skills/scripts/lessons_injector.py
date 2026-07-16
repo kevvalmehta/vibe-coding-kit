@@ -21,6 +21,13 @@ from pathlib import Path
 
 LESSONS_REL = (".specify", "memory", "lessons.md")
 
+# Evolve-loop nudges (Hermes-style consolidation-by-constraint): a pile of unreviewed
+# candidates or a bloated file must be surfaced at session start, or capture rots
+# silently (the same junk candidate was once logged 14 times, unnoticed).
+CANDIDATE_RE = re.compile(r"^### candidate --", re.MULTILINE)
+LESSONS_CAP_CHARS = 16_000   # ~4k tokens; past 80% /evolve must consolidate, not append
+CAP_WARN_FRAC = 0.8
+
 # A confirmed entry heading: "### L-12 — name" or "### P-3 — name".
 # Template placeholders ("### L-{number} — ...") deliberately do not match.
 ENTRY_RE = re.compile(r"^### (?P<id>[LP]-\d+)\s*[—-]+\s*(?P<title>.+)$", re.MULTILINE)
@@ -92,7 +99,24 @@ def process(data: dict):
     lessons = root.joinpath(*LESSONS_REL)
     if not lessons.is_file():
         return None
-    digest = build_digest(extract_confirmed(lessons.read_text(encoding="utf-8")))
+    text = lessons.read_text(encoding="utf-8")
+    digest = build_digest(extract_confirmed(text))
+    nudges = []
+    n_cand = len(CANDIDATE_RE.findall(text))
+    if n_cand:
+        nudges.append(
+            f"[evolve] {n_cand} unreviewed candidate lesson(s) pending in lessons.md — "
+            "run /evolve to distill them into confirmed rules or the owner profile "
+            "(real lessons promoted, junk deleted)."
+        )
+    frac = len(text) / LESSONS_CAP_CHARS
+    if frac >= CAP_WARN_FRAC:
+        nudges.append(
+            f"[evolve] lessons.md is at {round(frac * 100)}% of its {LESSONS_CAP_CHARS:,}-char "
+            "budget — /evolve must consolidate (merge, sharpen, delete) before adding new entries."
+        )
+    if nudges:
+        digest = (digest + "\n" if digest else "") + "\n".join(nudges)
     if not digest:
         return None
     return {

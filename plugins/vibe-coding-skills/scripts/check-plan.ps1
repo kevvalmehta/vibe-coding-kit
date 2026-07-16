@@ -47,14 +47,15 @@ if (-not $TasksFile) {
   $specsDir = Join-Path $repoRoot 'specs'
   $candidate = $null
   if (Test-Path $specsDir) {
-    # "Most recent" by GIT commit time, not filesystem time: a fresh CI checkout stamps
-    # every file with checkout time, which would make this pick a coin flip.
+    # "Newest" = highest spec NUMBER (specs/NNN-name is the kit's own ordering), NOT any
+    # timestamp: git commit time breaks on CI's shallow clones (git log returns nothing ->
+    # mtime fallback), and a fresh checkout stamps every file identically -> coin flip.
+    # That coin flip once made the gate grade a years-old stale spec (007) on a PR (#65).
     $candidate = Get-ChildItem -Path $specsDir -Filter 'tasks.md' -Recurse -ErrorAction SilentlyContinue |
       Sort-Object {
-        $ts = $null
-        try { $ts = (git -C $repoRoot log -1 --format=%ct -- $_.FullName 2>$null | Select-Object -First 1) } catch {}
-        if ($ts) { [long]$ts } else { [long](($_.LastWriteTime.ToUniversalTime() - [datetime]'1970-01-01').TotalSeconds) }
-      } -Descending | Select-Object -First 1
+        $dir = $_.Directory.Name
+        if ($dir -match '^(\d+)') { [int]$Matches[1] } else { -1 }
+      }, { $_.Directory.Name } -Descending | Select-Object -First 1
   }
   if (-not $candidate) {
     Write-Host "No tasks.md found under specs\. Run /speckit-tasks first, then re-run this." -ForegroundColor Yellow
