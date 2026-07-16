@@ -106,3 +106,68 @@ def test_process_emits_sessionstart_context(tmp_path):
     assert ctx["hookEventName"] == "SessionStart"
     assert "L-1" in ctx["additionalContext"]
     assert json.dumps(out)  # must be JSON-serializable
+
+
+# ---------------------------------------------------------------------------
+# Evolve-loop nudges (Hermes-style: capture without distillation just rots).
+# WHY these matter: the capture hook demonstrably logged the same junk candidate
+# 14 times — nothing ever told the session "there is a pile to distill." These
+# lock in (1) a pending-candidates nudge, (2) a capacity nudge past 80% of the
+# char budget (consolidation-by-constraint), (3) silence when there is nothing
+# to do, so the nudge never becomes noise.
+# ---------------------------------------------------------------------------
+
+CANDIDATES_ONLY = """# Lessons — The Scar Log
+
+## Entries
+
+## Auto-captured candidates (review before trusting)
+
+### candidate -- 2026-07-14 13:17 (session 0dc9ac)
+**Trigger phrase (you said):** "junk junk junk"
+**Action:** review, then promote or delete.
+
+### candidate -- 2026-07-15 01:39 (session 392949)
+**Trigger phrase (you said):** "more junk"
+**Action:** review, then promote or delete.
+"""
+
+
+def _ctx(tmp_path, text):
+    d = tmp_path / ".specify" / "memory"
+    d.mkdir(parents=True)
+    (d / "lessons.md").write_text(text, encoding="utf-8")
+    out = lessons_injector.process({"cwd": str(tmp_path)})
+    if out is None:
+        return None
+    return out["hookSpecificOutput"]["additionalContext"]
+
+
+def test_pending_candidates_trigger_evolve_nudge(tmp_path):
+    ctx = _ctx(tmp_path, LESSONS + "\n" + CANDIDATES_ONLY.split("## Entries", 1)[1])
+    assert ctx is not None
+    # LESSONS ships one candidate example of its own + my two -> 3 pending
+    assert "[evolve]" in ctx and "3 unreviewed candidate" in ctx
+
+
+def test_candidates_nudge_fires_even_without_confirmed_entries(tmp_path):
+    """A pile of unreviewed candidates must surface even when no L-#/P-# exist yet —
+    otherwise a brand-new project accumulates junk invisibly forever."""
+    ctx = _ctx(tmp_path, CANDIDATES_ONLY)
+    assert ctx is not None and "[evolve]" in ctx
+
+
+def test_capacity_nudge_past_80_percent(tmp_path):
+    filler = "x" * int(lessons_injector.LESSONS_CAP_CHARS * 0.85)
+    ctx = _ctx(tmp_path, LESSONS + "\n" + filler)
+    assert ctx is not None
+    assert "budget" in ctx and "consolidate" in ctx
+
+
+def test_no_nudge_when_clean_and_small(tmp_path):
+    # LESSONS carries a candidate example by design, so strip the candidates
+    # section to get a genuinely clean file for the silence check.
+    clean = LESSONS.split("### candidate")[0]
+    ctx = _ctx(tmp_path, clean)
+    assert ctx is not None  # confirmed L-1 still injected
+    assert "[evolve]" not in ctx

@@ -439,6 +439,23 @@ Claude-only hooks):** in a non-Claude tool the hooks do not fire — read
 `vendor/ponytail/skills/ponytail/SKILL.md` and follow the ladder by hand (the same rules already
 live in `constitution.md` Principle V).
 
+### Evolve -- the learning-loop distiller (style adaptation that persists)
+`/evolve` (`plugins/vibe-coding-skills/skills/evolve/SKILL.md`) is the missing third step of the
+learning loop: capture (transcripts + `capture-lessons` candidates) and injection (confirmed
+lessons + memory + global profile at session start) were already automatic — but nothing DISTILLED
+raw capture into the files that load everywhere, so junk accumulated (one phrase was captured 14
+times) and owner preferences evaporated. The loop: `lessons_injector.py` now also emits an
+`[evolve]` nudge at session start when unreviewed `### candidate --` entries exist, and a
+consolidation nudge when lessons.md passes 80% of a 16,000-char budget (Hermes-style
+consolidation-by-constraint — the cap IS the distillation trigger). `/evolve` then: reads
+candidates + recent corrections → proposes ≤3 one-line edits (promote to L-#/P-#, add to the
+owner's global profile/memory, or DELETE junk) → owner approves in one word → writes and empties
+the pile. Adapted from Nous Research's Hermes Agent, with blind auto-capture replaced by
+owner-approved distillation. Tests: `tests/test_lessons_injector.py` (evolve-nudge cases).
+**Manual fallback (Principle VI — the nudge hook is Claude-only):** in a non-Claude tool,
+periodically open `.specify/memory/lessons.md`, and if candidates exist follow the /evolve
+SKILL.md procedure by hand (distill → owner approves → write → clean).
+
 ### Recall -- search memory + transcripts (the "goldfish" fix)
 `scripts/recall.py` greps your saved memory files AND Claude Code's full session transcripts
 (`~/.claude/projects/<project>/*.jsonl` -- which already store every session verbatim) by keyword and

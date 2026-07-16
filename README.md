@@ -265,6 +265,7 @@ A change is only "done" when all of these pass (full text: `.specify/memory/cons
 |---|---|
 | `start` | **The Conductor** — `/start`: proactive front-door mentor. Greets you, asks what you want, and DRIVES the whole build in plain English, routing to the right skill at each step (drives `idea-to-app` + `guide`; weaves in discover/grill-me/research-scout/loop-design/stack suggestion). Checkpoints + "just run it" bypass; never pushes/merges/deploys. Greets once per project |
 | `guide` | The mentor/router — `/guide`: "where am I, what's next, which skill?" |
+| `evolve` | `/evolve` — the learning-loop distiller: reads auto-captured candidate lessons + your recent corrections, proposes ≤3 one-line edits (promote to a confirmed lesson, add to your profile, or delete junk), you approve in one word, it writes + empties the pile. Session-start `[evolve]` nudge fires when candidates pile up or lessons.md passes 80% of its char budget (consolidate before adding — Hermes-style) |
 | `idea-to-app` | Guardrail — walks every gate for a new build, refuses to skip |
 | `safe-change` | Guardrail — regression-safe edits to existing code |
 | `git-safety` | Guardrail — keeps `main` working, every change reversible |
