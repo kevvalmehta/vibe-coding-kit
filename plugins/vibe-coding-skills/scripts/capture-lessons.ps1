@@ -89,14 +89,20 @@ function Invoke-LessonCapture {
         } catch { $state = @{} }
     }
 
-    $lines = @(Get-Content $transcript)
+    # -Encoding UTF8 both reads: PS 5.1 defaults to ANSI on BOM-less files, which
+    # garbled em-dashes ("a-hat-euro" mojibake) AND broke the dedup comparison below.
+    $lines = @(Get-Content $transcript -Encoding UTF8)
     $total = $lines.Count
     $startIdx = 0
     if ($sessionId -and $state.ContainsKey($sessionId)) { $startIdx = [int]$state[$sessionId] }
     if ($startIdx -lt 0) { $startIdx = 0 }
 
-    $existing = Get-Content $lessonsPath -Raw
+    $existing = Get-Content $lessonsPath -Raw -Encoding UTF8
+    # Dedup on letters+digits only: encoding garble mangles punctuation, never alnum,
+    # so this also matches entries the pre-fix version already wrote garbled.
+    $existingKey = ($existing -replace '[^a-zA-Z0-9]', '').ToLowerInvariant()
     $found = New-Object System.Collections.Generic.List[string]
+    $foundKeys = New-Object System.Collections.Generic.List[string]
 
     for ($i = $startIdx; $i -lt $total; $i++) {
         $userText = Get-UserText -Line $lines[$i]
@@ -105,9 +111,12 @@ function Invoke-LessonCapture {
             if ($userText -imatch $pat) {
                 $phrase = $userText
                 if ($phrase.Length -gt 200) { $phrase = $phrase.Substring(0, 200) + '...' }
-                # de-dupe: skip if this exact phrase is already in the file or this batch
-                if ($existing.Contains($phrase) -or $found.Contains($phrase)) { break }
+                # de-dupe: skip if this phrase is already in the file or this batch
+                $key = ($phrase -replace '[^a-zA-Z0-9]', '').ToLowerInvariant()
+                if ($key.Length -gt 80) { $key = $key.Substring(0, 80) }
+                if (-not $key -or $existingKey.Contains($key) -or $foundKeys.Contains($key)) { break }
                 $found.Add($phrase)
+                $foundKeys.Add($key)
                 break   # one candidate per message is enough
             }
         }

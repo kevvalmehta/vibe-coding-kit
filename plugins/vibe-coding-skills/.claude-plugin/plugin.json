@@ -1,6 +1,6 @@
 {
   "name": "vibe-coding-skills",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Plain English -> spec -> plan -> tested build. All workflow skills, /speckit-* commands, and the self-gating learning hook.",
   "author": { "name": "kevvalmehta" }
 }
